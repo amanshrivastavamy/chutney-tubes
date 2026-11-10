@@ -2,17 +2,16 @@ const { test, describe } = require("node:test");
 const assert = require("node:assert");
 const { getPostalZone, isValidPincode, storeConfig } = require("../src/config/store.js");
 
-describe("Pincode & Postal Zone Validation Logic", () => {
+describe("Pincode & Region Validation Logic", () => {
   test("Validates 6-digit Indian PIN codes starting with digits 1 through 8", () => {
-    // Deliverable across all 8 Indian postal zones
-    assert.strictEqual(isValidPincode("110001"), true, "Delhi should be deliverable (Zone 1)");
-    assert.strictEqual(isValidPincode("201301"), true, "Noida should be deliverable (Zone 2)");
-    assert.strictEqual(isValidPincode("380001"), true, "Ahmedabad should be deliverable (Zone 3)");
-    assert.strictEqual(isValidPincode("400001"), true, "Mumbai should be deliverable (Zone 4)");
-    assert.strictEqual(isValidPincode("560001"), true, "Bengaluru should be deliverable (Zone 5)");
-    assert.strictEqual(isValidPincode("600001"), true, "Chennai should be deliverable (Zone 6)");
-    assert.strictEqual(isValidPincode("700001"), true, "Kolkata should be deliverable (Zone 7)");
-    assert.strictEqual(isValidPincode("800001"), true, "Patna should be deliverable (Zone 8)");
+    assert.strictEqual(isValidPincode("110001"), true, "Delhi should be deliverable (Region 1)");
+    assert.strictEqual(isValidPincode("201301"), true, "Noida should be deliverable (Region 2)");
+    assert.strictEqual(isValidPincode("380001"), true, "Ahmedabad should be deliverable (Region 3)");
+    assert.strictEqual(isValidPincode("400001"), true, "Mumbai should be deliverable (Region 4)");
+    assert.strictEqual(isValidPincode("560001"), true, "Bengaluru should be deliverable (Region 5)");
+    assert.strictEqual(isValidPincode("600001"), true, "Chennai should be deliverable (Region 6)");
+    assert.strictEqual(isValidPincode("700001"), true, "Kolkata should be deliverable (Region 7)");
+    assert.strictEqual(isValidPincode("800001"), true, "Patna should be deliverable (Region 8)");
   });
 
   test("Rejects invalid pincodes (invalid prefixes, lengths, or non-numeric characters)", () => {
@@ -26,7 +25,7 @@ describe("Pincode & Postal Zone Validation Logic", () => {
     assert.strictEqual(isValidPincode(undefined), false, "Undefined value");
   });
 
-  test("Accurately maps PIN codes to correct geographical postal zones from storeConfig", () => {
+  test("Accurately maps PIN codes to correct geographical regions from storeConfig", () => {
     assert.strictEqual(getPostalZone("110001"), storeConfig.postalZones["1"]);
     assert.strictEqual(getPostalZone("201301"), storeConfig.postalZones["2"]);
     assert.strictEqual(getPostalZone("380001"), storeConfig.postalZones["3"]);
@@ -35,7 +34,7 @@ describe("Pincode & Postal Zone Validation Logic", () => {
     assert.strictEqual(getPostalZone("600001"), storeConfig.postalZones["6"]);
     assert.strictEqual(getPostalZone("700001"), storeConfig.postalZones["7"]);
     assert.strictEqual(getPostalZone("800001"), storeConfig.postalZones["8"]);
-    assert.strictEqual(getPostalZone("999999"), "Other India Zone");
+    assert.strictEqual(getPostalZone("999999"), "India");
     assert.strictEqual(getPostalZone(""), "Unknown");
     assert.strictEqual(getPostalZone(null), "Unknown");
   });

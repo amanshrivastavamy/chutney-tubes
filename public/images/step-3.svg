@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" fill="none">
   <circle cx="100" cy="100" r="90" fill="#FFEDD5" fill-opacity="0.6"/>
-  <!-- Snap shut tube & clean desk -->
+  <!-- Snap shut tube & clean table -->
   <g transform="translate(60, 45)">
     <!-- Tube lying clean -->
     <g transform="rotate(-15 40 40)">

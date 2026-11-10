@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { ADMIN_COOKIE_NAME, getExpectedSessionToken, isValidAdminSession } from "../../../lib/auth";
 const { calculateDashboardMetrics } = require("../../../lib/metrics.js");
 
 const eventsFile = path.join(process.cwd(), "data", "events.json");
@@ -18,25 +19,54 @@ function safeRead(fp: string): any[] {
 
 export async function POST(req: NextRequest) {
   try {
-    const { password, email } = await req.json();
-    const correctPassword = process.env.ADMIN_PASSWORD || "chutney2026";
-
-    // Supports password or email/password authentication
-    if (password === correctPassword) {
-      return NextResponse.json({ authenticated: true, token: "admin_auth_valid" });
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword || adminPassword.trim().length === 0) {
+      return NextResponse.json(
+        { authenticated: false, error: "Admin not configured" },
+        { status: 503 }
+      );
     }
-    return NextResponse.json({ authenticated: false, error: "Incorrect admin credentials" }, { status: 401 });
+
+    const { password, action } = await req.json();
+
+    if (action === "logout") {
+      const res = NextResponse.json({ success: true, authenticated: false });
+      res.cookies.delete(ADMIN_COOKIE_NAME);
+      return res;
+    }
+
+    if (password === adminPassword) {
+      const token = getExpectedSessionToken()!;
+      const res = NextResponse.json({ success: true, authenticated: true });
+      res.cookies.set(ADMIN_COOKIE_NAME, token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: 86400 * 7,
+      });
+      return res;
+    }
+
+    return NextResponse.json(
+      { authenticated: false, error: "Incorrect admin credentials" },
+      { status: 401 }
+    );
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-export async function GET(req: NextRequest) {
-  const auth = req.headers.get("authorization") || req.nextUrl.searchParams.get("token");
-  const pwd = req.nextUrl.searchParams.get("password");
-  const adminPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+export async function DELETE() {
+  const res = NextResponse.json({ success: true, authenticated: false });
+  res.cookies.delete(ADMIN_COOKIE_NAME);
+  return res;
+}
 
-  if (auth !== "Bearer admin_auth_valid" && pwd !== adminPassword && auth !== "admin_auth_valid") {
+export async function GET(req: NextRequest) {
+  const sessionCookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
+
+  if (!isValidAdminSession(sessionCookie)) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
   }
 

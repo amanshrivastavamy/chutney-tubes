@@ -8,23 +8,33 @@ export const viewport = {
   maximumScale: 5,
 };
 
+const rawSiteUrl = process.env.SITE_URL || "https://chutneytubes.in";
+const siteUrl = rawSiteUrl.replace(/\/$/, "");
+const ogImageUrl = `${siteUrl}/images/og-share.jpg`;
+
 export const metadata = {
-  title: "Chutney Tubes: your favourite chutney, now in a tube",
-  description: "Hari, imli, schezwan, momo and more, in a squeezable tube. No spoon, no sticky jar, no spill. Everyday favourites delivered across India.",
+  metadataBase: new URL(siteUrl),
+  title: "Chutney Tubes: Indian chutneys and sauces in squeeze tubes",
+  description:
+    "Ketchup, mayo, Schezwan, hari and imli chutney in no-spill squeeze tubes. ₹99 a tube, free delivery across India.",
+  alternates: {
+    canonical: siteUrl,
+  },
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Chutney Tubes: your favourite chutney, now in a tube",
-    description: "Hari, imli, schezwan, momo and more, in a squeezable tube. 100% vegetarian everyday chutneys.",
-    url: "https://chutneytubes.in",
+    title: "Chutney Tubes: Indian chutneys and sauces in squeeze tubes",
+    description:
+      "Ketchup, mayo, Schezwan, hari and imli chutney in no-spill squeeze tubes. ₹99 a tube, free delivery across India.",
+    url: siteUrl,
     siteName: "Chutney Tubes",
     images: [
       {
-        url: "/images/og-share.svg",
+        url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "Chutney Tubes - Squeezable Indian Chutneys",
+        alt: "Chutney Tubes: Indian chutneys and sauces in squeeze tubes",
       },
     ],
     locale: "en_IN",
@@ -32,9 +42,10 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chutney Tubes: your favourite chutney, now in a tube",
-    description: "Hari, imli, schezwan, momo and more, in a squeezable tube.",
-    images: ["/images/og-share.svg"],
+    title: "Chutney Tubes: Indian chutneys and sauces in squeeze tubes",
+    description:
+      "Ketchup, mayo, Schezwan, hari and imli chutney in no-spill squeeze tubes. ₹99 a tube, free delivery across India.",
+    images: [ogImageUrl],
   },
 };
 

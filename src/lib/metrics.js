@@ -13,86 +13,93 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
     includeInternal = false,
   } = options;
 
-  // 1. Filter events by internal flag, date range, and campaign
+  // 1. Filter events
   const filteredEvents = events.filter((ev) => {
-    // Exclude internal visits unless toggled on
     if (!includeInternal && ev.isInternal) return false;
-
-    // Date range filter
     if (startDate && new Date(ev.timestamp) < new Date(startDate)) return false;
     if (endDate && new Date(ev.timestamp) > new Date(endDate)) return false;
-
-    // Campaign filter (utm_campaign or utm_source)
     if (campaign && campaign !== "all") {
       const c = (ev.utm && (ev.utm.utm_campaign || ev.utm.utm_source)) || "direct";
       if (normalizeString(c) !== normalizeString(campaign)) return false;
     }
-
     return true;
   });
 
-  // Track unique visitors per stage
   const allVisitors = new Set();
   const addedToCartVisitors = new Set();
   const checkoutStartedVisitors = new Set();
   const detailsSubmittedVisitors = new Set();
   const payClickedVisitors = new Set();
 
-  // Price variant buckets
+  const campaignData = {};
   const variantData = {
-    a: { visitors: new Set(), added: new Set(), checkout: new Set(), pay: new Set(), totalRevenue: 0, orderCount: 0 },
-    b: { visitors: new Set(), added: new Set(), checkout: new Set(), pay: new Set(), totalRevenue: 0, orderCount: 0 },
-    c: { visitors: new Set(), added: new Set(), checkout: new Set(), pay: new Set(), totalRevenue: 0, orderCount: 0 },
+    A: { visitors: new Set(), payClicks: 0 },
+    B: { visitors: new Set(), payClicks: 0 },
+    C: { visitors: new Set(), payClicks: 0 },
   };
 
-  // Campaigns / Sources
-  const campaignData = {};
-
-  // Flavour counts
-  const flavourDemand = {};
-  const flavourViews = {};
-  const flavourCartAdds = {};
+  // Per-tube tracking: cart adds and pay clicks
+  const tubeStats = {};
   storeConfig.flavours.forEach((f) => {
-    flavourDemand[f.id] = 0;
-    flavourViews[f.id] = 0;
-    flavourCartAdds[f.id] = 0;
+    tubeStats[f.id] = {
+      id: f.id,
+      name: f.name,
+      local: f.local,
+      hindi: f.hindi,
+      cartAdds: 0,
+      payClicks: 0,
+      views: 0,
+    };
   });
 
-  // Pack Mix
-  const packMix = { single: 0, combo: 0, pick3: 0 };
+  // Coming soon notify clicks
+  const notifyClicks = {
+    "teekhi-lehsuni": 0,
+    "momo-chutney": 0,
+    "sweet-mango": 0,
+  };
 
-  // Postal Zones
-  const zoneCounts = {};
-  Object.keys(storeConfig.postalZones).forEach((k) => {
-    zoneCounts[storeConfig.postalZones[k]] = 0;
-  });
+  // Pack preference counts
+  const packMix = {
+    "chaat-pair": 0,
+    "desi-chinese-pair": 0,
+    "mayo-trio": 0,
+    "sampler-8": 0,
+    single: 0,
+    combo: 0,
+    pick3: 0,
+  };
 
-  // How people feel about chutney in a tube: split by Pay-pressers vs Everyone
+  // Survey answers
   const tubeFeelings = {
     everyone: { "Love it, easier than a jar": 0, "Fine with it": 0, "Not sure yet": 0, "I'd rather have a jar or sachet": 0 },
     payPressers: { "Love it, easier than a jar": 0, "Fine with it": 0, "Not sure yet": 0, "I'd rather have a jar or sachet": 0 },
   };
 
-  // Usage frequency answers
+  const nextTubeWanted = {
+    "Lehsuni": 0,
+    "Momo chutney": 0,
+    "Sweet mango": 0,
+    "Peri-peri mayo": 0,
+    "Kasundi": 0,
+    "Something else": 0,
+  };
+
   const frequencyCounts = { Daily: 0, "A few times a week": 0, Weekly: 0, Rarely: 0 };
-
-  // "What almost stopped you" answers
   const stoppedAnswers = [];
-
-  // Pay-clicked visitors set for feeling split
   const payVisitorIds = new Set();
+  let totalRevenue = 0;
+  let orderCount = 0;
 
-  // Scan events
   for (const ev of filteredEvents) {
     const vId = ev.visitorId || "anon";
-    const v = (ev.variant || "a").toLowerCase();
     const camp = (ev.utm && (ev.utm.utm_campaign || ev.utm.utm_source)) || ev.source || "direct";
     const p = ev.payload || ev.metadata || {};
 
     allVisitors.add(vId);
 
-    if (variantData[v]) {
-      variantData[v].visitors.add(vId);
+    if (ev.variant && variantData[ev.variant]) {
+      variantData[ev.variant].visitors.add(vId);
     }
 
     if (!campaignData[camp]) {
@@ -100,52 +107,61 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
     }
     campaignData[camp].visitors.add(vId);
 
-    // Event specific handling
     if (ev.event === "product_viewed" || ev.event === "flavour_selected") {
-      const fid = p.flavour;
-      if (fid && flavourViews[fid] !== undefined) flavourViews[fid]++;
+      const fid = p.flavour || p.id;
+      if (fid && tubeStats[fid]) {
+        tubeStats[fid].views++;
+      }
+    } else if (ev.event === "notify_click") {
+      const pid = p.product_id || p.id;
+      if (pid) {
+        notifyClicks[pid] = (notifyClicks[pid] || 0) + 1;
+      }
     } else if (ev.event === "add_to_cart") {
       addedToCartVisitors.add(vId);
-      if (variantData[v]) variantData[v].added.add(vId);
       campaignData[camp].added.add(vId);
 
       const kind = p.kind || p.pack;
-      if (kind && packMix[kind] !== undefined) packMix[kind]++;
+      if (kind) {
+        packMix[kind] = (packMix[kind] || 0) + 1;
+      }
 
       const flvs = p.flavours || (p.flavour ? [p.flavour] : []);
       flvs.forEach((fid) => {
-        if (flavourCartAdds[fid] !== undefined) flavourCartAdds[fid]++;
+        if (!tubeStats[fid]) {
+          tubeStats[fid] = { id: fid, name: fid, local: "", hindi: "", cartAdds: 0, payClicks: 0, views: 0 };
+        }
+        tubeStats[fid].cartAdds += Number(p.qty || p.quantity || 1);
       });
     } else if (ev.event === "checkout_started") {
       checkoutStartedVisitors.add(vId);
-      if (variantData[v]) variantData[v].checkout.add(vId);
       campaignData[camp].checkout.add(vId);
     } else if (ev.event === "details_submitted") {
       detailsSubmittedVisitors.add(vId);
-      const zone = p.zone;
-      if (zone && zoneCounts[zone] !== undefined) {
-        zoneCounts[zone]++;
-      }
     } else if (ev.event === "pay_clicked") {
       payClickedVisitors.add(vId);
       payVisitorIds.add(vId);
 
-      if (variantData[v]) {
-        variantData[v].pay.add(vId);
-        const tot = Number(p.total || p.totalAmount || 0);
-        variantData[v].totalRevenue += tot;
-        variantData[v].orderCount++;
+      if (ev.variant && variantData[ev.variant]) {
+        variantData[ev.variant].payClicks++;
       }
-      campaignData[camp].pay.add(vId);
-      campaignData[camp].revenue += Number(p.total || p.totalAmount || 0);
 
-      // Tally tubes in orders where Pay was pressed
+      const tot = Number(p.total || p.totalAmount || 0);
+      totalRevenue += tot;
+      orderCount++;
+
+      campaignData[camp].pay.add(vId);
+      campaignData[camp].revenue += tot;
+
       const items = p.items || (p.flavour ? [{ quantity: p.qty || 1, flavours: [p.flavour] }] : []);
       items.forEach((item) => {
         const qty = Number(item.quantity || 1);
         const flvs = item.flavours || [];
         flvs.forEach((fid) => {
-          if (flavourDemand[fid] !== undefined) flavourDemand[fid] += qty;
+          if (!tubeStats[fid]) {
+            tubeStats[fid] = { id: fid, name: fid, local: "", hindi: "", cartAdds: 0, payClicks: 0, views: 0 };
+          }
+          tubeStats[fid].payClicks += qty;
         });
       });
     } else if (ev.event === "survey_submitted") {
@@ -155,6 +171,11 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
         if (payVisitorIds.has(vId)) {
           tubeFeelings.payPressers[feeling]++;
         }
+      }
+
+      const nextFlv = p.nextFlavourWanted || p.nextWanted;
+      if (nextFlv && nextTubeWanted[nextFlv] !== undefined) {
+        nextTubeWanted[nextFlv]++;
       }
 
       const freq = p.frequency;
@@ -169,15 +190,14 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
           text: feedback,
           feedback: feedback,
           frequency: freq,
+          nextWanted: nextFlv,
           timestamp: ev.timestamp,
-          variant: v,
           paid: payVisitorIds.has(vId),
         });
       }
     }
   }
 
-  // Calculate Funnel (4 Core Stages: Visitors -> Add to Cart -> Checkout -> Pay Clicked)
   const totalV = Math.max(allVisitors.size, 1);
   const cartV = addedToCartVisitors.size;
   const checkoutV = checkoutStartedVisitors.size;
@@ -205,35 +225,14 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
     },
   ];
 
-  // Price Variant table
-  let bestRate = -1;
-  let bestVariant = "";
-  const variantTable = ["a", "b", "c"].map((key) => {
-    const vd = variantData[key];
-    const vis = vd.visitors.size;
-    const pays = vd.pay.size;
-    const rate = vis > 0 ? (pays / vis) * 100 : 0;
-    const aov = vd.orderCount > 0 ? Math.round(vd.totalRevenue / vd.orderCount) : 0;
-
-    if (rate > bestRate && pays > 0) {
-      bestRate = rate;
-      bestVariant = key;
+  // Top Tubes Table (sorted high to low: payClicks, then cartAdds)
+  const topTubes = Object.values(tubeStats).sort((a, b) => {
+    if (b.payClicks !== a.payClicks) {
+      return b.payClicks - a.payClicks;
     }
-
-    return {
-      variant: key.toUpperCase(),
-      priceInfo: `Single ₹${storeConfig.pricing.variants[key].single} / 3-Pack ₹${storeConfig.pricing.variants[key].pick3}`,
-      visitors: vis,
-      added: vd.added.size,
-      checkout: vd.checkout.size,
-      pay: pays,
-      payRate: rate.toFixed(1) + "%",
-      aov: `₹${aov}`,
-      rawRate: rate,
-    };
+    return b.cartAdds - a.cartAdds;
   });
 
-  // Campaign table
   const campaignTable = Object.keys(campaignData).map((camp) => {
     const cd = campaignData[camp];
     const vis = cd.visitors.size;
@@ -251,29 +250,19 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
     };
   });
 
-  // Flavour Demand Table sorted by tubes ordered
-  const sortedFlavours = storeConfig.flavours
-    .map((f) => ({
-      id: f.id,
-      name: f.name,
-      local: f.local,
-      orderedTubes: flavourDemand[f.id] || 0,
-      cartAdds: flavourCartAdds[f.id] || 0,
-      views: flavourViews[f.id] || 0,
-    }))
-    .sort((a, b) => b.orderedTubes - a.orderedTubes || b.cartAdds - a.cartAdds);
-
-  // Requested Chutneys Ranking (normalized case & spacing)
-  const reqCounts = {};
-  requests.forEach((r) => {
-    const norm = normalizeString(r.name);
-    if (!norm) return;
-    if (!reqCounts[norm]) {
-      reqCounts[norm] = { name: r.name, count: 0, region: r.region };
-    }
-    reqCounts[norm].count++;
+  const variantsSummary = ["A", "B", "C"].map((v) => {
+    const vd = variantData[v] || { visitors: new Set(), payClicks: 0 };
+    const vis = vd.visitors.size;
+    const pays = vd.payClicks;
+    return {
+      variant: v,
+      visitors: vis,
+      payClicks: pays,
+      conversionRate: vis > 0 ? ((pays / vis) * 100).toFixed(1) + "%" : "0.0%",
+    };
   });
-  const rankedRequests = Object.values(reqCounts).sort((a, b) => b.count - a.count);
+
+  const surveyList = stoppedAnswers.slice().reverse();
 
   return {
     kpis: {
@@ -282,18 +271,28 @@ function calculateDashboardMetrics(events = [], signups = [], requests = [], opt
       startedCheckoutPct: totalV > 0 ? ((checkoutV / totalV) * 100).toFixed(1) + "%" : "0.0%",
       pressedPayPct: totalV > 0 ? ((payV / totalV) * 100).toFixed(1) + "%" : "0.0%",
       launchSignups: signups.length,
+      totalOrders: orderCount,
+      totalRevenue: `₹${totalRevenue}`,
     },
     funnel,
-    variantTable,
-    bestVariant: bestVariant.toUpperCase(),
+    topTubes,
+    sortedFlavours: topTubes.map((t) => ({
+      id: t.id,
+      name: t.name,
+      local: t.local,
+      orderedTubes: t.payClicks,
+      cartAdds: t.cartAdds,
+      views: t.views,
+    })),
+    notifyClicks,
+    nextTubeWanted,
     campaignTable,
     tubeFeelings,
-    sortedFlavours,
     packMix,
-    zoneCounts,
     frequencyCounts,
-    stoppedAnswers: stoppedAnswers.reverse(),
-    rankedRequests,
+    variantsSummary,
+    surveyResponses: surveyList,
+    stoppedAnswers: surveyList,
     signupsList: signups.slice().reverse(),
     totalEventsCount: filteredEvents.length,
   };
@@ -316,20 +315,6 @@ function calculateMetrics(events = [], signups = [], requests = [], options = {}
     totalCheckout: result.funnel[2] ? result.funnel[2].count : 0,
     totalPayClicked: result.funnel[3] ? result.funnel[3].count : 0,
   };
-  result.variantsSummary = result.variantTable.map((v) => ({
-    variant: v.variant,
-    visitors: v.visitors,
-    addedToCart: v.added,
-    checkout: v.checkout,
-    payClicks: v.pay,
-    conversionRate: v.payRate,
-    aov: v.aov,
-  }));
-  result.surveyResponses = result.stoppedAnswers.map((s) => ({
-    feedback: s.feedback || s.text,
-    frequency: s.frequency,
-    visitorId: s.visitorId,
-  }));
   return result;
 }
 

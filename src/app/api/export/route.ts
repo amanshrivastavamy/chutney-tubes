@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { ADMIN_COOKIE_NAME, isValidAdminSession } from "../../../lib/auth";
 
 const eventsFile = path.join(process.cwd(), "data", "events.json");
 const signupsFile = path.join(process.cwd(), "data", "signups.json");
@@ -26,7 +27,6 @@ export function generateEventsCsv(events: any[]): string {
     "Event",
     "Visitor_ID",
     "Session_ID",
-    "Price_Variant",
     "Is_Internal",
     "UTM_Source",
     "UTM_Campaign",
@@ -38,6 +38,7 @@ export function generateEventsCsv(events: any[]): string {
     "Pincode_Prefix",
     "Payment_Method",
     "Tube_Feeling",
+    "Next_Tube_Wanted",
     "What_Stopped_You",
     "Usage_Frequency",
   ];
@@ -50,7 +51,6 @@ export function generateEventsCsv(events: any[]): string {
       escapeCsv(ev.event),
       escapeCsv(ev.visitorId),
       escapeCsv(ev.sessionId),
-      escapeCsv(ev.variant),
       escapeCsv(ev.isInternal ? "true" : "false"),
       escapeCsv(utm.utm_source),
       escapeCsv(utm.utm_campaign),
@@ -62,6 +62,7 @@ export function generateEventsCsv(events: any[]): string {
       escapeCsv(p.pinPrefix),
       escapeCsv(p.method || p.paymentMethod),
       escapeCsv(p.tubeFeeling),
+      escapeCsv(p.nextFlavourWanted || p.nextWanted),
       escapeCsv(p.stoppedText),
       escapeCsv(p.frequency),
     ].join(",");
@@ -71,11 +72,10 @@ export function generateEventsCsv(events: any[]): string {
 }
 
 export function generateSignupsCsv(signups: any[]): string {
-  const headers = ["Timestamp", "Email", "Price_Variant", "Campaign", "Visitor_ID"];
+  const headers = ["Timestamp", "Email", "Campaign", "Visitor_ID"];
   const rows = signups.map((s) => [
     escapeCsv(s.timestamp),
     escapeCsv(s.email),
-    escapeCsv(s.variant),
     escapeCsv(s.utm_campaign),
     escapeCsv(s.visitorId),
   ].join(","));
@@ -84,15 +84,13 @@ export function generateSignupsCsv(signups: any[]): string {
 }
 
 export async function GET(req: NextRequest) {
-  const auth = req.headers.get("authorization") || req.nextUrl.searchParams.get("token");
-  const pwd = req.nextUrl.searchParams.get("password");
-  const adminPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+  const sessionCookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
 
-  if (auth !== "Bearer admin_auth_valid" && pwd !== adminPassword && auth !== "admin_auth_valid") {
+  if (!isValidAdminSession(sessionCookie)) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
   }
 
-  const exportType = req.nextUrl.searchParams.get("type"); // "signups" or "events"
+  const exportType = req.nextUrl.searchParams.get("type");
   const dateStr = new Date().toISOString().slice(0, 10);
 
   if (exportType === "signups") {

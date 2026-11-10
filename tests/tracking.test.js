@@ -7,6 +7,7 @@ describe("Event Logging & Payload Validation", () => {
     "scroll_50",
     "flavour_selected",
     "add_to_cart",
+    "notify_click",
     "checkout_started",
     "pincode_checked",
     "payment_method_selected",
@@ -42,7 +43,7 @@ describe("Event Logging & Payload Validation", () => {
         sessionId: "sess_tab_789",
         variant: "b",
         source: "whatsapp",
-        payload: { flavour: "green" },
+        payload: { flavour: "masala-ketchup" },
       });
 
       assert.strictEqual(payload.event, evt);
@@ -68,7 +69,7 @@ describe("Event Logging & Payload Validation", () => {
       return "direct";
     }
 
-    assert.strictEqual(resolveSource("office-slack", null), "office-slack");
+    assert.strictEqual(resolveSource("community-slack", null), "community-slack");
     assert.strictEqual(resolveSource("reddit_delhi", null), "reddit_delhi");
     assert.strictEqual(resolveSource(null, "https://l.instagram.com/"), "instagram");
     assert.strictEqual(resolveSource(null, "https://api.whatsapp.com/"), "whatsapp");
@@ -88,10 +89,9 @@ describe("Event Logging & Payload Validation", () => {
   });
 
   test("Privacy compliance: payload does not store full customer name, phone, or payment secrets", () => {
-    // Only aggregate data (pinPrefix, zone, method, total) is allowed in tracking payloads
     const sampleEventPayload = {
       pinPrefix: "560",
-      zone: "Southern (AP, Telangana, Karnataka)",
+      region: "Southern (AP, Telangana, Karnataka)",
       method: "upi",
       total: 179,
     };

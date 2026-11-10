@@ -4,7 +4,7 @@ import { storeConfig } from "../../config/store";
 
 export const metadata = {
   title: `Terms of Service | ${storeConfig?.brand?.name || "Chutney Tubes"}`,
-  description: "Terms and conditions for Chutney Tubes pre-launch store.",
+  description: "Terms of service for Chutney Tubes.",
 };
 
 export default function TermsPolicyPage() {
@@ -23,7 +23,7 @@ export default function TermsPolicyPage() {
               {brand.name}
             </span>
           </Link>
-          <Link href="/" className="text-xs font-bold text-paper hover:text-haldi transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-haldi active:translate-y-px">
+          <Link href="/" className="text-xs font-bold text-paper hover:text-haldi transition-colors">
             Back to Shop
           </Link>
         </div>
@@ -35,7 +35,7 @@ export default function TermsPolicyPage() {
             Terms of Service
           </h1>
           <p className="text-xs text-muted mt-1">
-            Last updated: November 2026
+            Last updated: 2026
           </p>
         </div>
 
@@ -43,42 +43,35 @@ export default function TermsPolicyPage() {
           <section className="space-y-2">
             <h2 className="text-base font-bold font-heading">1. Pricing &amp; Currency</h2>
             <p>
-              All prices shown on this site are in <strong>Indian Rupees (INR)</strong> and are inclusive of all applicable taxes (&ldquo;MRP incl. of all taxes&rdquo;).
+              All prices shown on this site are in <strong>Indian Rupees (INR)</strong> and are inclusive of all applicable taxes.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-base font-bold font-heading">2. Packaging &amp; Product Imagery</h2>
             <p>
-              Product renders and packaging images displayed on this site are illustrative visual representations designed for consumer interest evaluation. Final commercial packaging, label layout, and seals may differ slightly upon physical batch production.
+              Product renders and packaging images displayed on this site are illustrative visual representations designed for consumer interest evaluation.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-base font-bold font-heading">3. Spice Levels &amp; Taste Guide</h2>
             <p>
-              Our spice ratings (Mild 1, Medium 2, Hot 3) serve as a helpful culinary guide based on traditional regional recipes. Individual tolerance to chillies and spices may vary.
+              Our spice ratings (Mild 1, Medium 2, Hot 3) serve as a culinary guide based on traditional recipes. Individual tolerance to spices may vary.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-base font-bold font-heading">4. Food Allergens &amp; Ingredients</h2>
             <p>
-              Please check the ingredient list for common food allergens (including mustard seeds, peanuts, tamarind, and coconut) before consumption once physical packs are received.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <h2 className="text-base font-bold font-heading">5. Demand Validation Notice</h2>
-            <p>
-              This website is operated to test consumer interest in squeezable chutney tubes before commercial manufacturing. Simulated mock checkouts do not charge any money or constitute a binding sale contract.
+              Please check the ingredient list for common food allergens before consumption once physical packs are received.
             </p>
           </section>
         </div>
       </main>
 
       <footer className="py-6 text-center text-xs text-muted border-t border-steel">
-        <p>{brand.copyright} · Pre-launch demand study for Indian tiffin lunches</p>
+        <p>{brand.copyright}</p>
       </footer>
     </div>
   );

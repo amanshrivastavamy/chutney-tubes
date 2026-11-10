@@ -7,7 +7,7 @@
       <rect x="8" y="36" width="92" height="242" rx="16" fill="#7a4a25" />
       <rect x="6" y="14" width="96" height="24" fill="#3b1d0c" rx="2" />
       <path d="M 9 14 L 13 38 M 21 14 L 25 38 M 33 14 L 37 38 M 45 14 L 49 38 M 57 14 L 61 38 M 69 14 L 73 38 M 81 14 L 85 38 M 93 14 L 97 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
-      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
+      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">NET WT 100g</text>
 
       <!-- Brand Seal -->
       <g transform="translate(54, 68)">
@@ -50,7 +50,7 @@
       <rect x="-100" y="36" width="92" height="242" rx="16" fill="#5e3a1e" />
       <rect x="-102" y="14" width="96" height="24" fill="#2d1303" rx="2" />
       <path d="M -99 14 L -95 38 M -87 14 L -83 38 M -75 14 L -71 38 M -63 14 L -59 38 M -51 14 L -47 38 M -39 14 L -35 38 M -27 14 L -23 38 M -15 14 L -11 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
-      <text x="-54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
+      <text x="-54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">NET WT 100g</text>
 
       <!-- Brand Seal -->
       <g transform="translate(-54, 68)">
@@ -96,7 +96,7 @@
       <!-- Crimp -->
       <rect x="-50" y="-6" width="100" height="24" fill="#0f3a1a" rx="2" />
       <path d="M -46 -6 L -42 18 M -34 -6 L -30 18 M -22 -6 L -18 18 M -10 -6 L -6 18 M 2 -6 L 6 18 M 14 -6 L 18 18 M 26 -6 L 30 18 M 38 -6 L 42 18" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
-      <text x="0" y="8" font-family="Hind, sans-serif" font-size="5.5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2">B.NO CT-26 • NET WT 100g</text>
+      <text x="0" y="8" font-family="Hind, sans-serif" font-size="5.5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2">NET WT 100g</text>
 
       <!-- Toran Band -->
       <g transform="translate(-45, 20)">

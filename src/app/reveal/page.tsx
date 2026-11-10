@@ -9,6 +9,7 @@ export default function RevealPage() {
   const [optInDiscount, setOptInDiscount] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
   const [frequency, setFrequency] = useState<string>("");
+  const [nextFlavourWanted, setNextFlavourWanted] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const [orderSummary, setOrderSummary] = useState<{
@@ -25,9 +26,7 @@ export default function RevealPage() {
       if (stored) {
         try {
           setOrderSummary(JSON.parse(stored));
-        } catch (e) {
-          // ignore
-        }
+        } catch (e) {}
       }
     }
   }, []);
@@ -39,6 +38,7 @@ export default function RevealPage() {
       optInDiscount,
       feedback: feedback.trim(),
       frequency,
+      nextFlavourWanted,
       contact: orderSummary.email || orderSummary.phone || "",
       orderSummary,
       source: resolveTrafficSource(),
@@ -57,35 +57,28 @@ export default function RevealPage() {
 
   return (
     <div className="min-h-screen bg-paper flex flex-col justify-between text-ink">
-      {/* Header */}
       <header className="bg-card border-b border-steel py-4 px-4 sm:px-8">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px">
-            <div className="w-8 h-8 rounded-lg bg-leaf flex items-center justify-center text-paper font-black text-sm">
-              C
-            </div>
+          <Link href="/" className="flex items-center space-x-2">
             <span className="font-extrabold text-lg text-ink font-heading">
               {storeConfig.brand.name}
             </span>
           </Link>
-          <span className="text-xs font-bold text-leaf bg-paper-2 px-2.5 py-1 rounded-full">
-            Demand Verification Complete
+          <span className="text-xs font-bold text-leaf bg-paper px-2.5 py-1 rounded-full border border-steel">
+            Interest Recorded
           </span>
         </div>
       </header>
 
-      {/* Main Container */}
       <main className="flex-1 max-w-2xl mx-auto w-full p-4 sm:p-6 my-6">
-        {/* Unmistakable Reassurance Box */}
         <div className="bg-card rounded-3xl p-6 sm:p-8 border-2 border-leaf shadow-xl text-center space-y-4 relative overflow-hidden">
-          {/* Green Top Indicator */}
-          <div className="w-16 h-16 rounded-full bg-paper-2 text-leaf flex items-center justify-center text-2xl mx-auto border-4 border-steel">
+          <div className="w-16 h-16 rounded-full bg-paper text-leaf flex items-center justify-center text-2xl mx-auto border-4 border-steel font-black">
             ✓
           </div>
 
           <div className="space-y-1">
             <h1 className="text-2xl sm:text-3xl font-black text-ink font-heading">
-              You haven&apos;t been charged. Not yet.
+              You haven&apos;t been charged.
             </h1>
             <p className="text-xs sm:text-sm font-semibold text-leaf">
               No money was deducted · No card details were collected
@@ -94,38 +87,55 @@ export default function RevealPage() {
 
           <div className="text-sm text-muted leading-relaxed max-w-lg mx-auto bg-paper p-4 rounded-2xl border border-steel">
             <p>
-              You&apos;re one of the first people who wanted this, and that helps us decide to launch!
+              You&apos;re one of the first people who wanted this, and your interest helps us launch!
             </p>
             <p className="mt-2 text-xs text-muted">
-              We are a passionate food team testing real purchase interest before investing in commercial food-grade tube filling machinery.
+              We are gauging real consumer demand across India for home-style chutneys and sauces in mess-free squeeze tubes.
             </p>
           </div>
 
           {!submitted ? (
-            /* Optional Survey & Launch-Day Discount */
             <form onSubmit={handleSurveySubmit} className="pt-4 text-left space-y-5 border-t border-steel">
-              {/* Launch Day Discount Single Opt-In (Unchecked by default) */}
-              <div className="bg-paper-2 p-4 rounded-2xl border border-steel">
+              <div className="bg-paper p-4 rounded-2xl border border-steel">
                 <label className="flex items-start space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={optInDiscount}
                     onChange={(e) => setOptInDiscount(e.target.checked)}
-                    className="mt-0.5 w-5 h-5 rounded border-steel text-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                    className="mt-0.5 w-5 h-5 rounded border-steel text-leaf"
                   />
                   <div className="text-xs sm:text-sm">
                     <strong className="text-ink block font-bold">
-                      Want an exclusive launch-day discount?
+                      Want an exclusive launch discount?
                     </strong>
                     <span className="text-muted text-xs">
-                      Opt-in to get an early bird discount coupon sent to your WhatsApp or email when we launch.
+                      Opt-in to get an early bird discount code sent to you when we launch.
                     </span>
                   </div>
                 </label>
               </div>
 
-              {/* Quick Demand Survey (Optional) */}
               <div className="space-y-4">
+                {/* NEW SURVEY QUESTION */}
+                <div>
+                  <label className="block text-xs font-bold text-ink mb-1">
+                    Which would you want in a tube next?
+                  </label>
+                  <select
+                    value={nextFlavourWanted}
+                    onChange={(e) => setNextFlavourWanted(e.target.value)}
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper"
+                  >
+                    <option value="">Select a flavour...</option>
+                    <option value="Lehsuni">Lehsuni</option>
+                    <option value="Momo chutney">Momo chutney</option>
+                    <option value="Sweet mango">Sweet mango</option>
+                    <option value="Peri-peri mayo">Peri-peri mayo</option>
+                    <option value="Kasundi">Kasundi</option>
+                    <option value="Something else">Something else</option>
+                  </select>
+                </div>
+
                 <div>
                   <label className="block text-xs font-bold text-ink mb-1">
                     What almost stopped you from buying? <span className="font-normal text-muted">(Optional)</span>
@@ -134,28 +144,28 @@ export default function RevealPage() {
                     rows={2}
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
-                    placeholder="e.g. Wondered about shelf life, wanted a different pack size, preferred smaller quantity..."
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
+                    placeholder="e.g. Wondered about shelf life, wanted a different pack, preferred smaller size..."
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-ink mb-1">
-                    How often would you use chutney in a tube? <span className="font-normal text-muted">(Optional)</span>
+                    How often would you use it? <span className="font-normal text-muted">(Optional)</span>
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                     {[
-                      { id: "daily", label: "Daily" },
-                      { id: "few_times_week", label: "Few times a week" },
-                      { id: "weekly", label: "Weekly" },
-                      { id: "rarely", label: "Rarely" },
+                      { id: "Daily", label: "Daily" },
+                      { id: "A few times a week", label: "Few times a week" },
+                      { id: "Weekly", label: "Weekly" },
+                      { id: "Rarely", label: "Rarely" },
                     ].map((opt) => (
                       <label
                         key={opt.id}
                         className={`flex items-center space-x-2 p-2.5 rounded-xl border cursor-pointer transition-colors ${
                           frequency === opt.id
-                            ? "border-leaf bg-paper-2 font-bold text-leaf"
-                            : "border-steel bg-paper hover:bg-paper-2 text-ink"
+                            ? "border-leaf bg-paper font-bold text-leaf"
+                            : "border-steel bg-paper text-ink"
                         }`}
                       >
                         <input
@@ -164,7 +174,7 @@ export default function RevealPage() {
                           value={opt.id}
                           checked={frequency === opt.id}
                           onChange={(e) => setFrequency(e.target.value)}
-                          className="text-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                          className="text-leaf"
                         />
                         <span>{opt.label}</span>
                       </label>
@@ -173,27 +183,25 @@ export default function RevealPage() {
                 </div>
               </div>
 
-              {/* Submit Feedback */}
               <button
                 type="submit"
-                className="w-full bg-leaf hover:bg-deepLeaf text-paper font-black text-sm py-3.5 rounded-xl shadow-md transition-colors flex items-center justify-center font-heading whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px disabled:opacity-50"
+                className="w-full bg-leaf hover:bg-deepLeaf text-paper font-black text-sm py-3.5 rounded-xl shadow-md transition-colors flex items-center justify-center font-heading"
               >
                 Save Preferences
               </button>
             </form>
           ) : (
-            /* Submission Success State */
             <div className="pt-6 border-t border-steel space-y-4">
-              <div className="p-4 bg-paper-2 rounded-2xl text-center space-y-1">
+              <div className="p-4 bg-paper rounded-2xl text-center space-y-1">
                 <span className="text-xl text-leaf block font-bold">Thank You!</span>
                 <p className="text-xs text-muted">
-                  Your feedback and contact preferences have been securely logged. We&apos;ll keep you posted as pilot batches enter production.
+                  Your feedback has been recorded. We&apos;ll notify you when the first run is ready.
                 </p>
               </div>
 
               <Link
                 href="/"
-                className="inline-block text-xs font-bold text-leaf hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px"
+                className="inline-block text-xs font-bold text-leaf hover:underline"
               >
                 Return to Chutney Tubes homepage
               </Link>
@@ -203,7 +211,7 @@ export default function RevealPage() {
       </main>
 
       <footer className="text-center py-6 text-xs text-muted border-t border-steel">
-        <p>{storeConfig.brand.copyright} · Genuine pre-launch demand validation</p>
+        <p>{storeConfig.brand.copyright}</p>
       </footer>
     </div>
   );

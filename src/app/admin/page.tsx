@@ -6,11 +6,9 @@ import { storeConfig } from "../../config/store";
 
 export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [emailInput, setEmailInput] = useState("admin@chutneytubes.in");
   const [passwordInput, setPasswordInput] = useState("");
-  const [token, setToken] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Filter States
   const [startDate, setStartDate] = useState("");
@@ -21,18 +19,31 @@ export default function AdminDashboardPage() {
   // Search state for feedback
   const [feedbackSearch, setFeedbackSearch] = useState("");
 
-  // Data
+  // Metrics Data
   const [metrics, setMetrics] = useState<any>(null);
 
-  // Check stored session
+  // Check existing session on mount
   useEffect(() => {
-    const saved = sessionStorage.getItem("ct_admin_auth");
-    if (saved) {
-      setToken(saved);
-      setIsAuthenticated(true);
-      fetchMetrics(saved);
-    }
+    checkSession();
   }, []);
+
+  const checkSession = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/metrics");
+      if (res.ok) {
+        const data = await res.json();
+        setMetrics(data);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch (err) {
+      setIsAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,16 +54,15 @@ export default function AdminDashboardPage() {
       const res = await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: emailInput, password: passwordInput }),
+        body: JSON.stringify({ password: passwordInput }),
       });
       const data = await res.json();
       if (res.ok && data.authenticated) {
         setIsAuthenticated(true);
-        setToken(data.token);
-        sessionStorage.setItem("ct_admin_auth", data.token);
-        fetchMetrics(data.token);
+        setPasswordInput("");
+        fetchMetrics();
       } else {
-        setErrorMsg(data.error || "Invalid credentials. Default: chutney2026");
+        setErrorMsg(data.error || "Incorrect admin password");
       }
     } catch (err: any) {
       setErrorMsg("Connection error: " + err.message);
@@ -61,11 +71,10 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const fetchMetrics = async (authToken = token) => {
+  const fetchMetrics = async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      params.set("token", authToken);
       if (startDate) params.set("startDate", startDate);
       if (endDate) params.set("endDate", endDate);
       if (selectedCampaign) params.set("campaign", selectedCampaign);
@@ -75,9 +84,9 @@ export default function AdminDashboardPage() {
       if (res.ok) {
         const data = await res.json();
         setMetrics(data);
+        setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
-        sessionStorage.removeItem("ct_admin_auth");
       }
     } catch (err) {
       console.error(err);
@@ -86,18 +95,29 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "logout" }),
+      });
+    } catch (e) {}
     setIsAuthenticated(false);
-    setToken("");
-    sessionStorage.removeItem("ct_admin_auth");
+    setMetrics(null);
   };
 
   // Re-fetch when filters change
   useEffect(() => {
-    if (isAuthenticated && token) {
-      fetchMetrics(token);
+    if (isAuthenticated) {
+      fetchMetrics();
     }
   }, [startDate, endDate, selectedCampaign, includeInternal]);
+
+  const filteredFeedback = (metrics?.stoppedAnswers || []).filter((item: any) => {
+    if (!feedbackSearch.trim()) return true;
+    return (item.text || "").toLowerCase().includes(feedbackSearch.trim().toLowerCase());
+  });
 
   // LOGIN SCREEN
   if (!isAuthenticated) {
@@ -114,24 +134,11 @@ export default function AdminDashboardPage() {
               Demand Test Admin
             </h1>
             <p className="text-xs text-muted">
-              Sign in to access real-time purchase intent metrics for {storeConfig.brand.name}.
+              Enter your password to access real-time purchase intent metrics for {storeConfig.brand.name}.
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">
-                Admin Email
-              </label>
-              <input
-                type="email"
-                required
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition-colors"
-              />
-            </div>
-
             <div>
               <label className="block text-xs font-bold text-ink mb-1">
                 Password
@@ -139,14 +146,11 @@ export default function AdminDashboardPage() {
               <input
                 type="password"
                 required
-                placeholder="chutney2026"
+                placeholder="Enter admin password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
                 className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition-colors font-mono"
               />
-              <span className="text-[10px] text-muted mt-1 block">
-                Default password: <code>chutney2026</code>
-              </span>
             </div>
 
             {errorMsg && (
@@ -174,53 +178,42 @@ export default function AdminDashboardPage() {
     );
   }
 
-  // Filtered feedback
-  const filteredFeedback = metrics?.stoppedAnswers?.filter((a: any) =>
-    a.text.toLowerCase().includes(feedbackSearch.toLowerCase())
-  ) || [];
-
+  // DASHBOARD
   return (
-    <div className="min-h-screen bg-paper text-ink">
-      {/* Top Navbar */}
-      <header className="bg-deepLeaf text-paper py-4 px-4 sm:px-8 sticky top-0 z-30 shadow-md">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="min-h-screen bg-paper text-ink flex flex-col">
+      {/* Top Admin Nav */}
+      <header className="bg-deepLeaf text-paper px-4 sm:px-8 py-3.5 border-b border-ink sticky top-0 z-30 shadow-md">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-3">
-            <span className="font-heading font-black text-xl text-haldi">
-              {storeConfig.brand.name}
-            </span>
-            <span className="text-[10px] font-bold bg-haldi text-ink px-2.5 py-0.5 rounded-full font-heading">
-              Live Demand Dashboard
-            </span>
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="font-heading font-black text-xl text-haldi">
+                {storeConfig.brand.name}
+              </span>
+              <span className="text-xs bg-ink/80 text-haldi font-bold px-2 py-0.5 rounded-full border border-haldi/30">
+                Admin Panel
+              </span>
+            </Link>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            {/* Export Events CSV */}
+          <div className="flex items-center space-x-2.5 text-xs">
             <a
-              href={`/api/export?token=${token}`}
+              href="/api/export?type=events"
               download
-              className="bg-ink hover:bg-black text-haldi font-heading font-bold px-3.5 py-2 rounded-xl transition-colors inline-flex items-center space-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-haldi active:translate-y-px"
+              className="bg-ink hover:bg-black text-haldi font-heading font-bold px-3.5 py-2 rounded-xl transition-colors inline-flex items-center space-x-1.5"
             >
-              <svg aria-hidden="true" className="w-4 h-4 text-haldi" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-              </svg>
               <span>Export Events CSV</span>
             </a>
 
-            {/* Export Signups CSV */}
             <a
-              href={`/api/export?token=${token}&type=signups`}
+              href="/api/export?type=signups"
               download
-              className="bg-haldi hover:bg-haldi/90 text-ink font-heading font-bold px-3.5 py-2 rounded-xl transition-colors inline-flex items-center space-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px"
+              className="bg-haldi hover:bg-haldi/90 text-ink font-heading font-bold px-3.5 py-2 rounded-xl transition-colors inline-flex items-center space-x-1.5"
             >
-              <svg aria-hidden="true" className="w-4 h-4 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
               <span>Export Sign-ups CSV</span>
             </a>
 
             <button
-              onClick={() => fetchMetrics(token)}
+              onClick={fetchMetrics}
               className="bg-card/10 hover:bg-card/20 text-paper font-bold px-3 py-2 rounded-xl transition-colors"
             >
               Refresh
@@ -287,7 +280,7 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* DASHBOARD CONTENT */}
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8 flex-1 w-full">
         {loading && !metrics && (
           <div className="text-center py-16 text-sm text-muted">
             Loading real-time demand metrics...
@@ -373,7 +366,7 @@ export default function AdminDashboardPage() {
                     <div className="w-full h-4 bg-paper rounded-full overflow-hidden border border-steel">
                       <div
                         className={`h-full rounded-full transition-colors duration-500 ${
-                          idx === 4 ? "bg-haldi" : "bg-leaf"
+                          idx === 3 ? "bg-haldi" : "bg-leaf"
                         }`}
                         style={{ width: `${Math.max(step.pctOfTotal, 3)}%` }}
                       />
@@ -383,64 +376,169 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* 3. TABLE BY PRICE VARIANT & CAMPAIGN */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Variant Table */}
-              <div className="lg:col-span-7 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-heading font-black text-base text-ink">
-                    Price Variant Performance (A/B/C)
+            {/* 3. TOP TUBES TABLE (Add-to-cart & Pay-click counts sorted high to low) */}
+            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-heading font-black text-lg text-ink">
+                    Top Tubes (Flavour Demand)
                   </h3>
-                  {metrics.bestVariant && (
-                    <span className="bg-haldi text-ink text-[10px] font-heading font-black px-2.5 py-0.5 rounded-full">
-                      Best Pay Rate: Variant {metrics.bestVariant}
-                    </span>
-                  )}
+                  <p className="text-xs text-muted">
+                    Ranked by Pay Clicks (highest confirmed intent), followed by Add-to-Cart clicks.
+                  </p>
                 </div>
+                <span className="bg-leaf/10 text-leaf font-bold text-xs px-3 py-1 rounded-full">
+                  All tubes ₹99 · 100g
+                </span>
+              </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-steel text-muted text-[10px] font-heading font-bold">
-                        <th className="py-2.5 px-3">Variant</th>
-                        <th className="py-2.5 px-3">Prices</th>
-                        <th className="py-2.5 px-3">Visitors</th>
-                        <th className="py-2.5 px-3">Added</th>
-                        <th className="py-2.5 px-3">Pay Clicked</th>
-                        <th className="py-2.5 px-3">Pay Rate</th>
-                        <th className="py-2.5 px-3">AOV</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-steel">
-                      {metrics.variantTable.map((v: any) => {
-                        const isBest = v.variant === metrics.bestVariant;
-                        return (
-                          <tr key={v.variant} className={isBest ? "bg-paper-2 font-bold" : "hover:bg-paper"}>
-                            <td className="py-3 px-3 font-heading font-bold">
-                              Variant {v.variant} {isBest && "[Top]"}
-                            </td>
-                            <td className="py-3 px-3 text-muted">{v.priceInfo}</td>
-                            <td className="py-3 px-3">{v.visitors}</td>
-                            <td className="py-3 px-3">{v.added}</td>
-                            <td className="py-3 px-3 font-bold text-leaf">{v.pay}</td>
-                            <td className="py-3 px-3 font-heading font-black text-deepLeaf">
-                              {v.payRate}
-                            </td>
-                            <td className="py-3 px-3">{v.aov}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="border-b border-steel text-muted text-[10px] font-heading font-bold uppercase tracking-wider">
+                      <th className="py-3 px-3">Rank</th>
+                      <th className="py-3 px-3">Tube Flavour</th>
+                      <th className="py-3 px-3 font-black text-deepLeaf">Pay Clicks</th>
+                      <th className="py-3 px-3">Add to Cart Clicks</th>
+                      <th className="py-3 px-3">Product Views</th>
+                      <th className="py-3 px-3">Pay / Cart Conversion</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-steel">
+                    {(metrics.topTubes || []).map((tube: any, idx: number) => {
+                      const conversion =
+                        tube.cartAdds > 0
+                          ? ((tube.payClicks / tube.cartAdds) * 100).toFixed(1) + "%"
+                          : "-";
+                      return (
+                        <tr key={tube.id} className="hover:bg-paper transition-colors">
+                          <td className="py-3 px-3 font-heading font-bold text-muted">
+                            #{idx + 1}
+                          </td>
+                          <td className="py-3 px-3 font-heading font-bold text-ink">
+                            {tube.name}{" "}
+                            {tube.hindi && (
+                              <span className="text-[11px] text-muted font-normal">
+                                ({tube.hindi})
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 px-3 font-heading font-black text-sm text-leaf">
+                            {tube.payClicks}
+                          </td>
+                          <td className="py-3 px-3 font-bold text-ink">{tube.cartAdds}</td>
+                          <td className="py-3 px-3 text-muted">{tube.views}</td>
+                          <td className="py-3 px-3 font-mono font-bold text-deepLeaf">
+                            {conversion}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 4. SURVEY RESULTS: NEXT TUBE WANTED & TUBE FEELINGS */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Which would you want in a tube next? */}
+              <div className="lg:col-span-6 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+                <h3 className="font-heading font-black text-base text-ink">
+                  Which Tube Would Customers Want Next?
+                </h3>
+                <p className="text-xs text-muted">Post-checkout survey responses.</p>
+
+                <div className="space-y-2.5">
+                  {Object.keys(metrics.nextTubeWanted || {}).map((opt) => {
+                    const count = metrics.nextTubeWanted[opt] || 0;
+                    return (
+                      <div key={opt} className="p-3 bg-paper rounded-xl border border-steel space-y-1">
+                        <div className="flex justify-between text-xs font-bold text-ink">
+                          <span>{opt}</span>
+                          <span className="font-heading font-black text-leaf">{count} votes</span>
+                        </div>
+                        <div className="w-full h-2.5 bg-card rounded-full overflow-hidden border border-steel">
+                          <div
+                            className="h-full bg-haldi rounded-full"
+                            style={{ width: `${Math.min(count * 20, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Campaign Table */}
-              <div className="lg:col-span-5 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+              {/* Coming Soon Notify Me Clicks */}
+              <div className="lg:col-span-6 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
                 <h3 className="font-heading font-black text-base text-ink">
-                  Campaign &amp; Traffic Channels
+                  Coming Soon &quot;Notify Me&quot; Clicks
                 </h3>
-                <div className="space-y-2.5 max-h-72 overflow-y-auto">
+                <p className="text-xs text-muted">Votes captured from Coming Soon product cards.</p>
+
+                <div className="space-y-2.5">
+                  {[
+                    { id: "teekhi-lehsuni", name: "Teekhi Lehsuni Chutney" },
+                    { id: "momo-chutney", name: "Momo Chutney" },
+                    { id: "sweet-mango", name: "Sweet Mango Chutney" },
+                  ].map((item) => {
+                    const count = (metrics.notifyClicks && metrics.notifyClicks[item.id]) || 0;
+                    return (
+                      <div key={item.id} className="p-3.5 bg-paper rounded-xl border border-steel flex justify-between items-center text-xs">
+                        <div>
+                          <strong className="block text-ink font-heading text-sm">{item.name}</strong>
+                          <span className="text-[10px] text-muted font-mono">{item.id}</span>
+                        </div>
+                        <span className="font-heading font-black text-base bg-deepLeaf text-paper px-3 py-1 rounded-full">
+                          {count} alerts
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* 5. TRAFFIC CAMPAIGNS & HOW PEOPLE FEEL */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-6 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+                <h3 className="font-heading font-black text-base text-ink">
+                  How People Feel About Chutney in a Tube
+                </h3>
+                <p className="text-xs text-muted">
+                  Comparing reactions from visitors who clicked Pay vs all respondents.
+                </p>
+
+                <div className="space-y-2.5">
+                  {Object.keys(metrics.tubeFeelings.everyone).map((feeling) => {
+                    const evCount = metrics.tubeFeelings.everyone[feeling] || 0;
+                    const payCount = metrics.tubeFeelings.payPressers[feeling] || 0;
+                    return (
+                      <div key={feeling} className="p-3 bg-paper rounded-xl border border-steel space-y-1">
+                        <div className="flex justify-between text-xs font-bold text-ink">
+                          <span>{feeling}</span>
+                          <span>Total: {evCount}</span>
+                        </div>
+                        <div className="w-full h-2.5 bg-card rounded-full overflow-hidden border border-steel">
+                          <div
+                            className="h-full bg-leaf rounded-full"
+                            style={{ width: `${Math.min(evCount * 20, 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] text-deepLeaf font-semibold block">
+                          Of which {payCount} committed to Pay
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+                <h3 className="font-heading font-black text-base text-ink">
+                  Traffic Campaigns &amp; Sources
+                </h3>
+                <div className="space-y-2 max-h-72 overflow-y-auto">
                   {metrics.campaignTable.length === 0 ? (
                     <div className="text-center py-6 text-xs text-muted">No campaign traffic logged.</div>
                   ) : (
@@ -448,7 +546,7 @@ export default function AdminDashboardPage() {
                       <div key={c.campaign} className="p-3 bg-paper rounded-xl border border-steel flex justify-between items-center text-xs">
                         <div>
                           <strong className="block text-ink capitalize font-heading">{c.campaign}</strong>
-                          <span className="text-[10px] text-muted">{c.visitors} visitors · AOV {c.aov}</span>
+                          <span className="text-[10px] text-muted">{c.visitors} visitors</span>
                         </div>
                         <div className="text-right">
                           <span className="font-heading font-black text-sm text-leaf">{c.payRate}</span>
@@ -461,129 +559,8 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* 4. "HOW PEOPLE FEEL ABOUT CHUTNEY IN A TUBE" */}
-            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-              <h3 className="font-heading font-black text-base text-ink">
-                How People Feel About Chutney in a Tube
-              </h3>
-              <p className="text-xs text-muted">
-                Comparing reactions from visitors who clicked Pay vs all respondents.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                {Object.keys(metrics.tubeFeelings.everyone).map((feeling) => {
-                  const evCount = metrics.tubeFeelings.everyone[feeling] || 0;
-                  const payCount = metrics.tubeFeelings.payPressers[feeling] || 0;
-                  return (
-                    <div key={feeling} className="p-3 bg-paper rounded-xl border border-steel space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-ink">
-                        <span>{feeling}</span>
-                        <span>Total: {evCount}</span>
-                      </div>
-                      <div className="w-full h-3 bg-paper rounded-full overflow-hidden border border-steel">
-                        <div
-                          className="h-full bg-leaf"
-                          style={{ width: `${Math.min(evCount * 20, 100)}%` }}
-                        />
-                      </div>
-                      <span className="text-[10px] text-deepLeaf font-semibold block">
-                        Of which {payCount} committed to Pay
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 5. FLAVOUR DEMAND & PACK MIX */}
+            {/* 6. WHAT ALMOST STOPPED YOU & SIGNUPS */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Flavour Demand Table */}
-              <div className="lg:col-span-8 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-                <h3 className="font-heading font-black text-base text-ink">
-                  Flavour Demand (Tubes in Orders Where Pay Was Pressed)
-                </h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-steel text-muted text-[10px] font-heading font-bold">
-                        <th className="py-2.5 px-3">Rank</th>
-                        <th className="py-2.5 px-3">Flavour</th>
-                        <th className="py-2.5 px-3 font-black text-leaf">Ordered Tubes</th>
-                        <th className="py-2.5 px-3">Cart Adds</th>
-                        <th className="py-2.5 px-3">Views</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-steel">
-                      {metrics.sortedFlavours.map((f: any, idx: number) => (
-                        <tr key={f.id} className="hover:bg-paper">
-                          <td className="py-2.5 px-3 font-bold text-muted">#{idx + 1}</td>
-                          <td className="py-2.5 px-3 font-heading font-bold">
-                            {f.name} <span className="text-[10px] text-muted">({f.local})</span>
-                          </td>
-                          <td className="py-2.5 px-3 font-heading font-black text-sm text-leaf">
-                            {f.orderedTubes}
-                          </td>
-                          <td className="py-2.5 px-3">{f.cartAdds}</td>
-                          <td className="py-2.5 px-3 text-muted">{f.views}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Pack Mix */}
-              <div className="lg:col-span-4 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-                <h3 className="font-heading font-black text-base text-ink">Pack Mix Preference</h3>
-                <div className="space-y-3 text-xs">
-                  <div className="p-3 bg-paper rounded-xl flex justify-between items-center">
-                    <span className="font-bold">Single Tube</span>
-                    <span className="font-heading font-black text-base text-ink">{metrics.packMix.single}</span>
-                  </div>
-                  <div className="p-3 bg-paper rounded-xl flex justify-between items-center">
-                    <span className="font-bold">Chaat Combo</span>
-                    <span className="font-heading font-black text-base text-ink">{metrics.packMix.combo}</span>
-                  </div>
-                  <div className="p-3 bg-paper-2 rounded-xl flex justify-between items-center border border-haldi">
-                    <span className="font-bold">Pick Any 3 (Bundle)</span>
-                    <span className="font-heading font-black text-base text-deepLeaf">{metrics.packMix.pick3}</span>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-steel">
-                  <h4 className="font-heading font-bold text-xs text-muted mb-2">Usage Frequency</h4>
-                  <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    {Object.keys(metrics.frequencyCounts).map((freq) => (
-                      <div key={freq} className="bg-paper p-2 rounded-lg">
-                        <span className="text-muted block">{freq}</span>
-                        <strong className="text-sm font-heading">{metrics.frequencyCounts[freq]}</strong>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 6. ORDERS BY POSTAL ZONE */}
-            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-              <h3 className="font-heading font-black text-base text-ink">
-                Orders by Indian Postal Zone
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {Object.keys(metrics.zoneCounts).map((zName) => (
-                  <div key={zName} className="p-3 bg-paper rounded-xl border border-steel">
-                    <span className="text-xs font-bold text-ink block line-clamp-1">{zName}</span>
-                    <span className="font-heading font-black text-xl text-leaf">
-                      {metrics.zoneCounts[zName]} orders
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 7. "WHAT ALMOST STOPPED YOU" SEARCHABLE LIST & REQUESTED CHUTNEYS */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Feedback */}
               <div className="lg:col-span-7 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <h3 className="font-heading font-black text-base text-ink">
@@ -605,7 +582,7 @@ export default function AdminDashboardPage() {
                     filteredFeedback.map((item: any, idx: number) => (
                       <div key={idx} className="py-2.5 space-y-1">
                         <div className="flex justify-between items-center text-[10px] text-muted">
-                          <span>{item.visitorId} · Variant {item.variant.toUpperCase()}</span>
+                          <span>{item.visitorId}</span>
                           <span>{new Date(item.timestamp).toLocaleString()}</span>
                         </div>
                         <p className="text-xs font-medium text-ink bg-paper p-2.5 rounded-xl border border-steel">
@@ -617,61 +594,34 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              {/* Requested Chutneys */}
               <div className="lg:col-span-5 bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-                <h3 className="font-heading font-black text-base text-ink">
-                  Chutneys Customers Want Most
-                </h3>
-                <div className="space-y-2 max-h-80 overflow-y-auto">
-                  {metrics.rankedRequests.length === 0 ? (
-                    <div className="text-center py-8 text-xs text-muted">No custom chutney requests yet.</div>
+                <div className="flex justify-between items-center">
+                  <h3 className="font-heading font-black text-base text-ink">
+                    Launch Sign-ups ({metrics.signupsList.length})
+                  </h3>
+                  <a
+                    href="/api/export?type=signups"
+                    download
+                    className="text-xs font-heading font-bold text-leaf underline"
+                  >
+                    CSV
+                  </a>
+                </div>
+
+                <div className="divide-y divide-steel max-h-80 overflow-y-auto text-xs">
+                  {metrics.signupsList.length === 0 ? (
+                    <div className="text-center py-6 text-xs text-muted">No email opt-ins recorded yet.</div>
                   ) : (
-                    metrics.rankedRequests.map((r: any, idx: number) => (
-                      <div key={idx} className="p-3 bg-paper rounded-xl border border-steel flex justify-between items-center text-xs">
-                        <div>
-                          <strong className="block text-ink font-heading">{r.name}</strong>
-                          {r.region && <span className="text-[10px] text-muted">Region: {r.region}</span>}
-                        </div>
-                        <span className="font-heading font-black text-sm bg-deepLeaf text-paper px-2.5 py-1 rounded-full">
-                          {r.count} votes
+                    metrics.signupsList.map((s: any, idx: number) => (
+                      <div key={idx} className="py-2.5 flex justify-between items-center">
+                        <span className="font-bold text-ink">{s.email}</span>
+                        <span className="text-[11px] text-muted">
+                          {new Date(s.timestamp).toLocaleDateString()}
                         </span>
                       </div>
                     ))
                   )}
                 </div>
-              </div>
-            </div>
-
-            {/* 8. LAUNCH SIGN-UPS LIST */}
-            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="font-heading font-black text-base text-ink">
-                  Launch Sign-up Emails ({metrics.signupsList.length})
-                </h3>
-                <a
-                  href={`/api/export?token=${token}&type=signups`}
-                  download
-                  className="text-xs font-heading font-bold text-leaf underline"
-                >
-                  Download CSV
-                </a>
-              </div>
-
-              <div className="divide-y divide-steel max-h-60 overflow-y-auto text-xs">
-                {metrics.signupsList.length === 0 ? (
-                  <div className="text-center py-6 text-xs text-muted">No email opt-ins recorded yet.</div>
-                ) : (
-                  metrics.signupsList.map((s: any, idx: number) => (
-                    <div key={idx} className="py-2 flex justify-between items-center">
-                      <span className="font-bold text-ink">{s.email}</span>
-                      <div className="space-x-3 text-[11px] text-muted">
-                        <span>Campaign: {s.utm_campaign}</span>
-                        <span>Variant {s.variant.toUpperCase()}</span>
-                        <span>{new Date(s.timestamp).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  ))
-                )}
               </div>
             </div>
           </>

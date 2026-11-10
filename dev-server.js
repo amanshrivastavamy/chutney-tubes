@@ -415,7 +415,7 @@ function renderFlavourSvg(f, options = {}) {
       <rect x="6" y="14" width="96" height="24" fill="#000000" opacity="0.38" rx="2" />
       <path d="M 9 14 L 13 38 M 19 14 L 23 38 M 29 14 L 33 38 M 39 14 L 43 38 M 49 14 L 53 38 M 59 14 L 63 38 M 69 14 L 73 38 M 79 14 L 83 38 M 89 14 L 93 38 M 99 14 L 103 38" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
       <rect x="6" y="12" width="96" height="4" fill="#000000" opacity="0.5" />
-      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5.2" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.4" opacity="0.9">B.NO CT-26 • NET WT 100g</text>
+      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5.2" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.4" opacity="0.9">NET WT 100g</text>
 
       <!-- TRADITIONAL INDIAN TORAN FOLK MOTIF BAND -->
       <g transform="translate(10, 40)">
@@ -527,7 +527,7 @@ function renderHeroFannedSvg() {
       <rect x="8" y="36" width="92" height="242" rx="16" fill="#7a4a25" />
       <rect x="6" y="14" width="96" height="24" fill="#3b1d0c" rx="2" />
       <path d="M 9 14 L 13 38 M 21 14 L 25 38 M 33 14 L 37 38 M 45 14 L 49 38 M 57 14 L 61 38 M 69 14 L 73 38 M 81 14 L 85 38 M 93 14 L 97 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
-      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
+      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">NET WT 100g</text>
 
       <!-- Brand Seal -->
       <g transform="translate(54, 68)">
@@ -570,7 +570,7 @@ function renderHeroFannedSvg() {
       <rect x="-100" y="36" width="92" height="242" rx="16" fill="#5e3a1e" />
       <rect x="-102" y="14" width="96" height="24" fill="#2d1303" rx="2" />
       <path d="M -99 14 L -95 38 M -87 14 L -83 38 M -75 14 L -71 38 M -63 14 L -59 38 M -51 14 L -47 38 M -39 14 L -35 38 M -27 14 L -23 38 M -15 14 L -11 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
-      <text x="-54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
+      <text x="-54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">NET WT 100g</text>
 
       <!-- Brand Seal -->
       <g transform="translate(-54, 68)">
@@ -616,7 +616,7 @@ function renderHeroFannedSvg() {
       <!-- Crimp -->
       <rect x="-50" y="-6" width="100" height="24" fill="#0f3a1a" rx="2" />
       <path d="M -46 -6 L -42 18 M -34 -6 L -30 18 M -22 -6 L -18 18 M -10 -6 L -6 18 M 2 -6 L 6 18 M 14 -6 L 18 18 M 26 -6 L 30 18 M 38 -6 L 42 18" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
-      <text x="0" y="8" font-family="Hind, sans-serif" font-size="5.5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2">B.NO CT-26 • NET WT 100g</text>
+      <text x="0" y="8" font-family="Hind, sans-serif" font-size="5.5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2">NET WT 100g</text>
 
       <!-- Toran Band -->
       <g transform="translate(-45, 20)">
@@ -845,11 +845,11 @@ function renderMainStoreHtml(options = {}) {
 
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
           <div class="lg:col-span-7 space-y-6 text-left">
-            <!-- Brand Pre-Launch Kicker Pill -->
+            <!-- Brand Announcement Pill -->
             <div class="inline-flex items-center space-x-2.5 bg-[#18241b]/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#f2b81d]/30 shadow-md">
               <span class="w-2.5 h-2.5 rounded-full bg-[#f2b81d] animate-pulse"></span>
               <span class="text-xs font-heading font-extrabold uppercase tracking-wider text-[#f2b81d]">
-                Pre-Launch Special • 100% Homestyle Chutneys
+                100% Homestyle Chutneys
               </span>
             </div>
             
@@ -869,7 +869,7 @@ function renderMainStoreHtml(options = {}) {
             <!-- Value Proposition Statement -->
             <div class="bg-black/20 backdrop-blur-sm border-l-4 border-[#f2b81d] pl-3.5 py-2 pr-3 rounded-r-xl">
               <p class="text-xs sm:text-sm text-[#f4f3ec] font-medium leading-snug">
-                Twelve everyday Indian favourites crafted for desk lunches, office tiffins, and evening snacks.
+                Twelve everyday Indian favourites crafted for parathas, snacks, noodles and rolls.
                 <span class="text-[#f2b81d] font-bold block sm:inline"> Squeeze straight to plate. No spoon, no greasy bag leaks.</span>
               </p>
             </div>
@@ -936,7 +936,7 @@ function renderMainStoreHtml(options = {}) {
               </div>
               <div class="flex items-center space-x-1.5">
                 <span class="w-4 h-4 rounded-full bg-[#18241b] border border-[#f2b81d] text-[#f2b81d] flex items-center justify-center text-[10px] font-bold">✓</span>
-                <span class="font-medium">All 8 Postal Zones</span>
+                <span class="font-medium">Delivery across India</span>
               </div>
             </div>
           </div>
@@ -952,7 +952,7 @@ function renderMainStoreHtml(options = {}) {
 
               <!-- Floating Feature Pill 2: 100g Pocket Size -->
               <div class="absolute bottom-4 -left-2 bg-[#f2b81d] text-[#18241b] px-3.5 py-1.5 rounded-xl shadow-2xl border border-white flex items-center space-x-2 text-xs font-heading font-black -rotate-3 z-20">
-                <span>✨ 100g Pocket Tube • 15+ Squeezes</span>
+                <span>✨ 100g Pocket Tube • 100 g squeeze tube</span>
               </div>
 
               ${renderHeroFannedSvg()}
@@ -1029,7 +1029,7 @@ function renderMainStoreHtml(options = {}) {
           <div class="text-center max-w-xl mx-auto mb-12 space-y-2">
             <span class="text-xs uppercase font-heading font-extrabold tracking-widest text-[#1d6b3a]">Industrial Design</span>
             <h2 class="font-heading font-black text-3xl sm:text-4xl text-[#18241b]">Engineered for Food. Built for Bags.</h2>
-            <p class="text-sm sm:text-base text-[#57534e]">Every millimeter is designed so desk workers in Indian metros can enjoy authentic chutney with zero oily leaks.</p>
+            <p class="text-sm sm:text-base text-[#57534e]">Every millimeter is designed so anyone across India can enjoy authentic chutney with zero leaks.</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -1125,8 +1125,8 @@ function renderMainStoreHtml(options = {}) {
                 <td class="p-4 sm:p-5 text-[#57534e]">⚠️ Spreads over everything</td>
               </tr>
               <tr>
-                <td class="p-4 sm:p-5 font-bold text-[#18241b]">Desk-lunch friendly?</td>
-                <td class="p-4 sm:p-5 font-black text-[#1d6b3a] bg-[#1d6b3a]/5">✅ Fits in office drawer</td>
+                <td class="p-4 sm:p-5 font-bold text-[#18241b]">Easy to carry in bag?</td>
+                <td class="p-4 sm:p-5 font-black text-[#1d6b3a] bg-[#1d6b3a]/5">✅ Fits neatly in bags</td>
                 <td class="p-4 sm:p-5 text-[#57534e]">❌ Bulky and oily</td>
                 <td class="p-4 sm:p-5 text-[#57534e]">❌ Oily plastic trash</td>
                 <td class="p-4 sm:p-5 text-[#57534e]">⚠️ Must be washed at sink</td>
@@ -1151,7 +1151,7 @@ function renderMainStoreHtml(options = {}) {
               <div class="space-y-4">
                 <span class="text-[11px] uppercase font-heading font-bold text-[#57534e] tracking-wider">Daily Taster</span>
                 <h3 class="font-heading font-black text-2xl text-[#18241b]">Single Tube</h3>
-                <p class="text-xs text-[#57534e]">Pick any 1 flavour from our 12 recipes. Great for testing your daily desk-lunch routine.</p>
+                <p class="text-xs text-[#57534e]">Pick any 1 flavour from our 12 recipes. Great for enjoying everyday flavours anywhere.</p>
                 <div class="pt-2">
                   <span class="font-heading font-black text-3xl text-[#18241b] pack-single-price">₹99</span>
                   <span class="text-xs text-[#57534e] ml-1">/ 100g tube</span>
@@ -1256,7 +1256,7 @@ function renderMainStoreHtml(options = {}) {
               <span>What is this website? Can I buy today?</span>
               <span class="text-xs text-[#57534e] group-open:rotate-180 transition">▼</span>
             </summary>
-            <p class="text-xs sm:text-sm text-[#57534e] mt-3 leading-relaxed">This is our pre-launch demand test. No money is charged and no payment card details are collected today. Placing a mock order secures your priority waitlist spot and a 20% launch day discount!</p>
+            <p class="text-xs sm:text-sm text-[#57534e] mt-3 leading-relaxed">We don't store card numbers, CVVs or UPI PINs. No money is charged today.</p>
           </details>
         </div>
       </section>
@@ -1278,7 +1278,7 @@ function renderMainStoreHtml(options = {}) {
         </div>
       </div>
       <div class="max-w-6xl mx-auto mt-8 pt-6 border-t border-white/10 text-center text-[11px] text-white/50">
-        <p>${c.brand.copyright} • Pre-Launch Demand Test • No payments processed.</p>
+        <p>${c.brand.copyright} </p>
       </div>
     </footer>
 
@@ -1437,7 +1437,7 @@ function renderMainStoreHtml(options = {}) {
           <div>
             <span class="text-xs font-heading font-black text-[#1d6b3a] uppercase tracking-wider">Step 1 of 2</span>
             <h3 class="font-heading font-black text-2xl text-[#18241b] mt-1">Delivery Address</h3>
-            <p class="text-xs text-[#57534e]">Enter your metro shipping address for pre-launch dispatch.</p>
+            <p class="text-xs text-[#57534e]">Enter your delivery address.</p>
           </div>
 
           <form onsubmit="handleDeliverySubmit(event)" class="space-y-3">
@@ -1465,7 +1465,7 @@ function renderMainStoreHtml(options = {}) {
 
             <div>
               <label class="block text-xs font-bold text-[#18241b] mb-1">Street Address / Flat / Floor</label>
-              <textarea id="chk-address" required rows="2" placeholder="Building, Office Tower, Street..." class="w-full px-4 py-2 rounded-xl border border-[#d8dcd4] text-xs focus:ring-2 focus:ring-[#18241b] outline-none"></textarea>
+              <textarea id="chk-address" required rows="2" placeholder="House / Flat / Block no., Street, Area..." class="w-full px-4 py-2 rounded-xl border border-[#d8dcd4] text-xs focus:ring-2 focus:ring-[#18241b] outline-none"></textarea>
             </div>
 
             <div class="pt-2 flex items-center justify-between">
@@ -1520,9 +1520,9 @@ function renderMainStoreHtml(options = {}) {
             </button>
           </div>
 
-          <!-- Explicit Pre-launch Disclosure -->
+          <!-- Payment Security Disclosure -->
           <div class="p-3.5 bg-[#fef3c7] rounded-xl border border-[#fde047] text-[11px] text-[#92400e] leading-relaxed">
-            <strong>Pre-Launch Demand Test Notice:</strong> No real payment is processed today. We will never ask for card numbers, CVVs, or UPI PINs.
+            <strong>Payment Security Notice:</strong> No real payment is processed today. We will never ask for card numbers, CVVs, or UPI PINs.
           </div>
 
           <div class="pt-2 flex items-center justify-between">
@@ -1571,7 +1571,7 @@ function renderMainStoreHtml(options = {}) {
           <div>
             <label class="block text-xs font-bold text-[#18241b] mb-1">How often would you use chutney tubes?</label>
             <select id="rev-frequency" class="w-full px-3.5 py-2.5 rounded-xl border border-[#d8dcd4] text-xs outline-none focus:ring-2 focus:ring-[#18241b] bg-white">
-              <option value="daily">Daily at desk lunch / office</option>
+              <option value="daily">Daily with meals</option>
               <option value="few_times_week">2-3 times a week with snacks</option>
               <option value="weekly">Weekends with breakfast</option>
               <option value="rarely">Occasionally when travelling</option>
@@ -2085,7 +2085,7 @@ function renderAdminDashboardHtml() {
         <h2 class="font-heading font-black text-xl text-[#18241b]">Admin Authentication</h2>
         <p class="text-xs text-[#57534e]">Enter the store admin password to access live conversion analytics.</p>
         <form onsubmit="handleAdminLogin(event)" class="space-y-3">
-          <input type="password" id="admin-pwd" required placeholder="Enter admin password (chutney2026)" class="w-full px-4 py-2.5 rounded-xl border border-[#d8dcd4] text-xs outline-none focus:ring-2 focus:ring-[#18241b]">
+          <input type="password" id="admin-pwd" required placeholder="Enter admin password (adminpassword)" class="w-full px-4 py-2.5 rounded-xl border border-[#d8dcd4] text-xs outline-none focus:ring-2 focus:ring-[#18241b]">
           <button type="submit" class="w-full bg-[#18241b] text-[#f2b81d] font-heading font-black text-xs py-3 rounded-xl hover:bg-black transition">Access Dashboard</button>
           <p id="admin-pwd-err" class="text-xs text-[#c8361f] font-bold hidden">Incorrect password.</p>
         </form>
@@ -2390,7 +2390,7 @@ const server = http.createServer((req, res) => {
     req.on("end", () => {
       try {
         const { password } = JSON.parse(body);
-        const correctPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+        const correctPassword = process.env.ADMIN_PASSWORD || "adminpassword";
         if (password === correctPassword) {
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ authenticated: true, token: "admin_auth_valid" }));
@@ -2410,7 +2410,7 @@ const server = http.createServer((req, res) => {
   if ((pathname === "/api/admin" || pathname === "/api/admin/metrics") && req.method === "GET") {
     const token = parsed.searchParams.get("token");
     const pwd = parsed.searchParams.get("password");
-    const correctPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+    const correctPassword = process.env.ADMIN_PASSWORD || "adminpassword";
     if (token !== "admin_auth_valid" && pwd !== correctPassword) {
       res.writeHead(401, { "Content-Type": "application/json" });
       return res.end(JSON.stringify({ error: "Unauthorized" }));
@@ -2429,7 +2429,7 @@ const server = http.createServer((req, res) => {
   if (pathname === "/api/export") {
     const token = parsed.searchParams.get("token");
     const pwd = parsed.searchParams.get("password");
-    const correctPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+    const correctPassword = process.env.ADMIN_PASSWORD || "adminpassword";
     const isAuth = token === "admin_auth_valid" || pwd === correctPassword;
     if (!isAuth) {
       res.writeHead(401, { "Content-Type": "text/plain" });
@@ -2572,7 +2572,7 @@ if (require.main === module) {
     console.log("  Chutney Tubes Server Running!");
     console.log("  Landing Page:     http://localhost:" + PORT);
     console.log("  Admin Dashboard:  http://localhost:" + PORT + "/admin");
-    console.log("  Admin Password:   chutney2026");
+    console.log("  Admin Password:   adminpassword");
     console.log("====================================================");
   });
 }

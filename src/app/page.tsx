@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   storeConfig,
   FlavourItem,
+  ComingSoonItem,
+  PackItem,
   getPostalZone,
   isValidPincode,
   formatInr,
@@ -12,21 +14,19 @@ import {
 import { ProductRender } from "../components/ProductRender";
 import {
   track,
-  resolveVariant,
   recordLaunchSignup,
-  recordChutneyRequest,
 } from "../lib/tracking";
 
 interface CartLineItem {
   id: string;
-  kind: "single" | "combo" | "pick3";
+  kind: "single" | "pack";
   title: string;
   flavours: string[];
   quantity: number;
   unitPrice: number;
 }
 
-// Taste profile metadata for each flavour
+// Taste profile metadata for the 8 active flavours
 const TASTE_PROFILES: Record<
   string,
   {
@@ -39,142 +39,89 @@ const TASTE_PROFILES: Record<
     calories: string;
   }
 > = {
-  green: {
+  "masala-ketchup": {
+    tangy: 7,
+    heat: 3,
+    sweet: 7,
+    punch: 8,
+    notes: "Ripe tomatoes blended with warm Indian spices. Sweet, tangy, punchy desi twist.",
+    keyIngredients: "Tomato Paste, Sugar, Vinegar, Onion, Garlic, Cumin, Black Pepper, Desi Spices",
+    calories: "~16 kcal per 15g squeeze",
+  },
+  "tandoori-mayo": {
+    tangy: 5,
+    heat: 6,
+    sweet: 3,
+    punch: 8,
+    notes: "Creamy eggless mayo infused with smoky tandoori spices and roasted cumin.",
+    keyIngredients: "Vegetable Oil, Water, Tandoori Masala, Lemon Juice, Mustard, Cumin, Smoked Paprika",
+    calories: "~42 kcal per 15g squeeze",
+  },
+  "mint-mayo": {
+    tangy: 6,
+    heat: 4,
+    sweet: 2,
+    punch: 7,
+    notes: "Cool mint and fresh coriander blended with smooth eggless mayo. Herbaceous and refreshing.",
+    keyIngredients: "Vegetable Oil, Water, Fresh Mint, Fresh Coriander, Lemon, Green Chilli, Spices",
+    calories: "~40 kcal per 15g squeeze",
+  },
+  "garlic-mayo": {
+    tangy: 3,
+    heat: 3,
+    sweet: 2,
+    punch: 8,
+    notes: "Rich, velvety eggless mayo whipped with slow-roasted mellow garlic.",
+    keyIngredients: "Vegetable Oil, Water, Roasted Garlic Paste, Lemon Juice, Mustard, Sea Salt",
+    calories: "~41 kcal per 15g squeeze",
+  },
+  "schezwan-sauce": {
+    tangy: 6,
+    heat: 9,
+    sweet: 2,
+    punch: 10,
+    notes: "Fiery red chillies, garlic and toasted spices with an unmistakable desi-Chinese bite.",
+    keyIngredients: "Red Chillies, Garlic, Ginger, Soya Sauce, Vinegar, Sichuan Pepper, Spices",
+    calories: "~18 kcal per 15g squeeze",
+  },
+  "chilli-garlic": {
+    tangy: 5,
+    heat: 9,
+    sweet: 1,
+    punch: 10,
+    notes: "Pounded red chillies and pungent garlic simmered into a spicy, zesty dipping sauce.",
+    keyIngredients: "Crushed Red Chilli, Fresh Garlic, Vinegar, Sea Salt, Sugar, Spices",
+    calories: "~15 kcal per 15g squeeze",
+  },
+  "hari-chutney": {
     tangy: 8,
     heat: 6,
     sweet: 2,
     punch: 9,
-    notes: "Zesty, fresh mint-coriander with chaat-stall lemon kick",
+    notes: "Fresh mint and coriander pounded with green chilli, cumin and lemon. Pure street chaat nostalgia.",
     keyIngredients: "Fresh Mint (36%), Coriander (24%), Green Chilli, Lemon, Rock Salt, Cumin",
     calories: "~11 kcal per 15g squeeze",
   },
-  imli: {
+  "imli-chutney": {
     tangy: 7,
     heat: 2,
     sweet: 8,
     punch: 8,
-    notes: "Sweet jaggery with aged tamarind and roasted cumin warmth",
-    keyIngredients: "Tamarind Pulp (32%), Organic Jaggery, Dates, Roasted Jeera, Saunf, Ginger",
-    calories: "~16 kcal per 15g squeeze",
-  },
-  saunth: {
-    tangy: 7,
-    heat: 6,
-    sweet: 5,
-    punch: 8,
-    notes: "Classic golgappe chutney with spicy dry ginger warmth",
-    keyIngredients: "Tamarind, Sonth (Dry Ginger), Black Pepper, Kala Namak, Jaggery",
-    calories: "~14 kcal per 15g squeeze",
-  },
-  coconut: {
-    tangy: 2,
-    heat: 4,
-    sweet: 2,
-    punch: 8,
-    notes: "Roasted dal and fresh coconut with crispy curry leaf tadka",
-    keyIngredients: "Grated Coconut (42%), Roasted Chana Dal, Curry Leaves, Mustard Tadka, Green Chilli",
-    calories: "~18 kcal per 15g squeeze",
-  },
-  peanut: {
-    tangy: 4,
-    heat: 6,
-    sweet: 1,
-    punch: 9,
-    notes: "Nutty, rich roasted peanuts with red chilli and tamarind hint",
-    keyIngredients: "Slow-roasted Peanuts (54%), Byadgi Chilli, Garlic, Tamarind, Rock Salt",
-    calories: "~24 kcal per 15g squeeze",
-  },
-  tomato: {
-    tangy: 8,
-    heat: 5,
-    sweet: 4,
-    punch: 7,
-    notes: "Slow-simmered juicy tomatoes with caramelized shallots",
-    keyIngredients: "Country Tomatoes (48%), Small Onions, Red Chilli, Curry Leaves, Mustard Seeds",
-    calories: "~12 kcal per 15g squeeze",
-  },
-  garlic: {
-    tangy: 4,
-    heat: 9,
-    sweet: 1,
-    punch: 10,
-    notes: "Fiery, intense golden roasted garlic and crushed red chillies",
-    keyIngredients: "Desi Garlic (40%), Crushed Red Mirch, Cold-pressed Mustard Oil, Cumin, Salt",
-    calories: "~15 kcal per 15g squeeze",
-  },
-  thecha: {
-    tangy: 3,
-    heat: 10,
-    sweet: 0,
-    punch: 10,
-    notes: "Coarse pounded Kolhapuri green chillies with garlic and peanuts",
-    keyIngredients: "Spicy Green Chillies (45%), Roasted Peanuts, Raw Garlic, Cumin, Sea Salt",
-    calories: "~19 kcal per 15g squeeze",
-  },
-  schezwan: {
-    tangy: 6,
-    heat: 8,
-    sweet: 3,
-    punch: 9,
-    notes: "Bold Indo-Chinese street style with toasted Sichuan peppers",
-    keyIngredients: "Kashmiri & Guntur Chillies, Garlic, Ginger, Sichuan Pepper, Celery, Soya",
-    calories: "~14 kcal per 15g squeeze",
-  },
-  momo: {
-    tangy: 7,
-    heat: 9,
-    sweet: 1,
-    punch: 9,
-    notes: "Steamed ripe tomatoes with stinging mountain chillies & garlic",
-    keyIngredients: "Fire-roasted Tomatoes, Dalle Khursani Chillies, Garlic, Himalayan Rock Salt",
-    calories: "~10 kcal per 15g squeeze",
-  },
-  mango: {
-    tangy: 7,
-    heat: 2,
-    sweet: 9,
-    punch: 7,
-    notes: "Sweet raw mango preserves with kalonji and whole fennel",
-    keyIngredients: "Raw Green Mango (44%), Jaggery, Nigella Seeds (Kalonji), Saunf, Red Chilli",
-    calories: "~20 kcal per 15g squeeze",
-  },
-  kasundi: {
-    tangy: 9,
-    heat: 7,
-    sweet: 1,
-    punch: 10,
-    notes: "Bengal's pungent, sinus-clearing mustard with raw mango punch",
-    keyIngredients: "Stone-ground Mustard Seeds (38%), Raw Mango, Turmeric, Mustard Oil, Green Chilli",
+    notes: "Slow-simmered tamarind and jaggery balanced with roasted cumin and dry ginger. Sweet and tangy.",
+    keyIngredients: "Tamarind Pulp (32%), Organic Jaggery, Dates, Roasted Jeera, Saunf, Dry Ginger",
     calories: "~16 kcal per 15g squeeze",
   },
 };
 
 export default function StoreHomePage() {
-  const [variant, setVariant] = useState<"a" | "b" | "c">("a");
   const [cart, setCart] = useState<CartLineItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // Spice filter
   const [spiceFilter, setSpiceFilter] = useState<number | null>(null);
 
-  // Modals
+  // Modals & toast
   const [selectedFlavour, setSelectedFlavour] = useState<FlavourItem | null>(null);
-  const [isPick3Open, setIsPick3Open] = useState(false);
-  const [pick3Selected, setPick3Selected] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-
-
-  // Sticky mobile bar visibility
   const [showStickyBar, setShowStickyBar] = useState(false);
-
-  // Packaging anatomy active tab
-  const [activeAnatomyIndex, setActiveAnatomyIndex] = useState(0);
-
-  // Chutney request box
-  const [requestName, setRequestName] = useState("");
-  const [requestRegion, setRequestRegion] = useState("");
-  const [requestSent, setRequestSent] = useState(false);
 
   // Checkout flow state
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -192,23 +139,19 @@ export default function StoreHomePage() {
 
   // Reveal Screen state
   const [tubeFeeling, setTubeFeeling] = useState("");
+  const [nextFlavourWanted, setNextFlavourWanted] = useState("");
   const [stoppedText, setStoppedText] = useState("");
   const [frequency, setFrequency] = useState("");
   const [optInDiscount, setOptInDiscount] = useState(false);
   const [optInEmail, setOptInEmail] = useState("");
   const [revealDone, setRevealDone] = useState(false);
 
-  // Show Toast Helper
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 2500);
   };
 
-  // Mount logic
   useEffect(() => {
-    const v = resolveVariant();
-    setVariant(v);
-
     try {
       const savedCart = localStorage.getItem("ct_cart_items");
       if (savedCart) setCart(JSON.parse(savedCart));
@@ -216,7 +159,6 @@ export default function StoreHomePage() {
 
     track("page_view", { url: window.location.pathname });
 
-    // Scroll listener for 50% event & sticky bar
     let scrollLogged = false;
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -233,24 +175,17 @@ export default function StoreHomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Sync cart to localStorage
   useEffect(() => {
     try {
       localStorage.setItem("ct_cart_items", JSON.stringify(cart));
     } catch (e) {}
   }, [cart]);
 
-  const pricing = storeConfig.pricing.variants[variant] || storeConfig.pricing.variants.a;
   const cartTotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Free shipping threshold
-  const freeShippingThreshold = 250;
-  const freeShippingDiff = Math.max(0, freeShippingThreshold - cartTotal);
-
-  // Cart operations
   const addToCart = (
-    kind: "single" | "combo" | "pick3",
+    kind: "single" | "pack",
     flavours: string[],
     title: string,
     unitPrice: number
@@ -275,7 +210,7 @@ export default function StoreHomePage() {
       setCart([...cart, newItem]);
     }
 
-    track("add_to_cart", { kind, flavours, qty: 1, unitPrice, variant });
+    track("add_to_cart", { kind, flavours, qty: 1, unitPrice });
     showToast(`Added ${title} to cart`);
   };
 
@@ -303,38 +238,15 @@ export default function StoreHomePage() {
     track("product_viewed", { flavour: flavour.id });
   };
 
-  const openPick3Modal = () => {
-    setIsPick3Open(true);
-    setPick3Selected([]);
-    track("sampler_opened", { pack: "pick3" });
-  };
-
-  const togglePick3Flavour = (id: string) => {
-    if (pick3Selected.includes(id)) {
-      setPick3Selected(pick3Selected.filter((f) => f !== id));
-    } else {
-      if (pick3Selected.length < 3) {
-        setPick3Selected([...pick3Selected, id]);
-      }
-    }
-  };
-
-  const confirmPick3Pack = () => {
-    if (pick3Selected.length !== 3) return;
-    const names = pick3Selected
-      .map((id) => storeConfig.flavours.find((f) => f.id === id)?.local || id)
-      .join(", ");
-    addToCart("pick3", pick3Selected, `Pick Any 3 (${names})`, pricing.pick3);
-    setIsPick3Open(false);
+  const handleNotifyMe = (item: ComingSoonItem) => {
+    track("notify_click", { product_id: item.id, name: item.name });
+    showToast(`We'll notify you when ${item.name} launches!`);
   };
 
   const displayedFlavours = spiceFilter
     ? storeConfig.flavours.filter((f) => f.spice === spiceFilter)
     : storeConfig.flavours;
 
-
-
-  // Handle Pincode Change
   const handlePincodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, "").slice(0, 6);
     setDeliveryDetails((prev) => ({ ...prev, pincode: val }));
@@ -358,7 +270,7 @@ export default function StoreHomePage() {
     setIsCartOpen(false);
     setIsCheckoutOpen(true);
     setCheckoutStep(1);
-    track("checkout_started", { cart, total: cartTotal, variant });
+    track("checkout_started", { cart, total: cartTotal });
   };
 
   const handleDetailsSubmit = (e: React.FormEvent) => {
@@ -387,7 +299,6 @@ export default function StoreHomePage() {
       method: paymentMethod,
       pinPrefix,
       zone: postalZone,
-      variant,
     });
     setCheckoutStep(3);
   };
@@ -397,6 +308,7 @@ export default function StoreHomePage() {
 
     track("survey_submitted", {
       tubeFeeling,
+      nextFlavourWanted,
       stoppedText: stoppedText.trim(),
       frequency,
       optedIn: optInDiscount,
@@ -420,21 +332,8 @@ export default function StoreHomePage() {
     } catch (e) {}
   };
 
-  const handleChutneyRequestSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!requestName.trim()) return;
-
-    recordChutneyRequest(requestName.trim(), requestRegion.trim());
-    setRequestSent(true);
-    showToast("Thank you! Your regional chutney request was logged.");
-    setTimeout(() => {
-      setRequestName("");
-      setRequestRegion("");
-      setRequestSent(false);
-    }, 3000);
-  };
-
-
+  const hasWhatsApp = Boolean(storeConfig.brand.whatsAppNumber && storeConfig.brand.whatsAppNumber.trim().length > 0);
+  const hasEmail = Boolean(storeConfig.brand.contactEmail && storeConfig.brand.contactEmail.trim().length > 0);
 
   return (
     <div className="flex flex-col min-h-screen bg-paper text-ink">
@@ -442,8 +341,6 @@ export default function StoreHomePage() {
       <div className="bg-ink text-paper text-xs sm:text-sm font-medium py-2 px-4 text-center tracking-wide flex items-center justify-center space-x-2">
         <span className="w-2 h-2 rounded-full bg-haldi animate-pulse" />
         <span>{storeConfig.copy.announcement}</span>
-        <span className="hidden sm:inline text-paper/50">•</span>
-        <span className="hidden sm:inline text-xs text-haldi">Desk-Safe &amp; Squeezable</span>
       </div>
 
       {/* 2. Sticky Header */}
@@ -464,80 +361,75 @@ export default function StoreHomePage() {
         </div>
 
         <nav className="hidden md:flex items-center space-x-7 text-sm font-semibold text-paper">
-          <a href="#chutneys" className="hover:text-haldi transition">All 12 Chutneys</a>
-          <a href="#packs" className="hover:text-haldi transition">Packs &amp; Combos</a>
-          <a href="#anatomy" className="hover:text-haldi transition">Packaging</a>
-          <a href="#comparison" className="hover:text-haldi transition">Why a Tube?</a>
+          <a href="#chutneys" className="hover:text-haldi transition">All 8 Tubes</a>
+          <a href="#packs" className="hover:text-haldi transition">Value Packs</a>
+          <a href="#comparison" className="hover:text-haldi transition">Why a Squeeze Tube?</a>
           <a href="#faq" className="hover:text-haldi transition">FAQ</a>
+          {hasWhatsApp && (
+            <a
+              href={`https://wa.me/${storeConfig.brand.whatsAppNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs bg-leaf hover:bg-leaf/90 text-paper px-3 py-1.5 rounded-full transition"
+            >
+              WhatsApp
+            </a>
+          )}
         </nav>
 
         <button
           type="button"
           onClick={() => setIsCartOpen(true)}
-          className="bg-haldi hover:bg-haldi text-ink font-heading font-black text-xs sm:text-sm px-4 py-2 rounded-full shadow-md flex items-center space-x-2 transition transform active:scale-95"
+          className="bg-haldi hover:bg-[#e2a80d] text-ink font-heading font-black text-xs sm:text-sm px-4 py-2 rounded-full shadow-md flex items-center space-x-2 transition transform active:scale-95"
           aria-label="Open Cart"
         >
-          <span>Lunch Bag</span>
+          <span>Cart</span>
           <span className="w-5 h-5 rounded-full bg-ink text-paper flex items-center justify-center text-xs font-bold">
             {cartItemCount}
           </span>
         </button>
       </header>
 
-      {/* 3. HERO SECTION (Hallmark Editorial Banner) */}
+      {/* 3. HERO SECTION */}
       <section className="relative bg-gradient-to-b from-[#103b20] via-[#134a28] to-[#1d6b3a] text-paper pt-10 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-8 border-b border-[#103b20] overflow-hidden">
-        {/* Ambient Warm Haldi Glows */}
         <div className="absolute -right-28 top-1/4 w-[520px] h-[520px] rounded-full bg-haldi/15 blur-3xl pointer-events-none" />
         <div className="absolute -left-28 bottom-0 w-[420px] h-[420px] rounded-full bg-leaf/20 blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
           {/* Left Column: Messaging & CTAs */}
           <div className="lg:col-span-7 space-y-6 text-left">
-            {/* Pre-launch kicker pill */}
-            <div className="inline-flex items-center space-x-2.5 bg-ink/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-haldi/30 shadow-md">
-              <span className="w-2.5 h-2.5 rounded-full bg-haldi animate-pulse" />
-              <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-haldi">
-                Pre-Launch Special • 100% Homestyle Chutneys
-              </span>
-            </div>
-
             {/* Headline */}
             <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-paper leading-[1.05] tracking-tight">
-              {storeConfig.copy.hero.headlinePart1}{" "}
-              <span className="text-haldi block sm:inline underline decoration-red-500/50 decoration-wavy decoration-2">
+              {storeConfig.copy.hero.headlinePart1}
+              <span className="text-haldi block sm:inline">
                 {storeConfig.copy.hero.headlineHighlight}
               </span>
             </h1>
 
-            {/* Editorial Subtitle */}
+            {/* Subline */}
             <p className="text-base sm:text-lg lg:text-xl text-paper/95 leading-relaxed max-w-xl font-normal">
               {storeConfig.copy.hero.sub}
             </p>
 
-            {/* Value Callout Box */}
-            <div className="bg-black/20 backdrop-blur-sm border-l-4 border-haldi pl-3.5 py-2 pr-3 rounded-r-xl">
-              <p className="text-xs sm:text-sm text-paper font-medium leading-snug">
-                Twelve everyday Indian favourites crafted for desk lunches, office tiffins, and evening snacks.
-                <span className="text-haldi font-bold block sm:inline"> Squeeze straight to plate. No spoon, no greasy bag leaks.</span>
+            {/* "Made for every bite" strip */}
+            <div className="bg-black/25 backdrop-blur-sm border-l-4 border-haldi pl-4 py-2.5 pr-4 rounded-r-xl">
+              <span className="text-[11px] font-heading font-extrabold uppercase tracking-wider text-haldi block mb-1">
+                Made for every bite:
+              </span>
+              <p className="text-xs sm:text-sm text-paper font-medium leading-relaxed">
+                {storeConfig.copy.hero.everyBiteStrip}
               </p>
             </div>
 
-            {/* Quick Flavour Tags */}
+            {/* Quick Flavour Tags (Using only the 8 new names) */}
             <div className="space-y-2 pt-1">
               <span className="text-[11px] font-heading font-extrabold uppercase tracking-widest text-paper/70 block">
-                Popular Everyday Flavours:
+                The 8 Everyday Tubes:
               </span>
               <div className="flex flex-wrap items-center gap-2">
-                {[
-                  { name: "Pudina Hari", color: "#2f8f46" },
-                  { name: "Khatti Imli", color: "#7a4a25" },
-                  { name: "Teekhi Lehsuni", color: "#9e2b1a" },
-                  { name: "Kolhapuri Thecha", color: "#3d6b1f" },
-                  { name: "Nariyal Tadka", color: "#e9dfc4" },
-                  { name: "Aam Kasundi", color: "#a88a1c" },
-                ].map((flv, idx) => (
+                {storeConfig.flavours.map((flv) => (
                   <a
-                    key={idx}
+                    key={flv.id}
                     href="#chutneys"
                     className="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-paper border border-white/15 transition transform hover:scale-105"
                   >
@@ -554,7 +446,7 @@ export default function StoreHomePage() {
                 href="#chutneys"
                 className="bg-haldi hover:bg-[#e2a80d] text-ink font-heading font-black text-sm sm:text-base px-8 py-4 rounded-xl shadow-xl transition transform active:scale-95 inline-flex items-center space-x-2 group"
               >
-                <span>Try a Tube • {formatInr(pricing.single)}</span>
+                <span>{storeConfig.copy.hero.exploreCta} · ₹99</span>
                 <span className="transform group-hover:translate-x-1 transition">→</span>
               </a>
               <a
@@ -562,7 +454,9 @@ export default function StoreHomePage() {
                 className="bg-white/10 hover:bg-white/20 border-2 border-paper/80 hover:border-paper text-paper font-heading font-black text-sm sm:text-base px-6 py-3.5 rounded-xl transition inline-flex items-center space-x-2"
               >
                 <span>{storeConfig.copy.hero.packsCta}</span>
-                <span className="bg-haldi text-ink text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Save 10%</span>
+                <span className="bg-haldi text-ink text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Bundles
+                </span>
               </a>
             </div>
 
@@ -570,42 +464,38 @@ export default function StoreHomePage() {
             <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-paper/90">
               <div className="flex items-center space-x-1.5">
                 <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
-                <span className="font-medium">100% Vegetarian</span>
+                <span className="font-medium">100% Vegetarian &amp; Eggless</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
-                <span className="font-medium">Zero Spoon Mess</span>
+                <span className="font-medium">No Spoon, No Spill</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
-                <span className="font-medium">Fits Tiffin Bags</span>
+                <span className="font-medium">100 g Squeeze Tube</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
-                <span className="font-medium">All 8 Postal Zones</span>
+                <span className="font-medium">Delivery Across India</span>
               </div>
             </div>
           </div>
 
-          {/* Right Visual: Showcase with Floating Callout Badges */}
+          {/* Right Visual: 3D Tube Showcase */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-md sm:max-w-lg aspect-square">
-              {/* Floating Feature Pill 1: No Sticky Jars */}
               <div className="absolute -top-2 right-2 bg-white text-ink px-3.5 py-1.5 rounded-xl shadow-2xl border border-steel flex items-center space-x-2 text-xs font-heading font-black rotate-2 z-20">
                 <span className="w-2 h-2 rounded-full bg-red-600" />
-                <span>No Sticky Spoon or Jar Rims</span>
+                <span>No Spoon, No Spill, No Sticky Jar</span>
               </div>
 
-              {/* Floating Feature Pill 2: 100g Pocket Size */}
               <div className="absolute bottom-4 -left-2 bg-haldi text-ink px-3.5 py-1.5 rounded-xl shadow-2xl border border-white flex items-center space-x-2 text-xs font-heading font-black -rotate-3 z-20">
-                <span>✨ 100g Pocket Tube • 15+ Squeezes</span>
+                <span>✨ 100 g squeeze tube with flip-top cap</span>
               </div>
 
-              <img
-                src="/images/hero-fanned-tubes.svg"
-                alt="Chutney Tubes fanned trio with hot crispy samosa and steel katori"
-                className="w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500"
-              />
+              <div className="w-full h-full flex items-center justify-center">
+                <ProductRender flavour={storeConfig.flavours[6]} showKatori={true} angle={-8} />
+              </div>
             </div>
           </div>
         </div>
@@ -630,13 +520,11 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-
-
-      {/* 6. CATALOGUE (All 12 Everyday Indian Chutneys) */}
+      {/* 5. CATALOGUE (8 Active Squeeze Tubes) */}
       <section id="chutneys" className="py-16 px-4 sm:px-8 max-w-6xl mx-auto w-full">
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <div className="inline-flex items-center space-x-1.5 bg-leaf/10 text-leaf text-[11px] font-heading font-extrabold px-3 py-1 rounded-full font-semibold">
-            <span>Everyday Indian Food Lineup</span>
+            <span>Everyday Indian Lineup</span>
           </div>
           <h2 className="font-heading font-black text-3xl sm:text-4xl text-ink">
             {storeConfig.copy.catalogue.h2}
@@ -656,7 +544,7 @@ export default function StoreHomePage() {
                   : "bg-card text-ink border border-steel hover:border-ink"
               }`}
             >
-              All (12)
+              All (8)
             </button>
             <button
               type="button"
@@ -689,22 +577,20 @@ export default function StoreHomePage() {
                   : "bg-card text-ink border border-steel hover:border-mirch"
               }`}
             >
-              Hot 
+              Hot
             </button>
           </div>
         </div>
 
-        {/* Product Grid */}
+        {/* 8 Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayedFlavours.map((flavour) => {
-            const profile = TASTE_PROFILES[flavour.id];
             return (
               <div
                 key={flavour.id}
-                className="bg-card rounded-3xl p-5 border border-steel shadow-sm hover:shadow-xl transition-colors duration-300 flex flex-col justify-between group hover:-translate-y-1"
+                className="bg-card rounded-3xl p-5 border border-steel shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
               >
                 <div>
-                  {/* Product Tile Container */}
                   <div
                     onClick={() => openProductDetail(flavour)}
                     className="w-full h-56 rounded-2xl p-2 cursor-pointer relative overflow-hidden flex items-center justify-center transition"
@@ -712,11 +598,10 @@ export default function StoreHomePage() {
                   >
                     <ProductRender flavour={flavour} showKatori={true} angle={-12} />
                     <span className="absolute bottom-2.5 right-2.5 bg-card/90 backdrop-blur-sm text-[10px] font-bold text-ink px-2 py-0.5 rounded shadow-sm opacity-0 group-hover:opacity-100 transition">
-                      View Profile 
+                      View Profile
                     </span>
                   </div>
 
-                  {/* Local Name & Veg Mark */}
                   <div className="flex items-center justify-between mt-3 mb-1">
                     <span className="text-[10px] font-bold font-semibold text-muted">
                       {flavour.local}
@@ -726,7 +611,6 @@ export default function StoreHomePage() {
                     </div>
                   </div>
 
-                  {/* Flavour Name */}
                   <h3
                     onClick={() => openProductDetail(flavour)}
                     className="font-heading font-black text-base sm:text-lg text-ink cursor-pointer hover:text-leaf transition leading-snug"
@@ -734,7 +618,6 @@ export default function StoreHomePage() {
                     {flavour.name}
                   </h3>
 
-                  {/* Spice & Grams badge */}
                   <div className="flex items-center space-x-2 my-1.5 text-xs text-muted">
                     <span>100 g tube</span>
                     <span>•</span>
@@ -757,7 +640,6 @@ export default function StoreHomePage() {
                     {flavour.desc}
                   </p>
 
-                  {/* Quick Pairs With Chips */}
                   <div className="pt-2 flex flex-wrap gap-1">
                     {flavour.goesWith.split(",").slice(0, 2).map((food, fidx) => (
                       <span
@@ -770,18 +652,17 @@ export default function StoreHomePage() {
                   </div>
                 </div>
 
-                {/* Price & Add Button */}
                 <div className="pt-3 border-t border-steel flex items-center justify-between mt-3">
                   <div>
                     <span className="font-heading font-extrabold text-lg text-ink">
-                      {formatInr(pricing.single)}
+                      {formatInr(flavour.unitPrice)}
                     </span>
                     <span className="block text-[10px] text-muted">MRP incl. of taxes</span>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => addToCart("single", [flavour.id], flavour.name, pricing.single)}
+                    onClick={() => addToCart("single", [flavour.id], flavour.name, flavour.unitPrice)}
                     className="bg-leaf hover:bg-deepLeaf text-paper font-heading font-bold text-xs px-4 py-2.5 rounded-xl shadow-sm transition transform active:scale-95 flex items-center space-x-1"
                   >
                     <span>+ Add</span>
@@ -792,138 +673,64 @@ export default function StoreHomePage() {
           })}
         </div>
 
-        {/* "Want a chutney we don't have?" Box */}
-        <div className="mt-14 bg-card rounded-3xl p-6 sm:p-8 border border-steel shadow-sm max-w-2xl mx-auto text-center space-y-4">
-          <h3 className="font-heading font-black text-xl text-ink">
-            {storeConfig.copy.catalogue.requestBoxHeading}
-          </h3>
-          <p className="text-xs sm:text-sm text-muted">
-            {storeConfig.copy.catalogue.requestBoxLede}
-          </p>
-
-          <form onSubmit={handleChutneyRequestSubmit} className="flex flex-col sm:flex-row gap-3 justify-center">
-            <input
-              type="text"
-              required
-              placeholder="e.g. Gongura, Raw Papaya, Dry Garlic..."
-              value={requestName}
-              onChange={(e) => setRequestName(e.target.value)}
-              className="text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition flex-1"
-            />
-            <input
-              type="text"
-              placeholder="State / Region (e.g. Andhra, Gujarat)"
-              value={requestRegion}
-              onChange={(e) => setRequestRegion(e.target.value)}
-              className="text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition sm:w-44"
-            />
-            <button
-              type="submit"
-              className="bg-ink hover:bg-deepLeaf text-paper font-heading font-bold text-xs px-6 py-2.5 rounded-xl shadow transition"
-            >
-              {requestSent ? "Sent!" : "Send"}
-            </button>
-          </form>
-        </div>
-      </section>
-
-      {/* 7. PACKAGING ANATOMY: Engineered for Desks & Tiffins */}
-      <section id="anatomy" className="py-16 bg-card border-y border-steel px-4 sm:px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
-            <span className="text-xs font-heading font-extrabold text-leaf font-semibold">
-              Food Science &amp; Packaging
+        {/* Coming Soon Row */}
+        <div className="mt-16 pt-10 border-t border-steel">
+          <div className="text-center max-w-xl mx-auto mb-8 space-y-1">
+            <span className="text-xs font-heading font-extrabold text-mirch font-semibold uppercase tracking-wider">
+              {storeConfig.copy.catalogue.comingSoonHeading}
             </span>
-            <h2 className="font-heading font-black text-2xl sm:text-4xl text-ink">
-              Engineered For Your Tiffin Bag
-            </h2>
+            <h3 className="font-heading font-black text-2xl text-ink">
+              Next Flavours In The Kitchen
+            </h3>
             <p className="text-xs sm:text-sm text-muted">
-              Why our tube is physically better than messy dabbas, leaky jars, and single-use plastic sachets.
+              {storeConfig.copy.catalogue.comingSoonLede}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            {/* Visual Tube Diagram with Interactive Pins */}
-            <div className="md:col-span-6 flex justify-center">
-              <div className="relative w-72 h-80 bg-paper rounded-3xl p-4 flex items-center justify-center border border-steel">
-                <ProductRender flavour={storeConfig.flavours[0]} showKatori={false} angle={-5} />
-                
-                {/* Visual Pin 1: Top Crimp */}
-                <div
-                  onClick={() => setActiveAnatomyIndex(0)}
-                  className="absolute top-10 right-8 cursor-pointer bg-ink text-haldi text-xs font-black w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-paper  transition"
-                >
-                  1
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {storeConfig.comingSoon.map((item) => (
+              <div
+                key={item.id}
+                className="bg-card rounded-3xl p-6 border border-steel shadow-sm flex flex-col justify-between space-y-4 relative overflow-hidden"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] bg-haldi text-ink font-heading font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    Coming Soon
+                  </span>
+                  <div className="w-3.5 h-3.5 border border-leaf rounded-sm p-0.5 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-leaf" />
+                  </div>
                 </div>
 
-                {/* Visual Pin 2: Barrier Body */}
-                <div
-                  onClick={() => setActiveAnatomyIndex(1)}
-                  className="absolute top-36 left-8 cursor-pointer bg-ink text-haldi text-xs font-black w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-paper  transition"
-                >
-                  2
+                <div>
+                  <h4 className="font-heading font-black text-lg text-ink">
+                    {item.name}
+                  </h4>
+                  <span className="text-xs text-muted font-bold block mb-2">
+                    {item.hindi}
+                  </span>
+                  <p className="text-xs text-muted leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
 
-                {/* Visual Pin 3: Flip Cap */}
-                <div
-                  onClick={() => setActiveAnatomyIndex(2)}
-                  className="absolute bottom-10 right-10 cursor-pointer bg-ink text-haldi text-xs font-black w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-paper  transition"
-                >
-                  3
+                <div className="pt-3 border-t border-steel">
+                  <button
+                    type="button"
+                    onClick={() => handleNotifyMe(item)}
+                    className="w-full bg-paper hover:bg-steel border border-steel text-ink font-heading font-bold text-xs py-2.5 rounded-xl transition-colors shadow-sm flex items-center justify-center space-x-1.5"
+                  >
+                    <span>Notify Me</span>
+                  </button>
                 </div>
               </div>
-            </div>
-
-            {/* Right: Technical Anatomy Callouts */}
-            <div className="md:col-span-6 space-y-3">
-              {[
-                {
-                  id: 0,
-                  badge: "Aroma Seal",
-                  title: "Hermetic Induction Top Crimp",
-                  desc: "Stamped and sealed under food-grade vacuum to lock in fresh pudina and garlic aromas until your first squeeze. Embossed batch coding.",
-                },
-                {
-                  id: 1,
-                  badge: "5-Layer Barrier",
-                  title: "Multi-Layer EVOH Food Laminate",
-                  desc: "Blocks oxygen and ambient office light from degrading fresh herbs. Squeezes down completely flat so zero chutney is wasted.",
-                },
-                {
-                  id: 2,
-                  badge: "Zero Leaks",
-                  title: "Silicone Anti-Drip Flip Valve",
-                  desc: "Cuts the chutney stream clean with zero crusting around the nozzle. Snap-shut cap ensures 100% leak safety inside Borosil / Milton tiffin bags.",
-                },
-              ].map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => setActiveAnatomyIndex(item.id)}
-                  className={`p-4 rounded-2xl border transition cursor-pointer ${
-                    activeAnatomyIndex === item.id
-                      ? "bg-leaf/10 border-leaf"
-                      : "bg-paper border-steel hover:border-ink"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="w-5 h-5 rounded-full bg-ink text-paper text-[11px] font-bold flex items-center justify-center">
-                      {item.id + 1}
-                    </span>
-                    <span className="text-[10px] font-bold font-semibold text-leaf">
-                      {item.badge}
-                    </span>
-                  </div>
-                  <h4 className="font-heading font-bold text-sm text-ink">{item.title}</h4>
-                  <p className="text-xs text-muted mt-1 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 8. "Why a tube?" Comparison (Dark #18241b) */}
-      <section className="py-16 bg-ink text-paper px-4 sm:px-8">
+      {/* 6. "WHY A SQUEEZE TUBE?" COMPARISON */}
+      <section id="comparison" className="py-16 bg-ink text-paper px-4 sm:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
             <h2 className="font-heading font-black text-2xl sm:text-3xl text-haldi">
@@ -937,22 +744,20 @@ export default function StoreHomePage() {
           <div className="overflow-hidden bg-deepLeaf rounded-2xl border-2 border-paper/10">
             <table className="w-full text-left text-xs sm:text-sm border-collapse">
               <thead>
-                <tr className="border-b border-paper/10 text-paper/70 font-semibold text-[10px] font-heading font-bold">
-                  <th className="py-3 px-4">Daily Factor</th>
-                  <th className="py-3 px-4 text-haldi">Chutney Tube </th>
-                  <th className="py-3 px-4">Glass Jar</th>
-                  <th className="py-3 px-4">Plastic Dabba</th>
-                  <th className="py-3 px-4">Single Sachet</th>
+                <tr className="border-b border-paper/10 text-paper/70 font-semibold text-[10px] font-heading font-bold uppercase tracking-wider">
+                  <th className="py-3.5 px-4">Daily Factor</th>
+                  <th className="py-3.5 px-4 text-haldi font-black">Squeeze Tube</th>
+                  <th className="py-3.5 px-4">Glass Jar</th>
+                  <th className="py-3.5 px-4">Single Sachet</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
                 {storeConfig.copy.comparison.rows.map((row, idx) => (
                   <tr key={idx} className="hover:bg-card/5 transition">
-                    <td className="py-3 px-4 font-semibold text-paper">{row.factor}</td>
-                    <td className="py-3 px-4 font-bold text-haldi">✓ {row.tube}</td>
-                    <td className="py-3 px-4 text-paper/70">{row.jar}</td>
-                    <td className="py-3 px-4 text-paper/70">Oily Leaks</td>
-                    <td className="py-3 px-4 text-paper/70">{row.sachet}</td>
+                    <td className="py-3.5 px-4 font-semibold text-paper">{row.factor}</td>
+                    <td className="py-3.5 px-4 font-bold text-haldi">✓ {row.tube}</td>
+                    <td className="py-3.5 px-4 text-paper/70">{row.jar}</td>
+                    <td className="py-3.5 px-4 text-paper/70">{row.sachet}</td>
                   </tr>
                 ))}
               </tbody>
@@ -961,17 +766,17 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-      {/* 9. WHERE PEOPLE USE IT (4 Real Indian Scenarios) */}
+      {/* 7. WHERE PEOPLE USE IT */}
       <section className="py-14 px-4 sm:px-8 max-w-6xl mx-auto w-full">
         <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
           <span className="text-xs font-heading font-extrabold text-leaf font-semibold">
-            Real Everyday Routines
+            Everyday Moments
           </span>
           <h2 className="font-heading font-black text-2xl sm:text-3xl text-ink">
             Where People Use It
           </h2>
           <p className="text-xs sm:text-sm text-muted">
-            Made for office workers, hostel students, and travellers across India.
+            Made for real meals, snacks and travel across India.
           </p>
         </div>
 
@@ -988,99 +793,102 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-      {/* 10. PACKS & CUSTOM BOX BUILDER */}
+      {/* 8. PACKS & VALUE BUNDLES */}
       <section id="packs" className="py-16 bg-card border-t border-steel px-4 sm:px-8">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
             <span className="text-xs font-heading font-extrabold text-leaf font-semibold">
-              Launch Bundles
+              Curated Value Bundles
             </span>
             <h2 className="font-heading font-black text-2xl sm:text-4xl text-ink">
               Choose Your Pack
             </h2>
             <p className="text-xs sm:text-sm text-muted">
-              Ships in a custom recyclable tiffin box with zero-leak guarantee.
+              Every pack includes free delivery across India.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1: Single Tube */}
-            <div className="bg-paper rounded-3xl p-6 border border-steel flex flex-col justify-between space-y-4">
-              <div>
-                <span className="text-[11px] font-bold font-semibold text-muted">Desk Single</span>
-                <h3 className="font-heading font-black text-xl text-ink mt-1">Single Tube</h3>
-                <p className="text-xs text-muted mt-1">Choose any 1 favourite chutney. 100g tube.</p>
-                <div className="mt-4">
-                  <span className="font-heading font-black text-2xl text-ink">
-                    {formatInr(pricing.single)}
-                  </span>
-                  <span className="block text-[10px] text-muted">MRP incl. of all taxes</span>
-                </div>
-              </div>
-
-              <a
-                href="#chutneys"
-                className="w-full text-center bg-paper-2 hover:bg-steel text-ink font-heading font-bold text-xs py-3 rounded-xl transition-colors"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {storeConfig.packs.map((pack: PackItem) => (
+              <div
+                key={pack.id}
+                className={`rounded-3xl p-6 border flex flex-col justify-between space-y-4 relative ${
+                  pack.badge === "Best value"
+                    ? "bg-deepLeaf text-paper border-2 border-haldi shadow-xl"
+                    : "bg-paper text-ink border-steel shadow-sm"
+                }`}
               >
-                Choose from catalogue
-              </a>
-            </div>
+                {pack.badge && (
+                  <div
+                    className={`absolute top-4 right-4 text-[10px] font-semibold font-heading font-black px-2.5 py-0.5 rounded-full ${
+                      pack.badge === "Best value"
+                        ? "bg-haldi text-ink"
+                        : "bg-mirch text-paper"
+                    }`}
+                  >
+                    {pack.badge}
+                  </div>
+                )}
 
-            {/* Card 2: Chaat Combo */}
-            <div className="bg-paper rounded-3xl p-6 border border-steel flex flex-col justify-between space-y-4">
-              <div>
-                <span className="text-[11px] font-bold font-semibold text-mirch">The Iconic Pair</span>
-                <h3 className="font-heading font-black text-xl text-ink mt-1">Chaat Combo</h3>
-                <p className="text-xs text-muted mt-1">Chatpati Hari + Khatti Meethi Imli.</p>
-                <div className="mt-4">
-                  <span className="font-heading font-black text-2xl text-ink">
-                    {formatInr(pricing.combo)}
+                <div>
+                  <span
+                    className={`text-[11px] font-bold block ${
+                      pack.badge === "Best value" ? "text-haldi" : "text-muted"
+                    }`}
+                  >
+                    {pack.subtitle}
                   </span>
-                  <span className="block text-[10px] text-muted">MRP incl. of all taxes</span>
+                  <h3
+                    className={`font-heading font-black text-xl mt-1 ${
+                      pack.badge === "Best value" ? "text-paper" : "text-ink"
+                    }`}
+                  >
+                    {pack.name}
+                  </h3>
+                  <p
+                    className={`text-xs mt-1 leading-relaxed ${
+                      pack.badge === "Best value" ? "text-paper/85" : "text-muted"
+                    }`}
+                  >
+                    {pack.description}
+                  </p>
+
+                  <div className="mt-4">
+                    <span
+                      className={`font-heading font-black text-2xl ${
+                        pack.badge === "Best value" ? "text-haldi" : "text-ink"
+                      }`}
+                    >
+                      {formatInr(pack.price)}
+                    </span>
+                    <span
+                      className={`block text-[10px] ${
+                        pack.badge === "Best value" ? "text-paper/70" : "text-muted"
+                      }`}
+                    >
+                      Free delivery across India
+                    </span>
+                  </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => addToCart("pack", pack.flavourIds, pack.name, pack.price)}
+                  className={`w-full font-heading font-bold text-xs py-3 rounded-xl shadow transition transform active:scale-95 ${
+                    pack.badge === "Best value"
+                      ? "bg-haldi hover:bg-[#e2a80d] text-ink font-black"
+                      : "bg-leaf hover:bg-deepLeaf text-paper"
+                  }`}
+                >
+                  Add {pack.name}
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => addToCart("combo", ["green", "imli"], "Chaat Combo (Hari + Imli)", pricing.combo)}
-                className="w-full bg-leaf hover:bg-deepLeaf text-paper font-heading font-bold text-xs py-3 rounded-xl shadow transition"
-              >
-                Add Chaat Combo
-              </button>
-            </div>
-
-            {/* Card 3: Pick Any 3 (Custom Unboxing Box) */}
-            <div className="bg-deepLeaf text-paper rounded-3xl p-6 border-2 border-haldi shadow-xl flex flex-col justify-between space-y-4 relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-haldi text-ink text-[10px] font-semibold font-heading font-black px-2.5 py-0.5 rounded-full">
-                Most Popular
-              </div>
-
-              <div>
-                <span className="text-[11px] font-bold font-semibold text-haldi">Custom Tiffin Box</span>
-                <h3 className="font-heading font-black text-xl text-paper mt-1">Pick Any 3 Sampler</h3>
-                <p className="text-xs text-paper mt-1">Pick your 3 favourite flavours in a custom die-cut box.</p>
-                <div className="mt-4">
-                  <span className="font-heading font-black text-2xl text-haldi">
-                    {formatInr(pricing.pick3)}
-                  </span>
-                  <span className="block text-[10px] text-paper/70">MRP incl. of all taxes</span>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={openPick3Modal}
-                className="w-full bg-haldi hover:bg-haldi text-ink font-heading font-black text-xs py-3 rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center space-x-2"
-              >
-                <span>Build Custom 3-Pack</span>
-                <span></span>
-              </button>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 11. FAQ ACCORDION */}
+      {/* 9. FAQ ACCORDION */}
       <section id="faq" className="py-14 px-4 sm:px-8 max-w-3xl mx-auto w-full">
         <div className="text-center mb-8">
           <h2 className="font-heading font-black text-2xl sm:text-3xl text-ink">
@@ -1105,7 +913,7 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-      {/* 12. FOOTER */}
+      {/* 10. FOOTER */}
       <footer className="mt-auto bg-deepLeaf text-paper py-12 px-4 sm:px-8 border-t border-ink">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-6 space-y-3">
@@ -1116,25 +924,29 @@ export default function StoreHomePage() {
             <p className="text-xs text-steel leading-relaxed max-w-sm">
               {storeConfig.brand.subheadline}
             </p>
-            {storeConfig.brand.whatsAppNumber && (
+            {hasWhatsApp && (
               <a
                 href={`https://wa.me/${storeConfig.brand.whatsAppNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-leaf text-paper text-xs font-bold px-4 py-2 rounded-xl mt-2 shadow-md  transition"
+                className="inline-flex items-center space-x-2 bg-leaf text-paper text-xs font-bold px-4 py-2 rounded-xl mt-2 shadow-md transition"
               >
                 <span>WhatsApp Us</span>
               </a>
+            )}
+            {hasEmail && (
+              <p className="text-xs text-steel">
+                Email: <a href={`mailto:${storeConfig.brand.contactEmail}`} className="underline">{storeConfig.brand.contactEmail}</a>
+              </p>
             )}
           </div>
 
           <div className="md:col-span-3 space-y-2">
             <h4 className="font-heading font-bold text-xs font-semibold text-haldi">Shop</h4>
             <ul className="space-y-1.5 text-xs text-paper">
-              <li><a href="#chutneys" className="hover:underline">All 12 Chutneys</a></li>
-              <li><a href="#packs" className="hover:underline">Packs &amp; Bundles</a></li>
-              <li><a href="#anatomy" className="hover:underline">Packaging Anatomy</a></li>
-              <li><a href="#comparison" className="hover:underline">Tube vs Jar</a></li>
+              <li><a href="#chutneys" className="hover:underline">All 8 Tubes</a></li>
+              <li><a href="#packs" className="hover:underline">Value Packs</a></li>
+              <li><a href="#comparison" className="hover:underline">Why a Squeeze Tube?</a></li>
               <li><a href="#faq" className="hover:underline">FAQ</a></li>
             </ul>
           </div>
@@ -1151,16 +963,16 @@ export default function StoreHomePage() {
         </div>
 
         <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-paper/10 text-center text-xs text-paper/60">
-          <p>{storeConfig.brand.copyright}. Pre-launch consumer demand validation. No commercial payments taken.</p>
+          <p>{storeConfig.brand.copyright}</p>
         </div>
       </footer>
 
-      {/* 13. FLOATING STICKY ORDER PILL ON MOBILE */}
+      {/* 11. FLOATING ORDER PILL ON MOBILE */}
       {showStickyBar && (
         <div className="md:hidden fixed bottom-4 inset-x-4 z-40 bg-ink text-paper p-3 rounded-2xl shadow-2xl flex items-center justify-between animate-slideUp">
           <div>
-            <span className="text-[10px] text-haldi font-bold block">Chutney Tubes 100g</span>
-            <span className="font-heading font-black text-sm">{formatInr(pricing.single)}</span>
+            <span className="text-[10px] text-haldi font-bold block">100 g Squeeze Tube</span>
+            <span className="font-heading font-black text-sm">₹99</span>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -1174,7 +986,7 @@ export default function StoreHomePage() {
               onClick={() => setIsCartOpen(true)}
               className="bg-card/20 text-paper font-bold text-xs px-3 py-2 rounded-xl"
             >
-               {cartItemCount}
+              Cart ({cartItemCount})
             </button>
           </div>
         </div>
@@ -1199,9 +1011,9 @@ export default function StoreHomePage() {
             <div>
               <div className="flex items-center justify-between border-b border-steel pb-4">
                 <div className="flex items-center space-x-2">
-                  <h3 className="font-heading font-black text-xl text-ink">Your Lunch Bag</h3>
+                  <h3 className="font-heading font-black text-xl text-ink">Your Cart</h3>
                   <span className="text-xs bg-paper text-ink font-bold px-2 py-0.5 rounded-full">
-                    {cartItemCount} items
+                    {cartItemCount} {cartItemCount === 1 ? "item" : "items"}
                   </span>
                 </div>
                 <button
@@ -1212,31 +1024,16 @@ export default function StoreHomePage() {
                 </button>
               </div>
 
-              {/* Free Shipping Meter */}
-              <div className="my-3 p-3 bg-paper rounded-xl text-xs space-y-1.5 border border-steel">
-                <div className="flex justify-between items-center font-bold">
-                  <span>
-                    {freeShippingDiff > 0
-                      ? `Add ${formatInr(freeShippingDiff)} for FREE Metro Express Dispatch`
-                      : " Free Metro Express Dispatch Unlocked!"}
-                  </span>
-                  <span>{Math.round(Math.min(100, (cartTotal / freeShippingThreshold) * 100))}%</span>
-                </div>
-                <div className="w-full bg-steel h-1.5 rounded-full overflow-hidden">
-                  <div
-                    className="bg-leaf h-full transition-colors duration-300"
-                    style={{ width: `${Math.min(100, (cartTotal / freeShippingThreshold) * 100)}%` }}
-                  />
-                </div>
+              {/* Delivery info in cart */}
+              <div className="my-3 p-3 bg-paper rounded-xl text-xs space-y-1 border border-steel flex items-center justify-between">
+                <span className="font-bold text-leaf">✓ Free delivery across India</span>
+                <span className="text-[11px] text-muted">₹0 Shipping</span>
               </div>
 
               {cart.length === 0 ? (
                 <div className="py-16 text-center space-y-3">
-                  <div className="w-16 h-16 rounded-full bg-paper text-3xl flex items-center justify-center mx-auto">
-                    
-                  </div>
-                  <p className="font-heading font-bold text-sm text-ink">Your lunch bag is empty.</p>
-                  <p className="text-xs text-muted">Add your favourite chutney tubes to begin.</p>
+                  <p className="font-heading font-bold text-sm text-ink">Your cart is empty.</p>
+                  <p className="text-xs text-muted">Add your favourite squeeze tubes to begin.</p>
                 </div>
               ) : (
                 <div className="divide-y divide-steel max-h-[55vh] overflow-y-auto py-2">
@@ -1288,7 +1085,7 @@ export default function StoreHomePage() {
                   Proceed to Checkout · {formatInr(cartTotal)}
                 </button>
                 <p className="text-[10px] text-center text-muted">
-                   100% Zero-Leak Guarantee in Your Tiffin Bag
+                  Free delivery across India · 100 g squeeze tube with flip-top cap
                 </p>
               </div>
             )}
@@ -1296,7 +1093,7 @@ export default function StoreHomePage() {
         </div>
       )}
 
-      {/* RICH PRODUCT DETAIL MODAL (WITH TASTE RADAR & NUTRITION) */}
+      {/* PRODUCT DETAIL MODAL */}
       {selectedFlavour && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
@@ -1311,7 +1108,6 @@ export default function StoreHomePage() {
               ✕
             </button>
 
-            {/* 3D Tube Stage */}
             <div
               className="w-full h-56 flex items-center justify-center rounded-2xl p-2 relative overflow-hidden"
               style={{ backgroundColor: `${selectedFlavour.color}15` }}
@@ -1325,7 +1121,7 @@ export default function StoreHomePage() {
                   {selectedFlavour.local}
                 </span>
                 <span className="font-heading font-black text-xl text-ink">
-                  {formatInr(pricing.single)}
+                  {formatInr(selectedFlavour.unitPrice)}
                 </span>
               </div>
               <h3 className="font-heading font-black text-2xl text-ink">
@@ -1334,10 +1130,9 @@ export default function StoreHomePage() {
               <p className="text-xs text-muted leading-relaxed">{selectedFlavour.desc}</p>
             </div>
 
-            {/* Taste Radar Intensity Bars */}
             {TASTE_PROFILES[selectedFlavour.id] && (
               <div className="bg-paper p-4 rounded-2xl border border-steel space-y-2">
-                <span className="text-[10px] font-heading font-extrabold font-semibold text-leaf">
+                <span className="text-[10px] font-heading font-extrabold font-semibold text-leaf uppercase tracking-wider">
                   Taste Profile Intensity
                 </span>
                 <div className="grid grid-cols-2 gap-2 text-xs">
@@ -1379,7 +1174,7 @@ export default function StoreHomePage() {
                   </div>
                   <div>
                     <div className="flex justify-between mb-0.5">
-                      <span className="text-muted">Tadka / Punch</span>
+                      <span className="text-muted">Desi Punch</span>
                       <span className="font-bold">{TASTE_PROFILES[selectedFlavour.id].punch}/10</span>
                     </div>
                     <div className="w-full bg-steel h-1.5 rounded-full overflow-hidden">
@@ -1393,12 +1188,11 @@ export default function StoreHomePage() {
               </div>
             )}
 
-            {/* Ingredients & Details */}
             <div className="bg-paper p-4 rounded-2xl text-xs space-y-1.5 border border-steel">
               {TASTE_PROFILES[selectedFlavour.id] && (
                 <>
                   <div className="pb-1 border-b border-steel">
-                    <span className="text-muted block text-[10px] font-semibold font-bold">Ingredients:</span>
+                    <span className="text-muted block text-[10px] font-semibold font-bold">Key Ingredients:</span>
                     <span className="font-medium text-ink">
                       {TASTE_PROFILES[selectedFlavour.id].keyIngredients}
                     </span>
@@ -1415,108 +1209,23 @@ export default function StoreHomePage() {
               </div>
               <div className="flex justify-between py-0.5">
                 <span className="text-muted">Packaging:</span>
-                <span className="font-bold">100g Multi-layer Tube with Flip-Valve</span>
+                <span className="font-bold">100 g squeeze tube with flip-top cap</span>
               </div>
               <div className="flex justify-between py-0.5">
                 <span className="text-muted">Dietary:</span>
-                <span className="font-bold text-leaf">100% Vegetarian (Green Mark)</span>
+                <span className="font-bold text-leaf">100% Vegetarian &amp; Eggless</span>
               </div>
             </div>
 
             <button
               type="button"
               onClick={() => {
-                addToCart("single", [selectedFlavour.id], selectedFlavour.name, pricing.single);
+                addToCart("single", [selectedFlavour.id], selectedFlavour.name, selectedFlavour.unitPrice);
                 setSelectedFlavour(null);
               }}
               className="w-full bg-leaf hover:bg-deepLeaf text-paper font-heading font-black text-sm py-3.5 rounded-xl shadow-lg transition"
             >
-              Add to Lunch Bag · {formatInr(pricing.single)}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* PICK ANY 3 MODAL */}
-      {isPick3Open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            onClick={() => setIsPick3Open(false)}
-            className="fixed inset-0 bg-ink/70"
-          />
-          <div className="relative bg-card rounded-3xl p-6 sm:p-8 max-w-lg w-full z-10 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center border-b border-steel pb-3">
-              <div>
-                <h3 className="font-heading font-black text-xl text-ink">Build Your 3-Pack Tiffin Box</h3>
-                <p className="text-xs text-muted">Selected {pick3Selected.length} of 3</p>
-              </div>
-              <button
-                onClick={() => setIsPick3Open(false)}
-                className="w-8 h-8 rounded-full bg-paper text-ink font-black text-sm"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* 3 Box Slots Graphic */}
-            <div className="grid grid-cols-3 gap-2 bg-paper p-3 rounded-2xl border border-steel">
-              {[0, 1, 2].map((slotIdx) => {
-                const flvId = pick3Selected[slotIdx];
-                const flv = flvId ? storeConfig.flavours.find((f) => f.id === flvId) : null;
-                return (
-                  <div
-                    key={slotIdx}
-                    className="h-20 rounded-xl border border-dashed border-leaf bg-paper-2 flex flex-col items-center justify-center p-1 text-center"
-                  >
-                    {flv ? (
-                      <>
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: flv.color }} />
-                        <span className="text-[11px] font-heading font-bold text-ink line-clamp-1 mt-1">
-                          {flv.local}
-                        </span>
-                        <span className="text-[9px] text-leaf font-bold">Slot {slotIdx + 1} ✓</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-xs text-muted font-bold">Slot {slotIdx + 1}</span>
-                        <span className="text-[10px] text-muted">Pick below</span>
-                      </>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
-              {storeConfig.flavours.map((f) => {
-                const isSelected = pick3Selected.includes(f.id);
-                return (
-                  <div
-                    key={f.id}
-                    onClick={() => togglePick3Flavour(f.id)}
-                    className={`p-3 rounded-2xl border-2 cursor-pointer transition text-left ${
-                      isSelected
-                        ? "border-leaf bg-leaf/10"
-                        : "border-steel bg-paper hover:border-ink"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-[10px] font-bold text-mirch">{f.local}</span>
-                      {isSelected && <span className="text-xs font-black text-leaf">✓</span>}
-                    </div>
-                    <h4 className="font-heading font-bold text-xs text-ink leading-tight">{f.name}</h4>
-                  </div>
-                );
-              })}
-            </div>
-
-            <button
-              type="button"
-              disabled={pick3Selected.length !== 3}
-              onClick={confirmPick3Pack}
-              className="w-full bg-haldi hover:bg-haldi text-ink font-heading font-black text-sm py-3.5 rounded-xl shadow-lg transition disabled:opacity-40"
-            >
-              Confirm 3-Pack Box · {formatInr(pricing.pick3)}
+              Add to Cart · {formatInr(selectedFlavour.unitPrice)}
             </button>
           </div>
         </div>
@@ -1545,7 +1254,9 @@ export default function StoreHomePage() {
             {checkoutStep === 1 && (
               <form onSubmit={handleDetailsSubmit} className="space-y-4">
                 <div className="bg-paper p-3 rounded-2xl flex justify-between items-center text-xs font-bold border border-steel">
-                  <span>Order Total ({cartItemCount} tubes):</span>
+                  <span>
+                    Order Total ({cartItemCount} {cartItemCount === 1 ? "tube" : "tubes"}):
+                  </span>
                   <span className="font-heading font-black text-base text-ink">
                     {formatInr(cartTotal)}
                   </span>
@@ -1607,11 +1318,10 @@ export default function StoreHomePage() {
                       className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition"
                     />
 
-                    {/* Live Pincode Delivery Confirmation */}
                     {pincodeValid === true && (
                       <p className="text-xs text-leaf font-bold mt-1.5 flex items-center space-x-1">
                         <span>✓</span>
-                        <span>Delivering to {postalZone} ,  Express 24-48h dispatch available</span>
+                        <span>Delivery across India available for {postalZone} · Free delivery</span>
                       </p>
                     )}
                     {pincodeValid === false && deliveryDetails.pincode.length === 6 && (
@@ -1624,12 +1334,12 @@ export default function StoreHomePage() {
 
                   <div>
                     <label className="block text-xs font-bold text-ink mb-1">
-                      Desk / Home Delivery Address
+                      Delivery Address
                     </label>
                     <textarea
                       required
                       rows={2}
-                      placeholder="Floor, Office building or Apartment number, Street name"
+                      placeholder="House / Flat / Block no., Street name, Area"
                       value={deliveryDetails.address}
                       onChange={(e) => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })}
                       className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition"
@@ -1642,18 +1352,18 @@ export default function StoreHomePage() {
                   disabled={!pincodeValid || deliveryDetails.phone.length !== 10}
                   className="w-full bg-leaf hover:bg-deepLeaf text-paper font-heading font-black text-sm py-3.5 rounded-xl shadow-lg transition disabled:opacity-40"
                 >
-                  <span className="whitespace-nowrap"><span className="whitespace-nowrap">Continue to Payment</span></span> 
+                  Continue to Payment
                 </button>
               </form>
             )}
 
-            {/* STEP 2: PAYMENT METHOD STEP (MOCK ONLY) */}
+            {/* STEP 2: PAYMENT METHOD STEP */}
             {checkoutStep === 2 && (
               <form onSubmit={handlePayClick} className="space-y-4">
                 <div className="bg-paper p-3 rounded-2xl flex justify-between items-center text-xs border border-steel">
                   <div>
-                    <span className="font-bold text-ink block">Delivering to {postalZone}</span>
-                    <span className="text-muted">Free Express Delivery Included</span>
+                    <span className="font-bold text-ink block">Delivery across India</span>
+                    <span className="text-muted">Free Delivery Included</span>
                   </div>
                   <span className="font-heading font-black text-base text-ink">
                     {formatInr(cartTotal)}
@@ -1662,51 +1372,41 @@ export default function StoreHomePage() {
 
                 <div className="space-y-2">
                   <label className="block text-xs font-bold text-ink">Select Payment Method</label>
-                  
-                  {/* UPI Option */}
+
+                  {/* UPI */}
                   <div
                     onClick={() => handleSelectPaymentMethod("upi")}
-                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between ${
+                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between border ${
                       paymentMethod === "upi"
                         ? "border-leaf bg-leaf/10"
                         : "border-steel bg-paper hover:border-ink"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-paper-2 flex items-center justify-center font-bold text-xs shadow-sm">
-                        
-                      </div>
-                      <div>
-                        <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
-                          Instant UPI
-                        </span>
-                        <span className="text-[10px] text-muted">
-                          Google Pay, PhonePe, Paytm, BHIM or any UPI app
-                        </span>
-                      </div>
+                    <div>
+                      <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
+                        Instant UPI
+                      </span>
+                      <span className="text-[10px] text-muted">
+                        Google Pay, PhonePe, Paytm, BHIM or any UPI app
+                      </span>
                     </div>
                     {paymentMethod === "upi" && <span className="text-leaf font-black">✓</span>}
                   </div>
 
-                  {/* Card Option */}
+                  {/* Card */}
                   <div
                     onClick={() => handleSelectPaymentMethod("card")}
-                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between ${
-                      paymentMethod === ('car' + 'd')
+                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between border ${
+                      paymentMethod === "card"
                         ? "border-leaf bg-leaf/10"
                         : "border-steel bg-paper hover:border-ink"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-paper-2 flex items-center justify-center font-bold text-xs shadow-sm">
-                        
-                      </div>
-                      <div>
-                        <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
-                          Debit / Credit Card
-                        </span>
-                        <span className="text-[10px] text-muted">Visa, Mastercard, RuPay</span>
-                      </div>
+                    <div>
+                      <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
+                        Debit / Credit Card
+                      </span>
+                      <span className="text-[10px] text-muted">Visa, Mastercard, RuPay</span>
                     </div>
                     {paymentMethod === "card" && <span className="text-leaf font-black">✓</span>}
                   </div>
@@ -1714,22 +1414,17 @@ export default function StoreHomePage() {
                   {/* Cash on Delivery */}
                   <div
                     onClick={() => handleSelectPaymentMethod("cod")}
-                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between ${
+                    className={`p-3.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between border ${
                       paymentMethod === "cod"
                         ? "border-leaf bg-leaf/10"
                         : "border-steel bg-paper hover:border-ink"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-paper-2 flex items-center justify-center font-bold text-xs shadow-sm">
-                        
-                      </div>
-                      <div>
-                        <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
-                          Cash on Delivery
-                        </span>
-                        <span className="text-[10px] text-muted">Pay when your tiffin box arrives</span>
-                      </div>
+                    <div>
+                      <span className="font-heading font-bold text-xs sm:text-sm text-ink block">
+                        Cash on Delivery
+                      </span>
+                      <span className="text-[10px] text-muted">Pay when your package arrives</span>
                     </div>
                     {paymentMethod === "cod" && <span className="text-leaf font-black">✓</span>}
                   </div>
@@ -1739,9 +1434,9 @@ export default function StoreHomePage() {
                   <button
                     type="submit"
                     disabled={!paymentMethod}
-                    className="w-full bg-haldi hover:bg-haldi text-ink font-heading font-black text-sm py-3.5 rounded-xl shadow-lg transition transform active:scale-95 disabled:opacity-40"
+                    className="w-full bg-haldi hover:bg-[#e2a80d] text-ink font-heading font-black text-sm py-3.5 rounded-xl shadow-lg transition transform active:scale-95 disabled:opacity-40"
                   >
-                    <span className="whitespace-nowrap">Pay {formatInr(cartTotal)}</span> 
+                    Pay {formatInr(cartTotal)}
                   </button>
                 </div>
               </form>
@@ -1751,17 +1446,17 @@ export default function StoreHomePage() {
             {checkoutStep === 3 && (
               <div className="space-y-5">
                 <div className="text-center space-y-2">
-                  <div className="w-14 h-14 rounded-full bg-haldi/20 text-ink text-2xl flex items-center justify-center mx-auto">
-                    
+                  <div className="w-14 h-14 rounded-full bg-haldi/20 text-ink text-2xl flex items-center justify-center mx-auto font-black">
+                    ✓
                   </div>
                   <h3 className="font-heading font-black text-xl sm:text-2xl text-ink">
                     You Haven&apos;t Been Charged.
                   </h3>
                   <p className="font-heading font-bold text-sm text-leaf">
-                    We&apos;re not live yet ,  but your demand helps us launch!
+                    We&apos;re not live yet, but your interest helps us launch!
                   </p>
                   <p className="text-xs text-muted leading-relaxed max-w-md mx-auto">
-                    You&apos;re one of the first people across India to back the idea of chutney in a tube. No money was taken, and no payment details were collected.
+                    You&apos;re one of the first people across India to back the idea of chutney in a squeeze tube. No money was taken, and no payment details were collected.
                   </p>
                 </div>
 
@@ -1769,7 +1464,7 @@ export default function StoreHomePage() {
                   <form onSubmit={handleRevealSurveySubmit} className="space-y-4 pt-2 border-t border-steel">
                     <div>
                       <label className="block text-xs font-bold text-ink mb-1">
-                        How do you feel about chutney in a squeezable tube?
+                        How do you feel about chutney in a squeeze tube?
                       </label>
                       <select
                         value={tubeFeeling}
@@ -1780,7 +1475,27 @@ export default function StoreHomePage() {
                         <option value="Love it, easier than a jar">Love it, much easier than a jar</option>
                         <option value="Fine with it">Fine with it</option>
                         <option value="Not sure yet">Not sure yet</option>
-                        <option value="I&apos;d rather have a jar or sachet">I&apos;d rather have a jar or sachet</option>
+                        <option value="I'd rather have a jar or sachet">I&apos;d rather have a jar or sachet</option>
+                      </select>
+                    </div>
+
+                    {/* NEW SURVEY QUESTION: Which would you want in a tube next? */}
+                    <div>
+                      <label className="block text-xs font-bold text-ink mb-1">
+                        Which would you want in a tube next?
+                      </label>
+                      <select
+                        value={nextFlavourWanted}
+                        onChange={(e) => setNextFlavourWanted(e.target.value)}
+                        className="w-full text-xs px-3 py-2.5 rounded-xl border border-steel bg-paper"
+                      >
+                        <option value="">Select a flavour...</option>
+                        <option value="Lehsuni">Lehsuni</option>
+                        <option value="Momo chutney">Momo chutney</option>
+                        <option value="Sweet mango">Sweet mango</option>
+                        <option value="Peri-peri mayo">Peri-peri mayo</option>
+                        <option value="Kasundi">Kasundi</option>
+                        <option value="Something else">Something else</option>
                       </select>
                     </div>
 
@@ -1819,7 +1534,7 @@ export default function StoreHomePage() {
                       </div>
                     </div>
 
-                    {/* Launch Discount Opt-in (Unchecked by default) */}
+                    {/* Launch Discount Opt-in */}
                     <div className="p-3 bg-haldi/15 rounded-xl border border-haldi space-y-2">
                       <label className="flex items-start space-x-2 cursor-pointer text-xs font-bold text-ink">
                         <input
@@ -1847,17 +1562,16 @@ export default function StoreHomePage() {
                       type="submit"
                       className="w-full bg-ink hover:bg-deepLeaf text-paper font-heading font-black text-xs py-3.5 rounded-xl shadow transition"
                     >
-                      <span className="whitespace-nowrap">Submit Feedback</span>
+                      Submit Feedback
                     </button>
                   </form>
                 ) : (
                   <div className="py-6 text-center space-y-3">
-                    <span className="text-3xl"></span>
                     <h4 className="font-heading font-black text-lg text-ink">
                       Thank You For Helping Us Build This!
                     </h4>
                     <p className="text-xs text-muted max-w-sm mx-auto">
-                      Your response has been logged directly into our validation metrics. We'll notify you as soon as the first production run is bottled!
+                      Your response has been logged directly into our validation metrics.
                     </p>
                     <button
                       type="button"

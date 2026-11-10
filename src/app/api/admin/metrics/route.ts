@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { ADMIN_COOKIE_NAME, isValidAdminSession } from "../../../../lib/auth";
 const { calculateDashboardMetrics } = require("../../../../lib/metrics.js");
 
 const eventsFile = path.join(process.cwd(), "data", "events.json");
@@ -17,11 +18,9 @@ function safeRead(fp: string): any[] {
 }
 
 export async function GET(req: NextRequest) {
-  const auth = req.headers.get("authorization") || req.nextUrl.searchParams.get("token");
-  const pwd = req.nextUrl.searchParams.get("password");
-  const adminPassword = process.env.ADMIN_PASSWORD || "chutney2026";
+  const sessionCookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
 
-  if (auth !== "Bearer admin_auth_valid" && pwd !== adminPassword && auth !== "admin_auth_valid") {
+  if (!isValidAdminSession(sessionCookie)) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
   }
 

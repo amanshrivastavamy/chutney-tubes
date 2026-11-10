@@ -6,7 +6,7 @@ export type EventName =
   | "spice_filter_used"
   | "product_viewed"
   | "add_to_cart"
-  | "sampler_opened"
+  | "notify_click"
   | "checkout_started"
   | "details_submitted"
   | "payment_method_selected"
@@ -81,12 +81,6 @@ export function getSessionId(): string {
   return sess;
 }
 
-/**
- * Resolves price variant:
- * 1. URL search param ?variant=a|b|c (forces variant for testing)
- * 2. Sticky cookie / localStorage
- * 3. Random assignment (a, b, or c with equal 33.3% split)
- */
 export function resolveVariant(searchParams?: URLSearchParams | null): "a" | "b" | "c" {
   if (typeof window === "undefined") return "a";
 
@@ -105,11 +99,7 @@ export function resolveVariant(searchParams?: URLSearchParams | null): "a" | "b"
       return saved;
     }
 
-    const choices: Array<"a" | "b" | "c"> = ["a", "b", "c"];
-    const chosen = choices[Math.floor(Math.random() * choices.length)];
-    setCookie(VARIANT_KEY, chosen);
-    localStorage.setItem(VARIANT_KEY, chosen);
-    return chosen;
+    return "a";
   } catch (e) {
     return "a";
   }
@@ -157,7 +147,7 @@ export function getUtmParams(searchParams?: URLSearchParams | null): UtmParams {
   }
 }
 
-// Queue for batching / debouncing network writes
+// Queue for buffering / debouncing network writes
 let eventQueue: EventDocument[] = [];
 let queueTimeout: any = null;
 
@@ -166,19 +156,16 @@ function flushQueue() {
   const batch = [...eventQueue];
   eventQueue = [];
 
-  // Post to local API endpoint /api/events (which also mirrors to Firestore if configured)
   fetch("/api/events", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ batch }),
     keepalive: true,
-  }).catch(() => {
-    // Fail silently without blocking UI
-  });
+  }).catch(() => {});
 }
 
 /**
- * Primary track function. Never blocks UI, debounces writes, safe offline.
+ * Primary track function.
  */
 export function track(eventName: EventName, payload: Record<string, any> = {}) {
   if (typeof window === "undefined") return;
@@ -261,4 +248,3 @@ export const resolveTrafficSource = (): string => {
   const utm = getUtmParams();
   return utm.utm_source || "direct";
 };
-
