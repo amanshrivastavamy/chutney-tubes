@@ -247,3 +247,18 @@ export function recordChutneyRequest(name: string, region: string) {
 
   track("chutney_requested", { name: name.trim(), region: (region || "").trim() });
 }
+
+// Aliases for compatibility
+export const trackEvent = (eventName: string, payload: Record<string, any> = {}) => {
+  track(eventName as any, payload);
+};
+
+export const resolvePriceVariant = (): "a" | "b" | "c" => {
+  return resolveVariant();
+};
+
+export const resolveTrafficSource = (): string => {
+  const utm = getUtmParams();
+  return utm.utm_source || "direct";
+};
+

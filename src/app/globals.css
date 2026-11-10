@@ -3,7 +3,7 @@
  * axes: light/grotesk-heavy/chromatic-green · posture: crisp · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: H, ensured mobile hero displays primary cta without scrolling */
 @import "./tokens.css";
-@import "./base.css" layer(base);
+@import "./base.css";
 
 @tailwind base;
 @tailwind components;

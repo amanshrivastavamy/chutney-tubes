@@ -5,7 +5,7 @@ import { FlavourItem, storeConfig } from "../config/store";
 
 
 // Map of custom front-of-pack label typography, motifs and colors per flavour
-function getFlavourLabelData(f) {
+function getFlavourLabelData(f: any): any {
   const map = {
     green: {
       bigTitle: "HARI",
@@ -142,7 +142,7 @@ function getFlavourLabelData(f) {
 }
 
 // Generate Photorealistic 3D Tube SVG Render for a given flavour
-function renderFlavourSvg(f, options = {}) {
+function renderFlavourSvg(f: any, options: any = {}) {
   const { showKatori = true, angle = -10, width = "100%", height = "100%" } = options;
   const L = getFlavourLabelData(f);
 

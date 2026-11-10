@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-const { calculateDashboardMetrics } = require("../../lib/metrics.js");
+const { calculateDashboardMetrics } = require("../../../lib/metrics.js");
 
 const eventsFile = path.join(process.cwd(), "data", "events.json");
 const signupsFile = path.join(process.cwd(), "data", "signups.json");

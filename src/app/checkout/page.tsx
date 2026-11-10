@@ -10,7 +10,7 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   // Pricing & variant
-  const [variantId, setVariantId] = useState<"A" | "B" | "C">("A");
+  const [variantId, setVariantId] = useState<string>("a");
   const [cart, setCart] = useState<{
     pack: string;
     flavour: string;
@@ -47,7 +47,7 @@ export default function CheckoutPage() {
     const v = resolvePriceVariant();
     setVariantId(v);
 
-    const pricing = storeConfig.prices[v] || storeConfig.prices.A;
+    const pricing = storeConfig.pricing.variants[v as "a" | "b" | "c"] || storeConfig.pricing.variants.a;
 
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("ct_cart");
@@ -55,7 +55,7 @@ export default function CheckoutPage() {
         try {
           const parsed = JSON.parse(stored);
           const uPrice = parsed.pack === "three_pack" || parsed.pack === "combo" || parsed.pack === "pick3"
-            ? pricing.trio
+            ? pricing.pick3
             : pricing.single;
           setCart({
             ...parsed,
@@ -88,7 +88,7 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, pincode: pin }));
 
     if (pin.length === 6) {
-      const isDeliverable = storeConfig.launchPincodes.includes(pin);
+      const isDeliverable = /^[1-8]\d{5}$/.test(pin);
       if (isDeliverable) {
         setPincodeStatus("deliverable");
         trackEvent("pincode_checked", { pincode: pin, isDeliverable: true });
