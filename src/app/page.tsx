@@ -162,10 +162,7 @@ export default function StoreHomePage() {
   const [pick3Selected, setPick3Selected] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Interactive Squeeze Simulator State
-  const [simFlavour, setSimFlavour] = useState<string>("green");
-  const [simSqueezeCount, setSimSqueezeCount] = useState<number>(0);
-  const [isSqueezing, setIsSqueezing] = useState<boolean>(false);
+
 
   // Sticky mobile bar visibility
   const [showStickyBar, setShowStickyBar] = useState(false);
@@ -334,15 +331,7 @@ export default function StoreHomePage() {
     ? storeConfig.flavours.filter((f) => f.spice === spiceFilter)
     : storeConfig.flavours;
 
-  // Handle Squeeze Simulator Click
-  const handleTriggerSqueeze = () => {
-    if (isSqueezing) return;
-    setIsSqueezing(true);
-    setSimSqueezeCount((prev) => prev + 1);
-    setTimeout(() => {
-      setIsSqueezing(false);
-    }, 600);
-  };
+
 
   // Handle Pincode Change
   const handlePincodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -444,9 +433,7 @@ export default function StoreHomePage() {
     }, 3000);
   };
 
-  // Current simulated flavour item
-  const currentSimFlavour =
-    storeConfig.flavours.find((f) => f.id === simFlavour) || storeConfig.flavours[0];
+
 
   return (
     <div className="flex flex-col min-h-screen bg-paper text-ink">
@@ -476,10 +463,10 @@ export default function StoreHomePage() {
         </div>
 
         <nav className="hidden md:flex items-center space-x-7 text-sm font-semibold text-paper">
-          <a href="#simulator" className="hover:text-haldi transition">Try The Squeeze</a>
           <a href="#chutneys" className="hover:text-haldi transition">All 12 Chutneys</a>
+          <a href="#packs" className="hover:text-haldi transition">Packs &amp; Combos</a>
           <a href="#anatomy" className="hover:text-haldi transition">Packaging</a>
-          <a href="#packs" className="hover:text-haldi transition">Packs</a>
+          <a href="#comparison" className="hover:text-haldi transition">Why a Tube?</a>
           <a href="#faq" className="hover:text-haldi transition">FAQ</a>
         </nav>
 
@@ -496,73 +483,128 @@ export default function StoreHomePage() {
         </button>
       </header>
 
-      {/* 3. HERO SECTION (Leaf Green with 3D Studio Trio Render) */}
-      <section className="bg-gradient-to-b from-leaf to-deepLeaf text-paper pt-10 pb-16 px-4 sm:px-8 border-b border-deepLeaf overflow-hidden">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Text */}
-          <div className="lg:col-span-7 space-y-5 text-left">
-            <div className="inline-flex items-center space-x-2 bg-card/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-paper/20">
-              <span className="w-2 h-2 rounded-full bg-haldi" />
-              <span className="text-[11px] font-heading font-bold text-haldi font-semibold">
-                India&apos;s First Everyday Chutney in a Squeeze Tube
+      {/* 3. HERO SECTION (Hallmark Editorial Banner) */}
+      <section className="relative bg-gradient-to-b from-[#103b20] via-[#134a28] to-[#1d6b3a] text-paper pt-10 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-8 border-b border-[#103b20] overflow-hidden">
+        {/* Ambient Warm Haldi Glows */}
+        <div className="absolute -right-28 top-1/4 w-[520px] h-[520px] rounded-full bg-haldi/15 blur-3xl pointer-events-none" />
+        <div className="absolute -left-28 bottom-0 w-[420px] h-[420px] rounded-full bg-leaf/20 blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+          {/* Left Column: Messaging & CTAs */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            {/* Pre-launch kicker pill */}
+            <div className="inline-flex items-center space-x-2.5 bg-ink/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-haldi/30 shadow-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-haldi animate-pulse" />
+              <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-haldi">
+                Pre-Launch Special • 100% Homestyle Chutneys
               </span>
             </div>
 
-            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-paper leading-[1.12] tracking-tight">
+            {/* Headline */}
+            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-paper leading-[1.05] tracking-tight">
               {storeConfig.copy.hero.headlinePart1}{" "}
-              <span className="text-haldi">{storeConfig.copy.hero.headlineHighlight}</span>
+              <span className="text-haldi block sm:inline underline decoration-red-500/50 decoration-wavy decoration-2">
+                {storeConfig.copy.hero.headlineHighlight}
+              </span>
             </h1>
 
-            <p className="text-base sm:text-xl text-paper leading-relaxed max-w-xl font-normal">
+            {/* Editorial Subtitle */}
+            <p className="text-base sm:text-lg lg:text-xl text-paper/95 leading-relaxed max-w-xl font-normal">
               {storeConfig.copy.hero.sub}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-3">
+            {/* Value Callout Box */}
+            <div className="bg-black/20 backdrop-blur-sm border-l-4 border-haldi pl-3.5 py-2 pr-3 rounded-r-xl">
+              <p className="text-xs sm:text-sm text-paper font-medium leading-snug">
+                Twelve everyday Indian favourites crafted for desk lunches, office tiffins, and evening snacks.
+                <span className="text-haldi font-bold block sm:inline"> Squeeze straight to plate. No spoon, no greasy bag leaks.</span>
+              </p>
+            </div>
+
+            {/* Quick Flavour Tags */}
+            <div className="space-y-2 pt-1">
+              <span className="text-[11px] font-heading font-extrabold uppercase tracking-widest text-paper/70 block">
+                Popular Everyday Flavours:
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                {[
+                  { name: "Pudina Hari", color: "#2f8f46" },
+                  { name: "Khatti Imli", color: "#7a4a25" },
+                  { name: "Teekhi Lehsuni", color: "#9e2b1a" },
+                  { name: "Kolhapuri Thecha", color: "#3d6b1f" },
+                  { name: "Nariyal Tadka", color: "#e9dfc4" },
+                  { name: "Aam Kasundi", color: "#a88a1c" },
+                ].map((flv, idx) => (
+                  <a
+                    key={idx}
+                    href="#chutneys"
+                    className="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-paper border border-white/15 transition transform hover:scale-105"
+                  >
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: flv.color }} />
+                    <span>{flv.name}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Cluster */}
+            <div className="pt-2 flex flex-wrap items-center gap-3.5">
               <a
                 href="#chutneys"
-                className="bg-haldi hover:bg-haldi text-ink font-heading font-black text-sm sm:text-base px-7 py-3.5 rounded-xl shadow-xl transition transform active:scale-95 flex items-center space-x-2"
+                className="bg-haldi hover:bg-[#e2a80d] text-ink font-heading font-black text-sm sm:text-base px-8 py-4 rounded-xl shadow-xl transition transform active:scale-95 inline-flex items-center space-x-2 group"
               >
-                <span>{storeConfig.copy.hero.exploreCta}</span>
-                
+                <span>Try a Tube • {formatInr(pricing.single)}</span>
+                <span className="transform group-hover:translate-x-1 transition">→</span>
               </a>
               <a
-                href="#simulator"
-                className="border-2 border-paper/80 hover:border-paper text-paper font-heading font-black text-sm sm:text-base px-6 py-3 rounded-xl transition hover:bg-card/10 flex items-center space-x-2"
+                href="#packs"
+                className="bg-white/10 hover:bg-white/20 border-2 border-paper/80 hover:border-paper text-paper font-heading font-black text-sm sm:text-base px-6 py-3.5 rounded-xl transition inline-flex items-center space-x-2"
               >
-                <span>Try Squeeze Simulator</span>
-                <span></span>
+                <span>{storeConfig.copy.hero.packsCta}</span>
+                <span className="bg-haldi text-ink text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Save 10%</span>
               </a>
             </div>
 
-            {/* Quick Proof Badges */}
-            <div className="pt-4 flex flex-wrap items-center gap-4 text-xs text-steel">
-              <span className="flex items-center space-x-1.5">
-                <span className="text-haldi">✓</span>
-                <span>Zero Spoons Needed</span>
-              </span>
-              <span className="flex items-center space-x-1.5">
-                <span className="text-haldi">✓</span>
-                <span>100% Bag Leak-Proof</span>
-              </span>
-              <span className="flex items-center space-x-1.5">
-                <span className="text-haldi">✓</span>
-                <span>100% Vegetarian</span>
-              </span>
+            {/* Trust Micro-Badges */}
+            <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-paper/90">
+              <div className="flex items-center space-x-1.5">
+                <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span className="font-medium">100% Vegetarian</span>
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span className="font-medium">Zero Spoon Mess</span>
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span className="font-medium">Fits Tiffin Bags</span>
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <span className="w-4 h-4 rounded-full bg-ink border border-haldi text-haldi flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span className="font-medium">All 8 Postal Zones</span>
+              </div>
             </div>
           </div>
 
-          {/* Right Visual: 3D Photorealistic Studio Tubes Assembly */}
+          {/* Right Visual: Showcase with Floating Callout Badges */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="w-full max-w-md sm:max-w-lg relative group">
+            <div className="relative w-full max-w-md sm:max-w-lg aspect-square">
+              {/* Floating Feature Pill 1: No Sticky Jars */}
+              <div className="absolute -top-2 right-2 bg-white text-ink px-3.5 py-1.5 rounded-xl shadow-2xl border border-steel flex items-center space-x-2 text-xs font-heading font-black rotate-2 z-20">
+                <span className="w-2 h-2 rounded-full bg-red-600" />
+                <span>No Sticky Spoon or Jar Rims</span>
+              </div>
+
+              {/* Floating Feature Pill 2: 100g Pocket Size */}
+              <div className="absolute bottom-4 -left-2 bg-haldi text-ink px-3.5 py-1.5 rounded-xl shadow-2xl border border-white flex items-center space-x-2 text-xs font-heading font-black -rotate-3 z-20">
+                <span>✨ 100g Pocket Tube • 15+ Squeezes</span>
+              </div>
+
               <img
                 src="/images/hero-fanned-tubes.svg"
                 alt="Chutney Tubes fanned trio with hot crispy samosa and steel katori"
-                className="w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500 "
+                className="w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500"
               />
-              <div className="absolute -bottom-2 right-4 bg-card/90 backdrop-blur-md text-ink text-[11px] font-heading font-black px-3 py-1 rounded-full shadow-lg border border-steel hidden sm:flex items-center space-x-1.5">
-                <span className="text-leaf">●</span>
-                <span>100g Pocket Ergonomics</span>
-              </div>
             </div>
           </div>
         </div>
@@ -587,144 +629,7 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-      {/* 5. INTERACTIVE "TRY THE SQUEEZE" SIMULATOR */}
-      <section id="simulator" className="py-14 px-4 sm:px-8 bg-paper border-b border-steel">
-        <div className="max-w-5xl mx-auto bg-card rounded-3xl p-6 sm:p-10 border border-steel shadow-sm">
-          <div className="text-center max-w-xl mx-auto mb-8 space-y-2">
-            <div className="inline-flex items-center space-x-1.5 bg-haldi/20 text-ink text-[11px] font-heading font-extrabold px-3 py-1 rounded-full font-semibold">
-              <span>Interactive Demonstration</span>
-            </div>
-            <h2 className="font-heading font-black text-2xl sm:text-4xl text-ink">
-              See How It Squeezes
-            </h2>
-            <p className="text-xs sm:text-sm text-muted">
-              No jar to unscrew. No dirty spoon to wash. Just flip the cap, squeeze your exact swirl onto a samosa or paratha, and snap it shut.
-            </p>
 
-            {/* Simulator Flavour Switcher */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-3">
-              {[
-                { id: "green", name: "Hari Chutney", color: "#2f8f46" },
-                { id: "imli", name: "Imli Chutney", color: "#7a4a25" },
-                { id: "thecha", name: "Kolhapuri Thecha", color: "#3b5c2a" },
-                { id: "garlic", name: "Teekhi Lehsuni", color: "#c23a1a" },
-              ].map((flv) => (
-                <button
-                  key={flv.id}
-                  type="button"
-                  onClick={() => setSimFlavour(flv.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-heading font-bold transition flex items-center space-x-1.5 ${
-                    simFlavour === flv.id
-                      ? "bg-ink text-paper shadow-sm"
-                      : "bg-paper text-ink hover:bg-steel"
-                  }`}
-                >
-                  <span
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: flv.color }}
-                  />
-                  <span>{flv.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Interactive Squeeze Stage */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-paper rounded-2xl p-6 border border-steel">
-            {/* Left: Animated Squeeze Tube & Target Samosa */}
-            <div className="md:col-span-7 flex flex-col items-center justify-center relative min-h-[280px]">
-              {/* Squeeze Tube Graphic */}
-              <div
-                onClick={handleTriggerSqueeze}
-                className={`cursor-pointer transition-transform duration-300 select-none ${
-                  isSqueezing ? "scale-95 -translate-y-1" : ""
-                }`}
-              >
-                <div className="w-56 h-56">
-                  <ProductRender flavour={currentSimFlavour} showKatori={false} angle={-25} />
-                </div>
-              </div>
-
-              {/* Squeezed Dollop Animation onto Plate */}
-              <div className="mt-[-20px] text-center">
-                <div className="relative inline-block">
-                  {/* Plate / Samosa base */}
-                  <div className="w-36 h-12 bg-steel rounded-full border border-steel shadow-inner flex items-center justify-center relative">
-                    <span className="text-xs font-bold text-muted">Tiffin Plate</span>
-                    
-                    {/* Simulated Swirl Dollop */}
-                    {simSqueezeCount > 0 && (
-                      <div
-                        className="absolute inset-x-0 top-1/2 -translate-y-1/2 mx-auto w-10 h-7 rounded-full shadow-md animate-pulse"
-                        style={{
-                          backgroundColor: currentSimFlavour.color,
-                          boxShadow: `0 4px 10px ${currentSimFlavour.color}80`,
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Squeeze Action Panel */}
-            <div className="md:col-span-5 space-y-4 text-left">
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold font-semibold text-leaf">
-                  Step 2 in Action
-                </span>
-                <h3 className="font-heading font-black text-xl text-ink">
-                  {currentSimFlavour.name}
-                </h3>
-                <p className="text-xs text-muted">
-                  {currentSimFlavour.desc}
-                </p>
-              </div>
-
-              {/* Squeeze Counter & Benefits */}
-              <div className="bg-paper-2 rounded-xl p-4 space-y-2 text-xs">
-                <div className="flex justify-between items-center font-bold">
-                  <span>Portion Squeezed:</span>
-                  <span className="text-leaf">
-                    {simSqueezeCount === 0 ? "Ready to squeeze" : `${simSqueezeCount} squeeze done (~${simSqueezeCount * 12} kcal)`}
-                  </span>
-                </div>
-                <div className="w-full bg-paper h-2 rounded-full overflow-hidden">
-                  <div
-                    className="bg-leaf h-full transition-colors duration-300"
-                    style={{ width: `${Math.min(100, simSqueezeCount * 25)}%` }}
-                  />
-                </div>
-                <p className="text-[11px] text-muted">
-                  One 100g tube contains approximately <strong>8 to 12 desk lunch servings</strong>.
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-2 pt-1">
-                <button
-                  type="button"
-                  onClick={handleTriggerSqueeze}
-                  className="w-full bg-haldi hover:bg-haldi text-ink font-heading font-black text-sm py-3 rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center space-x-2"
-                >
-                  <span>{isSqueezing ? "Squeezing Chutney…" : "Tap to Squeeze Chutney"}</span>
-                  <span></span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    addToCart("single", [currentSimFlavour.id], currentSimFlavour.name, pricing.single)
-                  }
-                  className="w-full bg-ink hover:bg-deepLeaf text-paper font-heading font-bold text-xs py-2.5 rounded-xl shadow transition"
-                >
-                  Add {currentSimFlavour.local} to Cart · {formatInr(pricing.single)}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 6. CATALOGUE (All 12 Everyday Indian Chutneys) */}
       <section id="chutneys" className="py-16 px-4 sm:px-8 max-w-6xl mx-auto w-full">
@@ -1226,8 +1131,9 @@ export default function StoreHomePage() {
             <h4 className="font-heading font-bold text-xs font-semibold text-haldi">Shop</h4>
             <ul className="space-y-1.5 text-xs text-paper">
               <li><a href="#chutneys" className="hover:underline">All 12 Chutneys</a></li>
-              <li><a href="#simulator" className="hover:underline">Squeeze Simulator</a></li>
               <li><a href="#packs" className="hover:underline">Packs &amp; Bundles</a></li>
+              <li><a href="#anatomy" className="hover:underline">Packaging Anatomy</a></li>
+              <li><a href="#comparison" className="hover:underline">Tube vs Jar</a></li>
               <li><a href="#faq" className="hover:underline">FAQ</a></li>
             </ul>
           </div>

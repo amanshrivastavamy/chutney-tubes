@@ -1,7 +1,7 @@
 /**
  * Production-Ready Standalone Server for Chutney Tubes
  * Pure Node.js runner with zero external dependencies.
- * Hallmark Design System compliant: Stage Hero, Squeeze Simulator, 12 Flavours,
+ * Hallmark Design System compliant: Editorial Hero, 12 Authentic Flavours,
  * Packaging Anatomy, Why a Tube matrix, Mock Checkout & Honest Reveal.
  */
 
@@ -823,11 +823,10 @@ function renderMainStoreHtml(options = {}) {
       </a>
 
       <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold text-[#f4f3ec]">
-        <a href="#chutneys" class="hover:text-[#f2b81d] transition">Chutneys</a>
-        <a href="#simulator" class="hover:text-[#f2b81d] transition">Try Squeeze</a>
-        <a href="#anatomy" class="hover:text-[#f2b81d] transition">Anatomy</a>
+        <a href="#chutneys" class="hover:text-[#f2b81d] transition">All 12 Chutneys</a>
+        <a href="#packs" class="hover:text-[#f2b81d] transition">Packs &amp; Combos</a>
+        <a href="#anatomy" class="hover:text-[#f2b81d] transition">Packaging</a>
         <a href="#comparison" class="hover:text-[#f2b81d] transition">Why a Tube?</a>
-        <a href="#packs" class="hover:text-[#f2b81d] transition">Packs</a>
         <a href="#faq" class="hover:text-[#f2b81d] transition">FAQ</a>
       </nav>
 
@@ -838,57 +837,124 @@ function renderMainStoreHtml(options = {}) {
     </header>
 
     <main>
-      <!-- Hallmark Stage Hero Section -->
-      <section class="bg-gradient-to-b from-[#134a28] to-[#1d6b3a] text-white pt-12 pb-20 px-4 sm:px-8 border-b border-[#134a28] overflow-hidden">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Hallmark Editorial Hero Section -->
+      <section class="relative bg-gradient-to-b from-[#103b20] via-[#134a28] to-[#1d6b3a] text-white pt-10 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-8 border-b border-[#103b20] overflow-hidden">
+        <!-- Ambient Warm Haldi Golden Radial Glows -->
+        <div class="absolute -right-28 top-1/4 w-[520px] h-[520px] rounded-full bg-[#f2b81d]/15 blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-28 bottom-0 w-[420px] h-[420px] rounded-full bg-[#2f8f46]/20 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
           <div class="lg:col-span-7 space-y-6 text-left">
-            <div class="inline-flex items-center space-x-2 bg-[#18241b]/60 backdrop-blur px-3 py-1.5 rounded-full border border-white/10">
-              <span class="w-2 h-2 rounded-full bg-[#f2b81d] animate-pulse"></span>
-              <span class="text-xs font-heading font-extrabold uppercase tracking-wider text-[#f2b81d]">${c.copy.hero.smallCaps}</span>
+            <!-- Brand Pre-Launch Kicker Pill -->
+            <div class="inline-flex items-center space-x-2.5 bg-[#18241b]/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#f2b81d]/30 shadow-md">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#f2b81d] animate-pulse"></span>
+              <span class="text-xs font-heading font-extrabold uppercase tracking-wider text-[#f2b81d]">
+                Pre-Launch Special • 100% Homestyle Chutneys
+              </span>
             </div>
             
-            <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.08] tracking-tight">
+            <!-- Hero Display Headline -->
+            <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
               ${c.copy.hero.headlinePart1}
-              <span class="text-[#f2b81d]">${c.copy.hero.headlineHighlight}</span>
+              <span class="text-[#f2b81d] block sm:inline underline decoration-[#c8361f]/50 decoration-wavy decoration-2">
+                ${c.copy.hero.headlineHighlight}
+              </span>
             </h1>
 
-            <p class="text-base sm:text-xl text-[#f4f3ec] leading-relaxed max-w-xl font-normal">
+            <!-- Editorial Subheading -->
+            <p class="text-base sm:text-lg lg:text-xl text-[#f4f3ec]/95 leading-relaxed max-w-xl font-normal">
               ${c.copy.hero.sub}
             </p>
 
-            <p class="text-xs sm:text-sm text-[#f2b81d] font-bold tracking-wide">
-              Desk-lunch chutney with no mess. Squeeze straight onto samosas, parathas, and snacks.
-            </p>
+            <!-- Value Proposition Statement -->
+            <div class="bg-black/20 backdrop-blur-sm border-l-4 border-[#f2b81d] pl-3.5 py-2 pr-3 rounded-r-xl">
+              <p class="text-xs sm:text-sm text-[#f4f3ec] font-medium leading-snug">
+                Twelve everyday Indian favourites crafted for desk lunches, office tiffins, and evening snacks.
+                <span class="text-[#f2b81d] font-bold block sm:inline"> Squeeze straight to plate. No spoon, no greasy bag leaks.</span>
+              </p>
+            </div>
 
-            <div class="pt-2 flex flex-wrap items-center gap-3">
-              <a href="#chutneys" class="bg-[#f2b81d] hover:bg-[#e2a80d] text-[#18241b] font-heading font-black text-sm sm:text-base px-8 py-4 rounded-xl shadow-lg transition transform active:scale-95 inline-flex items-center space-x-2">
-                <span>Try a Tube •</span>
-                <span id="hero-cta-price">₹99</span>
+            <!-- Flavour Quick-Preview Tags Ribbon -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[11px] font-heading font-extrabold uppercase tracking-widest text-[#f4f3ec]/70 block">
+                Popular Everyday Flavours:
+              </span>
+              <div class="flex flex-wrap items-center gap-2">
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#2f8f46]"></span>
+                  <span>Pudina Hari</span>
+                </a>
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#7a4a25]"></span>
+                  <span>Khatti Imli</span>
+                </a>
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#9e2b1a]"></span>
+                  <span>Teekhi Lehsuni</span>
+                </a>
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#3d6b1f]"></span>
+                  <span>Kolhapuri Thecha</span>
+                </a>
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#e9dfc4]"></span>
+                  <span>Nariyal Tadka</span>
+                </a>
+                <a href="#chutneys" class="inline-flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs text-[#f4f3ec] border border-white/15 transition transform hover:scale-105">
+                  <span class="w-2 h-2 rounded-full bg-[#a88a1c]"></span>
+                  <span>Aam Kasundi</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="pt-2 flex flex-wrap items-center gap-3.5">
+              <a href="#chutneys" class="bg-[#f2b81d] hover:bg-[#e2a80d] text-[#18241b] font-heading font-black text-sm sm:text-base px-8 py-4 rounded-xl shadow-xl transition transform active:scale-95 inline-flex items-center space-x-2 group">
+                <span>Explore 12 Chutneys •</span>
+                <span id="hero-cta-price" class="font-extrabold">₹99</span>
+                <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
               </a>
-              <a href="#packs" class="border-2 border-white/80 hover:border-white text-white font-heading font-black text-sm sm:text-base px-6 py-3.5 rounded-xl transition hover:bg-white/10">
-                ${c.copy.hero.packsCta}
+              <a href="#packs" class="bg-white/10 hover:bg-white/20 border-2 border-white/80 hover:border-white text-white font-heading font-black text-sm sm:text-base px-6 py-3.5 rounded-xl transition inline-flex items-center space-x-2">
+                <span>${c.copy.hero.packsCta}</span>
+                <span class="bg-[#f2b81d] text-[#18241b] text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Save 10%</span>
               </a>
             </div>
 
-            <!-- Trust Pills -->
-            <div class="pt-4 flex flex-wrap items-center gap-4 text-xs text-[#f4f3ec]/90">
-              <span class="flex items-center space-x-1.5">
-                <svg class="w-4 h-4 text-[#f2b81d]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                <span>100% Vegetarian</span>
-              </span>
-              <span class="flex items-center space-x-1.5">
-                <svg class="w-4 h-4 text-[#f2b81d]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                <span>No Leaky Dabbas</span>
-              </span>
-              <span class="flex items-center space-x-1.5">
-                <svg class="w-4 h-4 text-[#f2b81d]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                <span>Fits in Tiffin Bag</span>
-              </span>
+            <!-- Trust / Guarantee Micro-Badges -->
+            <div class="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-[#f4f3ec]/90">
+              <div class="flex items-center space-x-1.5">
+                <span class="w-4 h-4 rounded-full bg-[#18241b] border border-[#f2b81d] text-[#f2b81d] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span class="font-medium">100% Vegetarian</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-4 h-4 rounded-full bg-[#18241b] border border-[#f2b81d] text-[#f2b81d] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span class="font-medium">Zero Spoon Mess</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-4 h-4 rounded-full bg-[#18241b] border border-[#f2b81d] text-[#f2b81d] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span class="font-medium">Fits Tiffin Bags</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-4 h-4 rounded-full bg-[#18241b] border border-[#f2b81d] text-[#f2b81d] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span class="font-medium">All 8 Postal Zones</span>
+              </div>
             </div>
           </div>
 
+          <!-- Hero Right Visual: 3D Studio Showcase with Floating Feature Stickers -->
           <div class="lg:col-span-5 flex justify-center lg:justify-end">
-            <div class="w-full max-w-md sm:max-w-lg aspect-square">
+            <div class="relative w-full max-w-md sm:max-w-lg aspect-square">
+              <!-- Floating Feature Pill 1: No Sticky Jars -->
+              <div class="absolute -top-2 right-2 bg-white text-[#18241b] px-3.5 py-1.5 rounded-xl shadow-2xl border border-[#d8dcd4] flex items-center space-x-2 text-xs font-heading font-black rotate-2 z-20">
+                <span class="w-2 h-2 rounded-full bg-[#c8361f]"></span>
+                <span>No Sticky Spoon or Jar Rims</span>
+              </div>
+
+              <!-- Floating Feature Pill 2: 100g Pocket Size -->
+              <div class="absolute bottom-4 -left-2 bg-[#f2b81d] text-[#18241b] px-3.5 py-1.5 rounded-xl shadow-2xl border border-white flex items-center space-x-2 text-xs font-heading font-black -rotate-3 z-20">
+                <span>✨ 100g Pocket Tube • 15+ Squeezes</span>
+              </div>
+
               ${renderHeroFannedSvg()}
             </div>
           </div>
@@ -932,94 +998,7 @@ function renderMainStoreHtml(options = {}) {
         </div>
       </section>
 
-      <!-- Interactive Squeeze Simulator ("Try the Squeeze") -->
-      <section id="simulator" class="py-16 px-4 sm:px-8 bg-[#f4f3ec] border-b border-[#d8dcd4]">
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-[#d8dcd4] shadow-sm">
-          <div class="text-center max-w-xl mx-auto mb-8 space-y-2">
-            <span class="text-xs uppercase font-heading font-extrabold tracking-widest text-[#1d6b3a]">Interactive Demo</span>
-            <h2 class="font-heading font-black text-3xl sm:text-4xl text-[#18241b]">Try the Squeeze Simulator</h2>
-            <p class="text-sm sm:text-base text-[#57534e]">Pick your snack, pick a chutney, and hit squeeze to see how clean desk lunch becomes.</p>
-          </div>
 
-          <!-- Snack & Chutney Selectors -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="space-y-2">
-              <label class="block text-xs font-heading font-black uppercase text-[#18241b] tracking-wider">1. Choose Your Snack</label>
-              <div class="grid grid-cols-2 gap-2" id="sim-snack-selector">
-                <button type="button" onclick="setSimSnack('samosa')" id="btn-snack-samosa" class="sim-btn p-3 rounded-2xl border-2 border-[#18241b] bg-[#f4f3ec] text-xs font-bold text-[#18241b] flex items-center justify-center space-x-2 transition">
-                  <span>🥟 Hot Samosa</span>
-                </button>
-                <button type="button" onclick="setSimSnack('pakora')" id="btn-snack-pakora" class="sim-btn p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center justify-center space-x-2 transition">
-                  <span>🧅 Crisp Pakora</span>
-                </button>
-                <button type="button" onclick="setSimSnack('toast')" id="btn-snack-toast" class="sim-btn p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center justify-center space-x-2 transition">
-                  <span>🍞 Butter Toast</span>
-                </button>
-                <button type="button" onclick="setSimSnack('idli')" id="btn-snack-idli" class="sim-btn p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center justify-center space-x-2 transition">
-                  <span>⚪ Steamed Idli</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="space-y-2">
-              <label class="block text-xs font-heading font-black uppercase text-[#18241b] tracking-wider">2. Choose Chutney Flavour</label>
-              <div class="grid grid-cols-2 gap-2" id="sim-flavour-selector">
-                <button type="button" onclick="setSimFlavour('green', '#2f8f46')" id="btn-sim-green" class="sim-flv p-3 rounded-2xl border-2 border-[#2f8f46] bg-[#2f8f46]/10 text-xs font-bold text-[#18241b] flex items-center space-x-2 transition">
-                  <span class="w-3 h-3 rounded-full bg-[#2f8f46]"></span>
-                  <span>Chatpati Hari</span>
-                </button>
-                <button type="button" onclick="setSimFlavour('imli', '#7a4a25')" id="btn-sim-imli" class="sim-flv p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center space-x-2 transition">
-                  <span class="w-3 h-3 rounded-full bg-[#7a4a25]"></span>
-                  <span>Khatti Imli</span>
-                </button>
-                <button type="button" onclick="setSimFlavour('garlic', '#9e2b1a')" id="btn-sim-garlic" class="sim-flv p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center space-x-2 transition">
-                  <span class="w-3 h-3 rounded-full bg-[#9e2b1a]"></span>
-                  <span>Teekhi Lehsuni</span>
-                </button>
-                <button type="button" onclick="setSimFlavour('schezwan', '#c23a1a')" id="btn-sim-schezwan" class="sim-flv p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center space-x-2 transition">
-                  <span class="w-3 h-3 rounded-full bg-[#c23a1a]"></span>
-                  <span>Desi Schezwan</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Interactive Plate Visual Stage -->
-          <div class="relative bg-[#f4f3ec] rounded-2xl p-6 sm:p-10 border border-[#d8dcd4] flex flex-col items-center justify-center min-h-[260px] overflow-hidden">
-            <!-- Steel Plate SVG -->
-            <svg viewBox="0 0 320 200" class="w-64 sm:w-80 h-auto">
-              <!-- Plate Outer Rim -->
-              <ellipse cx="160" cy="120" rx="140" ry="60" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" />
-              <ellipse cx="160" cy="118" rx="125" ry="50" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-              
-              <!-- Snack Illustration on Plate -->
-              <g id="sim-snack-svg">
-                <!-- Default Samosa -->
-                <polygon points="160,60 115,130 205,130" fill="#d97706" stroke="#92400e" stroke-width="2" />
-                <path d="M 160 60 Q 155 100 115 130" stroke="#b45309" stroke-width="2" fill="none" opacity="0.6" />
-                <polygon points="160,65 125,125 195,125" fill="#f59e0b" opacity="0.4" />
-                <circle cx="150" cy="100" r="1.5" fill="#78350f" />
-                <circle cx="170" cy="115" r="1.5" fill="#78350f" />
-              </g>
-
-              <!-- Dynamic Chutney Dollop Swirl on Snack -->
-              <g id="sim-dollop-layer" class="hidden">
-                <ellipse cx="160" cy="112" rx="22" ry="14" id="sim-dollop-ellipse" fill="#2f8f46" class="animate-dollop" />
-                <path d="M 152 110 Q 160 102 168 108 Q 163 118 155 114" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75" />
-                <circle cx="165" cy="114" r="1.5" fill="#18241b" opacity="0.6" />
-              </g>
-            </svg>
-
-            <!-- Squeeze Action Trigger Button -->
-            <div class="mt-6 flex flex-col items-center space-y-3 z-10">
-              <button type="button" onclick="triggerSqueezeAnimation()" id="btn-trigger-squeeze" class="bg-[#1d6b3a] hover:bg-[#134a28] text-white font-heading font-black text-sm px-8 py-3.5 rounded-2xl shadow-lg transition transform active:scale-95 flex items-center space-x-2">
-                <span>💦 Squeeze Chutney</span>
-              </button>
-              <span id="sim-status-pill" class="text-xs font-bold text-[#134a28] bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-[#d8dcd4]">Ready to squeeze</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- 12 Flavour Catalogue Section -->
       <section id="chutneys" class="py-16 px-4 sm:px-8 max-w-6xl mx-auto w-full">
@@ -1715,70 +1694,7 @@ function renderMainStoreHtml(options = {}) {
         }
       }
 
-      // Squeeze Simulator Controller
-      let currentSnack = 'samosa';
-      let currentSimFlavourColor = '#2f8f46';
 
-      function setSimSnack(snack) {
-        currentSnack = snack;
-        ['samosa', 'pakora', 'toast', 'idli'].forEach(s => {
-          const btn = document.getElementById('btn-snack-' + s);
-          if (btn) {
-            if (s === snack) {
-              btn.className = 'sim-btn p-3 rounded-2xl border-2 border-[#18241b] bg-[#f4f3ec] text-xs font-bold text-[#18241b] flex items-center justify-center space-x-2 transition';
-            } else {
-              btn.className = 'sim-btn p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center justify-center space-x-2 transition';
-            }
-          }
-        });
-
-        const snackSvg = document.getElementById('sim-snack-svg');
-        if (snack === 'samosa') {
-          snackSvg.innerHTML = '<polygon points=\"160,60 115,130 205,130\" fill=\"#d97706\" stroke=\"#92400e\" stroke-width=\"2\" />' +
-            '<path d=\"M 160 60 Q 155 100 115 130\" stroke=\"#b45309\" stroke-width=\"2\" fill=\"none\" opacity=\"0.6\" />' +
-            '<polygon points=\"160,65 125,125 195,125\" fill=\"#f59e0b\" opacity=\"0.4\" />';
-        } else if (snack === 'pakora') {
-          snackSvg.innerHTML = '<circle cx=\"160\" cy=\"110\" r=\"35\" fill=\"#b45309\" stroke=\"#78350f\" stroke-width=\"2\" />' +
-            '<circle cx=\"145\" cy=\"95\" r=\"10\" fill=\"#d97706\" />' +
-            '<circle cx=\"175\" cy=\"115\" r=\"12\" fill=\"#d97706\" />';
-        } else if (snack === 'toast') {
-          snackSvg.innerHTML = '<rect x=\"120\" y=\"80\" width=\"80\" height=\"60\" rx=\"6\" fill=\"#fde047\" stroke=\"#ca8a04\" stroke-width=\"2\" />' +
-            '<rect x=\"130\" y=\"90\" width=\"60\" height=\"40\" rx=\"4\" fill=\"#fef08a\" opacity=\"0.8\" />';
-        } else if (snack === 'idli') {
-          snackSvg.innerHTML = '<ellipse cx=\"160\" cy=\"110\" rx=\"40\" ry=\"26\" fill=\"#ffffff\" stroke=\"#cbd5e1\" stroke-width=\"2\" />' +
-            '<ellipse cx=\"160\" cy=\"108\" rx=\"34\" ry=\"20\" fill=\"#f8fafc\" />';
-        }
-        document.getElementById('sim-dollop-layer').classList.add('hidden');
-        document.getElementById('sim-status-pill').textContent = 'Ready to squeeze';
-      }
-
-      function setSimFlavour(flv, color) {
-        currentSimFlavourColor = color;
-        ['green', 'imli', 'garlic', 'schezwan'].forEach(f => {
-          const btn = document.getElementById('btn-sim-' + f);
-          if (btn) {
-            if (f === flv) {
-              btn.className = 'sim-flv p-3 rounded-2xl border-2 border-[#18241b] bg-[#f4f3ec] text-xs font-bold text-[#18241b] flex items-center space-x-2 transition';
-            } else {
-              btn.className = 'sim-flv p-3 rounded-2xl border border-[#d8dcd4] bg-white text-xs font-bold text-[#57534e] flex items-center space-x-2 transition';
-            }
-          }
-        });
-        const dollop = document.getElementById('sim-dollop-ellipse');
-        if (dollop) dollop.setAttribute('fill', color);
-      }
-
-      function triggerSqueezeAnimation() {
-        const dollopLayer = document.getElementById('sim-dollop-layer');
-        const dollop = document.getElementById('sim-dollop-ellipse');
-        dollop.setAttribute('fill', currentSimFlavourColor);
-        dollopLayer.classList.remove('hidden');
-
-        const status = document.getElementById('sim-status-pill');
-        status.textContent = '✓ Perfect mess-free dollop! Zero oily drip.';
-        status.className = 'text-xs font-bold text-[#1d6b3a] bg-green-50 px-3 py-1 rounded-full border border-green-200 animate-bounce';
-        logEvent('flavour_selected', { flavour: currentSimFlavourColor, mode: 'simulator', snack: currentSnack });
-      }
 
       // Taste Profile Modal
       let activeModalFlavourId = 'green';
