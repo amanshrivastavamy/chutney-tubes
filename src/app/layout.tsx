@@ -1,11 +1,36 @@
 import "./globals.css";
 import React from "react";
-import productConfig from "../config/product.config";
+import storeConfig from "../config/store";
 
 export const metadata = {
-  title: `${productConfig.brand.name} | Desk-Lunch Chutney with Zero Mess`,
-  description: productConfig.brand.tagline,
+  title: "Chutney Tubes: your favourite chutney, now in a tube",
+  description: "Hari, imli, schezwan, momo and more, in a squeezable tube. No spoon, no sticky jar, no spill. 12 everyday favourites delivered across India.",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "Chutney Tubes: your favourite chutney, now in a tube",
+    description: "Hari, imli, schezwan, momo and more, in a squeezable tube. 100% vegetarian everyday chutneys.",
+    url: "https://chutneytubes.in",
+    siteName: "Chutney Tubes",
+    images: [
+      {
+        url: "/images/og-share.svg",
+        width: 1200,
+        height: 630,
+        alt: "Chutney Tubes - Squeezable Indian Chutneys",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chutney Tubes: your favourite chutney, now in a tube",
+    description: "Hari, imli, schezwan, momo and more, in a squeezable tube.",
+    images: ["/images/og-share.svg"],
+  },
 };
 
 export default function RootLayout({
@@ -19,11 +44,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hind:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#FAF7F2] text-[#1C1917] antialiased selection:bg-[#FDE68A] selection:text-[#78350F]">
+      <body className="min-h-screen bg-[#f4f3ec] text-[#18241b] antialiased selection:bg-[#f2b81d] selection:text-[#18241b]">
         {children}
       </body>
     </html>

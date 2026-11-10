@@ -1,90 +1,81 @@
 import React from "react";
 import Link from "next/link";
-import productConfig from "../../config/product.config";
+import storeConfig from "../../config/store";
 
 export const metadata = {
-  title: `Terms of Pre-Launch Validation | ${productConfig.brand.name}`,
-  description: "Terms governing the fake door demand test for Chutney Tubes.",
+  title: `Terms of Service | ${storeConfig.brand.name}`,
+  description: "Terms and conditions for Chutney Tubes pre-launch store.",
 };
 
-export default function TermsPage() {
+export default function TermsPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] flex flex-col justify-between">
-      <header className="bg-white border-b border-[#E7E5E4] py-4 px-4 sm:px-8">
+    <div className="min-h-screen bg-[#f4f3ec] text-[#18241b] flex flex-col justify-between">
+      <header className="bg-[#134a28] text-white py-4 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-[#C2410C] flex items-center justify-center text-white font-black text-sm">
-              C
-            </div>
-            <span className="font-extrabold text-lg text-[#1C1917]">
-              {productConfig.brand.name}
+            <span className="font-heading font-extrabold text-xl text-[#f2b81d]">
+              {storeConfig.brand.name}
             </span>
           </Link>
-          <Link href="/" className="text-xs font-bold text-[#C2410C] hover:underline">
-            ← Return to Home
+          <Link href="/" className="text-xs font-bold text-[#f4f3ec] hover:text-[#f2b81d] transition">
+            ← Back to Shop
           </Link>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto w-full p-6 sm:p-10 my-8 bg-white rounded-3xl border border-[#E7E5E4] shadow-sm space-y-6">
+      <main className="max-w-3xl mx-auto w-full p-6 sm:p-10 my-8 bg-white rounded-3xl border border-[#d8dcd4] shadow-sm space-y-6">
         <div>
-          <span className="text-xs font-bold text-[#C2410C] uppercase tracking-wider">
-            Consumer Information
+          <span className="text-xs font-bold text-[#1d6b3a] uppercase tracking-wider font-heading">
+            Store Terms
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#1C1917] mt-1">
-            Terms of Pre-Launch Demand Testing
+          <h1 className="text-2xl sm:text-3xl font-heading font-black text-[#18241b] mt-1">
+            Terms of Service
           </h1>
-          <p className="text-xs text-[#78716C] mt-1">
+          <p className="text-xs text-[#57534e] mt-1">
             Last updated: November 2026
           </p>
         </div>
 
-        <div className="space-y-4 text-sm text-[#57534E] leading-relaxed">
+        <div className="space-y-4 text-sm text-[#18241b] leading-relaxed">
           <section className="space-y-2">
-            <h2 className="text-base font-extrabold text-[#1C1917]">1. Non-Commercial Nature of this Website</h2>
+            <h2 className="text-base font-bold font-heading">1. Pricing &amp; Currency</h2>
             <p>
-              This website is an early-stage consumer demand experiment (&ldquo;fake door test&rdquo;) designed solely to measure purchasing intent for <strong>{productConfig.brand.name}</strong>.
-            </p>
-            <p>
-              No sale of goods, financial transaction, contract for supply, or binding commercial agreement is completed on this site.
+              All prices shown on this site are in <strong>Indian Rupees (INR)</strong> and are inclusive of all applicable taxes (&ldquo;MRP incl. of all taxes&rdquo;).
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="text-base font-extrabold text-[#1C1917]">2. No Payment Collection</h2>
+            <h2 className="text-base font-bold font-heading">2. Packaging &amp; Product Imagery</h2>
             <p>
-              At no point are visitors required, prompted, or able to submit payment credentials. The checkout and payment steps are simulated mock interfaces designed to quantify customer interest without taking payments.
+              Product renders and packaging images displayed on this site are illustrative visual representations designed for consumer interest evaluation. Final commercial packaging, label layout, and seals may differ slightly upon physical batch production.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="text-base font-extrabold text-[#1C1917]">3. Product Specifications and Timelines</h2>
+            <h2 className="text-base font-bold font-heading">3. Spice Levels &amp; Taste Guide</h2>
             <p>
-              All product imagery, representations, packaging mockups, shelf-life estimates, and ingredient listings marked with <strong>[TBD]</strong> represent planned specifications currently subject to food technology testing, shelf stability assays, and regulatory certifications.
+              Our spice ratings (Mild 1, Medium 2, Hot 3) serve as a helpful culinary guide based on traditional regional recipes. Individual tolerance to chillies and spices may vary.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="text-base font-extrabold text-[#1C1917]">4. Early Access &amp; Launch Discount</h2>
+            <h2 className="text-base font-bold font-heading">4. Food Allergens &amp; Ingredients</h2>
             <p>
-              Registering an order preference or opting into the discount list grants priority access to order from the first commercial production batch should the product proceed to manufacturing. It does not guarantee delivery dates or impose any obligation to purchase.
+              Please check the ingredient list for common food allergens (including mustard seeds, peanuts, tamarind, and coconut) before consumption once physical packs are received.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="text-base font-extrabold text-[#1C1917]">5. Inquiries</h2>
+            <h2 className="text-base font-bold font-heading">5. Demand Validation Notice</h2>
             <p>
-              For questions regarding this study or product development, please reach out to:{" "}
-              <a href={`mailto:${productConfig.brand.contactEmail}`} className="text-[#C2410C] font-bold underline">
-                {productConfig.brand.contactEmail}
-              </a>
+              This website is operated to test consumer interest in squeezable chutney tubes before commercial manufacturing. Simulated mock checkouts do not charge any money or constitute a binding sale contract.
             </p>
           </section>
         </div>
       </main>
 
-      <footer className="py-6 text-center text-xs text-[#78716C] border-t border-[#E7E5E4]">
-        <p>© {new Date().getFullYear()} {productConfig.brand.name}. All rights reserved.</p>
+      <footer className="py-6 text-center text-xs text-[#57534e] border-t border-[#d8dcd4]">
+        <p>{storeConfig.brand.copyright}. All rights reserved.</p>
       </footer>
     </div>
   );

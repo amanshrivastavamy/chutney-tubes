@@ -1,334 +1,310 @@
 # Chutney Tubes 🌶️ — Pre-Launch "Fake Door" Demand Test
 
-A mobile-first landing page and mock checkout built for testing real consumer purchase intent for **Chutney Tubes** (home-style Indian chutney in a squeezable, toothpaste-style tube) before committing capital to manufacturing.
+A mobile-first landing page and mock checkout built for testing real consumer purchase intent for **Chutney Tubes** (everyday Indian chutneys in squeezable, toothpaste-style tubes) before committing capital to manufacturing and inventory.
 
-> **Validation Design:** The entire checkout and payment journey feels real, but **NO payment is processed and NO payment details (card numbers, CVV, or UPI PINs) are ever collected.** Upon clicking "Pay", visitors encounter an honest reveal screen thanking them for helping validate demand, with an optional 20% launch-day discount opt-in and qualitative feedback questionnaire.
+> **Demand Test Validation Design:** The entire checkout journey feels 100% authentic all the way to the "Pay" button. However, **NO payment is processed and NO payment details (card numbers, CVV, or UPI PINs) are ever collected.** Upon clicking "Pay", visitors encounter an unmistakable, honest reveal screen explaining the pre-launch validation, offering an optional launch-day discount opt-in, and asking short qualitative questions.
 
 ---
 
 ## 📋 Table of Contents
-1. [Core Features](#-core-features)
-2. [Project Architecture](#-project-architecture)
-3. [Running Locally](#-running-locally)
-4. [How to Configure Brand, Prices, Flavours & Pincodes](#-how-to-configure-brand-prices-flavours--pincodes)
-5. [A/B/C Price Testing & Traffic Source Tagging](#-abc-price-testing--traffic-source-tagging)
-6. [Tracking & Firebase Firestore Setup](#-tracking--firebase-firestore-setup)
-7. [How to Read the Admin Dashboard](#-how-to-read-the-admin-dashboard)
-8. [Deployment Guide (Vercel & Firebase Hosting)](#-deployment-guide-vercel--firebase-hosting)
-9. [Running the Test Suite](#-running-the-test-suite)
-10. [Compliance & Privacy (India DPDP Act 2023)](#-compliance--privacy-india-dpdp-act-2023)
+1. [Quick Start (For Non-Tech Users)](#-quick-start-for-non-tech-users)
+2. [Single-File Configuration (`src/config/store.ts`)](#-single-file-configuration)
+3. [How to Add Real Product Photos](#-how-to-add-real-product-photos)
+4. [A/B/C Price Testing & Ad Source Tagging](#-abc-price-testing--ad-source-tagging)
+5. [Tracking & Firebase Setup](#-tracking--firebase-setup)
+6. [How to Read the Admin Dashboard](#-how-to-read-the-admin-dashboard)
+7. [Deployment Guide (Vercel & Firebase Hosting)](#-deployment-guide)
+8. [Connecting Your Own Custom Domain](#-connecting-your-own-custom-domain)
+9. [Automated Test Suite](#-automated-test-suite)
+10. [Ethics & Privacy Compliance (India DPDP Act 2023)](#-ethics--privacy-compliance)
 
 ---
 
-## 🌟 Core Features
+## ⚡ Quick Start (For Non-Tech Users)
 
-- **Working Brand Config:** Renaming the product or tagline in `src/config/product.config.js` updates every page, header, and metadata tag instantly.
-- **Flavours & Packs:** Configurable list with Tamarind (Imli), Garlic-Chilli, and Mint-Coriander with individual descriptions, pairings, and in-stock badges; single tube and 3-pack options with real-time total ₹ calculation.
-- **Desk-Lunch Focus:** Clean messaging crafted for metro office workers eating lunch at their desk (and hostel students) with a comparison matrix vs glass jars, plastic sachets, and stainless steel dabbas.
-- **Transparent FAQ:** Honest answers with explicit `[TBD]` markers for shelf-life, ingredients, and refrigeration pending food lab results.
-- **Pincode Delivery Check:** Live lookup against metro launch cities (Bengaluru, Mumbai, Delhi NCR, Pune, Hyderabad, Chennai, Kolkata). Non-launch pincodes seamlessly trigger an area waitlist registration.
-- **MOCK Payment Step:** Plain buttons for UPI, Card, and Cash on Delivery. Zero payment gateways, zero financial input fields, and no third-party branding (no Razorpay, Paytm, PhonePe, GPay, Blinkit, Zepto, or Swiggy logos).
-- **Unmistakable Honest Reveal Screen:** Reassures users they were not charged, explains the demand experiment, offers an unchecked 20% discount opt-in, and asks:
-  1. *"What almost stopped you from buying?"* (free text)
-  2. *"How often would you use it?"* (Daily / A few times a week / Weekly / Rarely)
-- **Protected Admin Dashboard:** Live funnel visualization with conversion %, A/B/C price variant breakdown, traffic source breakdown, qualitative feedback quotes, and CSV export.
+You do **not** need to be a developer to run this project on your Windows PC!
 
----
+### Method 1: The 1-Click Desktop Launcher
+1. Double-click the file named:
+   ```
+   START_CHUTNEY_TUBES.bat
+   ```
+2. A terminal window will open, automatically start the server, and open your browser to:
+   ```
+   http://localhost:3000
+   ```
+3. To stop the server, just close the terminal window or press `Ctrl + C`.
 
-## 🏗️ Project Architecture
-
-```
-chutney-tubes/
-├── dev-server.js              # Zero-dependency local server runner (runs with node / agy-node)
-├── firestore.rules            # Firestore security rules (public write-only, read-restricted)
-├── firebase.json              # Firebase Hosting & Firestore deploy configuration
-├── next.config.js             # Next.js configuration
-├── tailwind.config.js         # Tailwind theme with warm Indian spice palette
-├── postcss.config.js          # PostCSS configuration
-├── tsconfig.json              # TypeScript configuration
-├── package.json               # Scripts and dependencies
-├── .env.example               # Template for Firebase credentials & admin password
-├── .env.local                 # Local environment variables
-│
-├── public/
-│   └── images/                # Clean SVG illustrations (hero, flavours, how-it-works)
-│       ├── hero-tubes.svg
-│       ├── flavour-tamarind.svg
-│       ├── flavour-garlic.svg
-│       ├── flavour-mint.svg
-│       ├── step-1.svg
-│       ├── step-2.svg
-│       └── step-3.svg
-│
-├── src/
-│   ├── config/
-│   │   ├── product.config.js  # Master configuration (Brand, Theme, Prices, Flavours, Pincodes, FAQ)
-│   │   └── index.ts           # TypeScript exports & helper methods
-│   ├── lib/
-│   │   ├── tracking.ts        # Client event logger & sticky variant/source resolver
-│   │   ├── firebase.ts        # Resilient Firestore sync client
-│   │   └── metrics.js         # Funnel conversion & analytics aggregation engine
-│   └── app/
-│       ├── layout.tsx         # Root HTML layout with Google Fonts
-│       ├── page.tsx           # Long-scroll Landing Page
-│       ├── globals.css        # Tailwind directives and accessible CSS variables
-│       ├── checkout/
-│       │   └── page.tsx       # Delivery info, live pincode check & mock payment buttons
-│       ├── reveal/
-│       │   └── page.tsx       # Unmistakable honest reveal & survey screen
-│       ├── admin/
-│       │   └── page.tsx       # Password-protected funnel dashboard & metrics
-│       ├── privacy/
-│       │   └── page.tsx       # India DPDP Act 2023 compliant Privacy Policy
-│       ├── terms/
-│       │   └── page.tsx       # Terms of Pre-launch Demand Validation
-│       └── api/
-│           ├── events/route.ts# Event ingestion endpoint
-│           ├── admin/route.ts # Admin auth & metrics computation
-│           └── export/route.ts# CSV export download route
-│
-├── tests/
-│   ├── pricing.test.js        # A/B/C price variant & sticky assignment tests
-│   ├── tracking.test.js       # Event logging & source resolution tests
-│   ├── pincode.test.js        # Metro launch pincode validation tests
-│   ├── funnel.test.js         # Conversion calculation & survey parsing tests
-│   └── server.test.js         # Request/response integration tests
-│
-└── data/
-    ├── events.json            # Local fallback event database
-    └── waitlist.json          # Local fallback waitlist entries
-```
-
----
-
-## ⚡ Running Locally
-
-### Option 1: Instant Standalone Server (Zero-Dependency)
-You can run the full app locally immediately with Node.js or `agy-node`:
-
-```bash
-# Using standard node:
-node dev-server.js
-
-# Or using agy-node on Windows Antigravity:
+### Method 2: Command Line
+Open PowerShell or Command Prompt in the project folder and run:
+```powershell
+# Using the bundled agy-node runtime:
 agy-node dev-server.js
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-- Landing Page: `http://localhost:3000`
-- Mock Checkout: `http://localhost:3000/checkout`
-- Reveal Screen: `http://localhost:3000/reveal`
-- Admin Dashboard: `http://localhost:3000/admin` (Password: `chutney2026`)
 
-### Option 2: Standard Next.js Development Server
-```bash
-# Install dependencies
-npm install
-
-# Run Next.js dev server
-npm run dev
+# Or using standard node:
+npm run serve
 ```
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## ⚙️ How to Configure Brand, Prices, Flavours & Pincodes
+## ⚙️ Single-File Configuration
 
-All settings live in **`src/config/product.config.js`**. You can customize everything in this single file:
+**Rule:** You never need to touch React components or code. **Everything** is controlled in one master configuration file:
+- **`src/config/store.ts`** (TypeScript source for Next.js)
+- **`src/config/store.js`** (CommonJS mirror for dev-server & tests)
 
-### 1. Renaming the Brand
-```javascript
+### 1. Change Brand Name, WhatsApp Number & Copy
+Open `src/config/store.ts` and modify the `brand` object:
+```typescript
 brand: {
-  name: "Chutney Tubes",                       // Change to your chosen brand name
-  tagline: "Home-style Indian chutney in a squeezable, mess-free tube.",
-  contactEmail: "hello@chutneytubes.example.com",
-  adminPassword: process.env.ADMIN_PASSWORD || "chutney2026",
+  name: "Chutney Tubes",
+  tagline: "The chutney you love. Squeeze, eat, done.",
+  subheadline: "Everyday Indian chutneys in squeezable tubes. Made in India.",
+  netWeight: "100 g",
+  diet: "100% Vegetarian",
+  whatsAppNumber: "919876543210", // Your 10-digit phone with country code (no + or spaces)
+  contactEmail: "hello@chutneytubes.in",
+  surveyDiscountPercent: 20,
 }
 ```
 
-### 2. Setting Prices (A/B/C Price Variants)
-Edit `pricing.variants` in `src/config/product.config.js`:
-```javascript
+### 2. Configure A/B/C Price Tiers
+```typescript
 pricing: {
+  defaultVariant: "a",
   variants: {
-    A: { id: "A", label: "Introductory", singlePrice: 99,  threePackPrice: 249 },
-    B: { id: "B", label: "Standard",     singlePrice: 149, threePackPrice: 349 },
-    C: { id: "C", label: "Premium",      singlePrice: 199, threePackPrice: 449 },
-  }
+    a: { id: "a", label: "Variant A (₹99)", single: 99, combo: 179, pick3: 269 },
+    b: { id: "b", label: "Variant B (₹149)", single: 149, combo: 279, pick3: 399 },
+    c: { id: "c", label: "Variant C (₹199)", single: 199, combo: 369, pick3: 529 },
+  },
+}
+```
+- Each visitor is randomly assigned to tier `a`, `b`, or `c` on their first visit.
+- Their price is saved in `localStorage` and a cookie so they see the exact same price throughout their entire visit.
+
+### 3. Add or Edit Flavours (12 Everyday Indian Favourites)
+Each flavour has:
+- `id`: unique url-safe id (e.g., `green`, `imli`, `thecha`)
+- `name`: English display name
+- `local`: Short descriptive local name
+- `hindi`: Devanagari Hindi name
+- `spice`: Spice indicator (`1` Mild, `2` Medium, `3` Hot)
+- `color`: Hex color of the tube body (e.g., `#2f8f46`)
+- `desc`: One-line appetising description
+- `goesWith`: Food pairing suggestions
+- `icons`: Array of 2 ingredient icon names (`leaf`, `chilli`, `greenchilli`, `garlic`, `tamarind`, `coconut`, `peanut`, `tomato`, `mango`, `mustard`)
+
+```typescript
+{
+  id: "thecha",
+  name: "Chilli-Peanut Thecha",
+  local: "Kolhapuri Thecha",
+  hindi: "मिरची ठेचा",
+  spice: 3,
+  color: "#3b5c2a",
+  desc: "Crushed green chillies, garlic and roasted peanuts. Coarse and spicy.",
+  goesWith: "Bhakri, paratha, dal-rice, vada pav",
+  icons: ["greenchilli", "peanut"],
 }
 ```
 
-### 3. Adding or Updating Flavours
-```javascript
-flavours: [
-  {
-    id: "tamarind",
-    name: "Tamarind (Imli)",
-    shortDesc: "Tangy, sweet, and slow-simmered with jaggery and roasted cumin.",
-    image: "/images/flavour-tamarind.svg",
-    inStock: true,
-    tag: "Tangy & Sweet",
-    pairing: "Pairs with: Samosas, aloo parathas, dahi vada",
-  },
-  // Add new flavours by adding an object here!
-]
-```
-
-### 4. Updating Deliverable Launch Pincodes
-Add or remove 6-digit postal codes under `launchPincodes`:
-```javascript
-launchPincodes: [
-  "560001", "560002", "560034", "560102", // Bengaluru
-  "400001", "400050", "400051",           // Mumbai
-  "110001", "110016", "122002",           // Delhi NCR
-  // ...
-]
-```
+### 4. Postal Delivery Zones
+India Post divides PIN codes by their first digit (1 through 8). Delivery is active nationwide across all 8 zones:
+- `1`: Northern (Delhi, Haryana, Punjab, HP, J&K)
+- `2`: Northern (Uttar Pradesh, Uttarakhand)
+- `3`: Western (Rajasthan, Gujarat)
+- `4`: Western (Maharashtra, MP, Chhattisgarh, Goa)
+- `5`: Southern (Andhra, Telangana, Karnataka)
+- `6`: Southern (Tamil Nadu, Kerala)
+- `7`: Eastern (West Bengal, Odisha, Northeast)
+- `8`: Eastern (Bihar, Jharkhand)
 
 ---
 
-## 🧪 A/B/C Price Testing & Traffic Source Tagging
+## 📸 How to Add Real Product Photos
 
-### Random Sticky Assignment
-When an anonymous visitor visits for the first time, they are randomly assigned Variant **A**, **B**, or **C**. This selection is saved in `localStorage['ct_price_variant']`, ensuring that visitor consistently sees the exact same price on the hero CTA, flavour picker, cart bar, and checkout screen.
+The website renders high-quality **vector SVG renders** by default (with realistic matte cylindrical shading, zigzag crimped ends, toran border, brand sticker, Hindi text, vegetarian symbol, net weight, flip-cap, and stainless steel katori bowl).
 
-### Forcing a Price Variant via URL
-You can force any variant using the `?variant=` query parameter:
-- **Variant A (₹99):** `http://localhost:3000/?variant=A`
-- **Variant B (₹149):** `http://localhost:3000/?variant=B`
-- **Variant C (₹199):** `http://localhost:3000/?variant=C`
+When you receive physical product samples or professional studio photography:
+1. Save your photograph as a JPG image.
+2. Name the file with the flavour's `id` (e.g., `green.jpg`, `imli.jpg`, `thecha.jpg`).
+3. Place it in the folder:
+   ```
+   public/products/{id}.jpg
+   ```
+4. That's it! The website automatically detects the file and replaces the SVG render with your real product photograph.
 
-### Traffic Source Tagging (`?src=`)
-Tag links shared on social channels or office groups to measure channel conversion:
-- **WhatsApp Share:** `https://yourdomain.com/?src=whatsapp`
-- **Instagram Bio / Ad:** `https://yourdomain.com/?src=instagram`
+---
+
+## 🎯 A/B/C Price Testing & Ad Source Tagging
+
+### Forcing a Price Tier (For Testing)
+Add `?variant=a`, `?variant=b`, or `?variant=c` to any URL:
+- `https://yourdomain.com/?variant=a` — Forces Single ₹99 / 3-Pack ₹269
+- `https://yourdomain.com/?variant=b` — Forces Single ₹149 / 3-Pack ₹399
+- `https://yourdomain.com/?variant=c` — Forces Single ₹199 / 3-Pack ₹529
+
+### Tagging Ad Campaigns & Social Sources
+When posting ads or links, append standard `utm_source` or `src` parameters:
+- **Instagram Ad:** `https://yourdomain.com/?src=instagram&utm_campaign=diwali_tiffin`
+- **WhatsApp Broadcast:** `https://yourdomain.com/?src=whatsapp`
 - **Office Slack Channel:** `https://yourdomain.com/?src=office-slack`
-- **Combined Test Link:** `https://yourdomain.com/?variant=B&src=whatsapp`
+- **Testing Tier B on Instagram:** `https://yourdomain.com/?variant=b&src=instagram`
+
+### Excluding Your Own Visits from Analytics
+Add `?admin=1` to your URL when browsing:
+```
+https://yourdomain.com/?admin=1
+```
+This sets an internal cookie. Your test clicks and orders will **not** distort your production conversion funnel.
 
 ---
 
-## 📊 Tracking & Firebase Firestore Setup
+## 📊 Tracking & Firebase Setup
 
-### 10 Mandatory Events Logged
-1. `page_view` — Visitor landed on the page
-2. `scroll_50` — Visitor scrolled through at least 50% of the landing page
-3. `flavour_selected` — Visitor switched flavours or pack options
-4. `add_to_cart` — Visitor clicked "Buy Now" or "Proceed to Checkout"
-5. `checkout_started` — Visitor loaded the checkout form
-6. `pincode_checked` — Pincode checked with `isDeliverable` status
-7. `payment_method_selected` — Chosen method (`upi`, `card`, or `cod`)
-8. `pay_clicked` — Visitor clicked "Pay ₹X" (true purchase intent confirmed)
-9. `waitlist_optin` — Visitor joined waitlist from out-of-area pincode or opted into launch discount
-10. `survey_submitted` — Qualitative feedback answers submitted
+### Events Logged
+The application logs key funnel milestones:
+1. `page_view` — Page opened
+2. `scroll_50` — Scrolled past 50%
+3. `spice_filter_used` — Used Mild/Medium/Hot filters
+4. `product_viewed` — Clicked into a flavour tile
+5. `add_to_cart` — Added single, combo, or sampler pack
+6. `checkout_started` — Began delivery form
+7. `details_submitted` — Pincode and address confirmed
+8. `payment_method_selected` — Selected UPI, Card, or COD
+9. `pay_clicked` — Final purchase intent confirmed (Pay button pressed)
+10. `survey_submitted` — Feedback and tube sentiment submitted
+11. `launch_optin` — Email/WhatsApp discount opt-in
+12. `chutney_requested` — User submitted a regional chutney suggestion
 
-### Dual-Storage Architecture
-- **Production Mode (Firebase Firestore):** When Firebase credentials are provided in `.env.local` or host environment variables, events stream directly to Firestore.
-- **Local / Fallback Mode:** When running locally without Firebase, events are automatically stored in `data/events.json` and browser `localStorage`. Nothing crashes.
-
-### Firebase Configuration
-Create a project on the [Firebase Console](https://console.firebase.google.com/), enable Firestore Database, and add these environment variables to `.env.local`:
+### Dual-Storage Mode
+- **Local Mode (Default):** Without any Firebase credentials, events are saved locally to `data/events.json`, `data/signups.json`, and `data/requests.json`.
+- **Cloud Mode (Firestore):** For production, add Firebase credentials to `.env.local`:
 
 ```env
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSy...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-app.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-app-id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-app-id.appspot.com
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=chutney-tubes.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=chutney-tubes
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=chutney-tubes.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
-NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:...
+NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
 ADMIN_PASSWORD=chutney2026
 ```
 
-### Firestore Security Rules (`firestore.rules`)
-Deploy our pre-configured rules to ensure public write-only access (no scraping or reading):
-
+### Firestore Security Rules
+Deploy `firestore.rules` using the Firebase CLI:
 ```bash
 firebase deploy --only firestore:rules
 ```
-
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /events/{eventId} {
-      allow create: if request.resource.data.keys().hasAll(['event', 'timestamp', 'visitorId', 'variant', 'source'])
-                    && request.resource.data.variant in ['A', 'B', 'C'];
-      allow read, update, delete: if false; // Public CANNOT read
-    }
-    match /waitlist/{waitlistId} {
-      allow create: if request.resource.data.keys().hasAny(['email', 'phone', 'pincode']);
-      allow read, update, delete: if false;
-    }
-  }
-}
-```
+The rules guarantee that the public internet can only write anonymous events and waitlist signups, and can **never** read or scrape records.
 
 ---
 
 ## 📈 How to Read the Admin Dashboard
 
-Visit **`/admin`** and log in with your admin password (default: `chutney2026`).
+Visit **`/admin`** on your domain or local server:
+```
+http://localhost:3000/admin
+```
+Enter your admin password (default: `chutney2026`).
 
-1. **Top KPI Cards:**
-   - **Unique Visitors:** Total distinct people who landed on the page.
-   - **Added to Cart:** Visitors who configured a pack/flavour and initiated order flow.
-   - **Started Checkout:** Visitors who entered their delivery details.
-   - **Pay Clicked 🔥:** Visitors who committed to purchase by clicking the payment button.
-   - **Overall Conversion:** Percentage of landed visitors who reached the final payment click.
-2. **Funnel Progression Bar:** Shows drop-off percentages between each step.
-3. **Price Variant A/B/C Breakdown:** Compares conversion rate (%) and purchase intent at ₹99 vs ₹149 vs ₹199 to find your optimal pricing elasticity.
-4. **Traffic Source Breakdown:** Shows which channel delivers the highest intent (e.g. WhatsApp vs Instagram).
-5. **Flavour & Pack Popularity:** Identifies your runaway bestselling flavour and whether buyers prefer singles or 3-packs.
-6. **Voice of Customer:** Real qualitative answers to *"What almost stopped you from buying?"* directly surfacing product objections (pricing, sizing, taste doubts, etc.).
-7. **Export to CSV:** Click **"Export CSV"** to download all records into Excel / Google Sheets.
+### Key Dashboard Metrics:
+1. **Core Funnel Progression:**
+   - **Visitors:** Total distinct people who landed on the page.
+   - **Added to Cart:** Visitors who selected flavours and packs.
+   - **Started Checkout:** Visitors who entered their delivery area.
+   - **Pay Clicked:** True purchase intent! People who clicked "Pay ₹X".
+   - Shows the exact **drop-off %** between each step.
+2. **A/B/C Pricing Elasticity Table:**
+   - Compares conversion rate (%) and Average Order Value (AOV) across ₹99, ₹149, and ₹199.
+   - Highlights your most profitable price point.
+3. **Flavour Demand Ranking:**
+   - Ranks all 12 flavours by tubes ordered in paid flows vs browsing views.
+   - Tells you exactly which 3 flavours to manufacture first!
+4. **Pack Mix:**
+   - Ratio between Single Tubes, Chaat Combo (3-Pack), and Custom Pick-3 Samplers.
+5. **Geographical Demand by Postal Zone:**
+   - Shows where demand is coming from across India (Zone 1 through 8).
+6. **Consumer Sentiment & Objections:**
+   - Tube feeling split (Pay-pressers vs Everyone).
+   - Verbatim answers to *"What almost stopped you from buying?"*.
+7. **1-Click CSV Export:**
+   - Click **"Export CSV"** to download all records into Excel or Google Sheets.
 
 ---
 
 ## 🚀 Deployment Guide
 
-### Deploying to Vercel (Recommended)
-1. Push this repository to GitHub.
-2. Import the project on [Vercel](https://vercel.com/new).
-3. Under **Environment Variables**, set:
-   - `ADMIN_PASSWORD`: Your secret admin password
-   - (Optional) `NEXT_PUBLIC_FIREBASE_*`: Your Firebase project credentials
-4. Click **Deploy**.
+### Option A: Deploy to Vercel (Recommended — Simplest for Non-Tech Users)
+1. Create a free account at [vercel.com](https://vercel.com).
+2. Connect your GitHub account.
+3. Push this project to a GitHub repository:
+   ```bash
+   git add .
+   git commit -m "Production ready Chutney Tubes release"
+   git push origin main
+   ```
+4. On Vercel, click **"Add New Project"** and select your `chutney-tubes` repository.
+5. In **Environment Variables**, add:
+   - `ADMIN_PASSWORD` = `your_secure_password`
+   - (Optional) `NEXT_PUBLIC_FIREBASE_*` keys if using Firestore
+6. Click **Deploy**. Your site will be live in ~60 seconds with a free `.vercel.app` URL and automatic HTTPS!
 
-### Deploying to Firebase Hosting
+### Option B: Deploy to Firebase Hosting
 ```bash
-# 1. Log in to Firebase CLI
+npm install -g firebase-tools
 firebase login
-
-# 2. Build static output
+firebase init hosting
 npm run build
-
-# 3. Deploy hosting & rules
 firebase deploy
 ```
 
 ---
 
-## 🧪 Running the Test Suite
+## 🌐 Connecting Your Own Custom Domain
 
-Run the complete test suite verifying price-variant assignment, event logging, pincode validation, metrics, and server routing:
-
-```bash
-# Using standard node:
-npm test
-
-# Or with agy-node:
-agy-node --test tests/*.test.js
-```
-
-All 16 unit tests verify:
-- Accurate 3-tier A/B/C price variant resolution & URL overrides
-- Validation of all 10 required demand test events
-- Pincode delivery checking (metro vs out-of-area)
-- Funnel metrics, conversion percentage, and CSV generation
-- Mock server endpoint routing without socket overhead
+Once deployed on Vercel:
+1. In your Vercel Dashboard, go to your project → **Settings** → **Domains**.
+2. Type your domain (e.g. `chutneytubes.in` or `buychutneytubes.com`) and click **Add**.
+3. Vercel will display the exact DNS records to add:
+   - **Type A:** `@` → `76.76.21.21`
+   - **Type CNAME:** `www` → `cname.vercel-dns.com`
+4. Log into your domain registrar (GoDaddy, Namecheap, Hostinger, etc.), go to **DNS Management**, and add those two records.
+5. Within 15–30 minutes, your custom domain will be live with an automatic free SSL certificate.
 
 ---
 
-## 🛡️ Compliance & Privacy (India DPDP Act 2023)
+## 🧪 Automated Test Suite
 
-- **Notice & Plain Language:** The form includes a clear consent notice stating data is collected solely for product launch announcements.
-- **No Financial Data:** Card numbers, CVVs, and UPI credentials are never requested or stored.
-- **DPDP Act Compliant Privacy Policy:** Available at `/privacy` detailing data minimization, retention, purpose limitation, and Data Principal rights to data erasure upon email.
-- **No Deceptive Marketing:** Zero fake reviews, invented customer counts, fake countdown timers, or unverified health claims. All pending specifications are transparently labeled `[TBD]`.
+Run the complete test suite verifying price tiers, cart math, pincode zones, tracking payloads, and server endpoints:
+
+```powershell
+# Using agy-node:
+agy-node --test tests/*.test.js
+
+# Or using standard node:
+npm test
+```
+
+### What the 20 Automated Tests Cover:
+- **`tests/pricing.test.js`**: 3 A/B/C pricing tiers in `store.js`, case-insensitive URL overrides (`?variant=b`), sticky storage, and single/combo/pick-3 cart totals.
+- **`tests/pincode.test.js`**: Validates 6-digit Indian PIN codes across all 8 zones (1-8), rejects invalid prefixes (0 and 9), and checks geographical zone mapping.
+- **`tests/tracking.test.js`**: Validates all demand test events, UTM parameters, internal visit flagging (`?admin=1`), and DPDP privacy compliance.
+- **`tests/funnel.test.js`**: Computes 4-stage funnel conversion, variant table conversion rates, and survey aggregation.
+- **`tests/server.test.js`**: Socket-free request/response testing of `/`, `/checkout`, `/reveal`, `/api/events`, `/api/admin`, and `/api/export`.
+
+---
+
+## 🛡️ Ethics & Privacy Compliance (India DPDP Act 2023)
+
+- **No Deceptive Tricks:** Zero fake countdown timers, zero invented "only 2 left" stock counters, and zero fake customer reviews.
+- **No Unproven Claims:** No claims of "preservative-free", health benefits, or FSSAI certifications. All pending specifications are marked `[TBD]`.
+- **Zero Financial Data:** No payment gateways are integrated. Card numbers, CVVs, and UPI IDs are **never** rendered or collected.
+- **Unmistakable Reveal Screen:** Visitors are immediately informed that no charge was made and the product is pre-launch.
+- **Data Minimization:** Names, phone numbers, and street addresses are never saved to public event logs. Only the first 3 digits of the pincode and postal zone are retained. Email is stored only if the visitor explicitly opts in.
+- **Full Legal Pages Included:**
+  - `/privacy` — India DPDP Act 2023 compliant privacy policy with data principal rights and grievance contact.
+  - `/terms` — Terms of pre-launch demand validation.
+  - `/shipping` — Shipping policy and launch delivery timelines.
+  - `/refunds` — Policy clarifying that no funds are accepted or retained.

@@ -9,17 +9,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          terracotta: "#C2410C",
-          turmeric: "#D97706",
-          mint: "#15803D",
-          cream: "#FAF7F2",
-          slate: "#1C1917",
-        },
+        ink: "#18241b",
+        paper: "#f4f3ec",
+        leaf: "#1d6b3a",
+        deepLeaf: "#134a28",
+        haldi: "#f2b81d",
+        mirch: "#c8361f",
+        steel: "#d8dcd4",
       },
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
-        heading: ["Outfit", "system-ui", "sans-serif"],
+        heading: ["'Bricolage Grotesque'", "sans-serif"],
+        body: ["'Hind'", "sans-serif"],
+        sans: ["'Hind'", "system-ui", "sans-serif"],
       },
     },
   },

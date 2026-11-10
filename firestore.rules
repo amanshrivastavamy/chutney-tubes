@@ -2,27 +2,39 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Pre-launch demand testing events:
-    // Anyone (anonymous visitors) can write/create events to test demand.
-    // Reading, modifying, or deleting events is strictly forbidden for the public.
+    // Helper function: Authenticated Admin Check
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // 1. Events collection: Public write-only with payload validation
     match /events/{eventId} {
-      allow create: if request.resource.data.keys().hasAll(['event', 'timestamp', 'visitorId', 'variant', 'source'])
+      allow create: if request.resource.data.keys().hasAll(['visitorId', 'sessionId', 'variant', 'timestamp', 'event'])
                     && request.resource.data.visitorId is string
-                    && request.resource.data.variant in ['A', 'B', 'C'];
-      allow read, update, delete: if false;
+                    && request.resource.data.variant in ['a', 'b', 'c']
+                    && request.resource.size() < 10000;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Launch waitlist registrations:
-    // Anyone can submit their email/phone for early launch updates.
-    // Reading or scraping the waitlist is forbidden for public access.
-    match /waitlist/{waitlistId} {
-      allow create: if request.resource.data.keys().hasAny(['email', 'phone', 'pincode']);
-      allow read, update, delete: if false;
+    // 2. Launch Sign-ups collection: Public write-only
+    match /signups/{signupId} {
+      allow create: if request.resource.data.keys().hasAll(['email', 'timestamp'])
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() < 254;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Default deny for all other collections
+    // 3. Chutney Requests collection: Public write-only
+    match /requests/{requestId} {
+      allow create: if request.resource.data.keys().hasAll(['name', 'timestamp'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() < 200;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Default deny for unauthenticated public
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isAdmin();
     }
   }
 }

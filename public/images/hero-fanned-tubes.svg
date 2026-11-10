@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 420" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Soft Shadows -->
+    <filter id="fannedShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#18241b" flood-opacity="0.25" />
+    </filter>
+    <linearGradient id="hariGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1b5e20" />
+      <stop offset="30%" stop-color="#2f8f46" />
+      <stop offset="50%" stop-color="#4ade80" stop-opacity="0.3" />
+      <stop offset="70%" stop-color="#2f8f46" />
+      <stop offset="100%" stop-color="#14532d" />
+    </linearGradient>
+    <linearGradient id="schezGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7f1d1d" />
+      <stop offset="30%" stop-color="#c23a1a" />
+      <stop offset="50%" stop-color="#fca5a5" stop-opacity="0.3" />
+      <stop offset="70%" stop-color="#c23a1a" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </linearGradient>
+    <linearGradient id="imliGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="30%" stop-color="#7a4a25" />
+      <stop offset="50%" stop-color="#fdba74" stop-opacity="0.3" />
+      <stop offset="70%" stop-color="#7a4a25" />
+      <stop offset="100%" stop-color="#2a0f02" />
+    </linearGradient>
+    <linearGradient id="heroSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="40%" stop-color="#e2e8f0" />
+      <stop offset="80%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Drop Shadow -->
+  <ellipse cx="270" cy="380" rx="200" ry="22" fill="#18241b" opacity="0.18" />
+
+  <!-- 1. LEFT TUBE: Khatti Meethi Imli (Angled Left -20 deg) -->
+  <g transform="translate(140, 190) rotate(-20) translate(-40, -130)" filter="url(#fannedShadow)">
+    <path d="M 12 36 L 78 36 C 78 140 76 190 72 202 C 68 214 60 220 45 220 C 30 220 22 214 18 202 C 14 190 12 140 12 36 Z" fill="url(#imliGrad)" />
+    <!-- Crimp -->
+    <rect x="10" y="16" width="70" height="20" fill="#2a0f02" rx="2" />
+    <!-- Brand badge -->
+    <circle cx="45" cy="74" r="18" fill="#f2b81d" stroke="#ffffff" stroke-width="1.2" />
+    <text x="45" y="72" font-family="'Bricolage Grotesque', sans-serif" font-size="6.5" font-weight="900" fill="#18241b" text-anchor="middle">CHUTNEY</text>
+    <text x="45" y="80" font-family="'Bricolage Grotesque', sans-serif" font-size="7" font-weight="900" fill="#c8361f" text-anchor="middle">TUBES</text>
+    <!-- Label -->
+    <text x="45" y="112" font-family="'Bricolage Grotesque', sans-serif" font-size="7.5" font-weight="800" fill="#ffffff" text-anchor="middle">IMLI CHUTNEY</text>
+    <text x="45" y="122" font-family="'Hind', sans-serif" font-size="7" fill="#fef3c7" text-anchor="middle">खट्टी मीठी इमली</text>
+    <rect x="18" y="174" width="8" height="8" fill="#ffffff" stroke="#1d6b3a" stroke-width="1" />
+    <circle cx="22" cy="178" r="2.5" fill="#1d6b3a" />
+    <text x="70" y="181" font-family="'Hind', sans-serif" font-size="6.5" fill="#ffffff">100 g</text>
+    <!-- Cap -->
+    <path d="M 28 220 Q 45 216 62 220 L 60 238 C 60 242 56 244 45 244 C 34 244 30 242 30 238 Z" fill="#f2b81d" />
+  </g>
+
+  <!-- 2. RIGHT TUBE: Schezwan (Angled Right +20 deg) -->
+  <g transform="translate(400, 190) rotate(20) translate(-40, -130)" filter="url(#fannedShadow)">
+    <path d="M 12 36 L 78 36 C 78 140 76 190 72 202 C 68 214 60 220 45 220 C 30 220 22 214 18 202 C 14 190 12 140 12 36 Z" fill="url(#schezGrad)" />
+    <!-- Crimp -->
+    <rect x="10" y="16" width="70" height="20" fill="#450a0a" rx="2" />
+    <!-- Brand badge -->
+    <circle cx="45" cy="74" r="18" fill="#f2b81d" stroke="#ffffff" stroke-width="1.2" />
+    <text x="45" y="72" font-family="'Bricolage Grotesque', sans-serif" font-size="6.5" font-weight="900" fill="#18241b" text-anchor="middle">CHUTNEY</text>
+    <text x="45" y="80" font-family="'Bricolage Grotesque', sans-serif" font-size="7" font-weight="900" fill="#c8361f" text-anchor="middle">TUBES</text>
+    <!-- Label -->
+    <text x="45" y="112" font-family="'Bricolage Grotesque', sans-serif" font-size="7.5" font-weight="800" fill="#ffffff" text-anchor="middle">SCHEZWAN</text>
+    <text x="45" y="122" font-family="'Hind', sans-serif" font-size="7" fill="#fef3c7" text-anchor="middle">शेज़वान चटनी</text>
+    <rect x="18" y="174" width="8" height="8" fill="#ffffff" stroke="#1d6b3a" stroke-width="1" />
+    <circle cx="22" cy="178" r="2.5" fill="#1d6b3a" />
+    <text x="70" y="181" font-family="'Hind', sans-serif" font-size="6.5" fill="#ffffff">100 g</text>
+    <!-- Cap -->
+    <path d="M 28 220 Q 45 216 62 220 L 60 238 C 60 242 56 244 45 244 C 34 244 30 242 30 238 Z" fill="#7f1d1d" />
+  </g>
+
+  <!-- 3. CENTER HERO TUBE: Chatpati Hari (Straight center, slight -2 deg) -->
+  <g transform="translate(270, 160) rotate(-2) translate(-50, -145)" filter="url(#fannedShadow)">
+    <path d="M 12 36 L 88 36 C 88 160 86 210 82 224 C 78 238 68 244 50 244 C 32 244 22 238 18 224 C 14 210 12 160 12 36 Z" fill="url(#hariGrad)" />
+    <!-- Crimp -->
+    <rect x="10" y="16" width="80" height="20" fill="#14532d" rx="2" />
+    <!-- Toran band -->
+    <g transform="translate(14, 38)">
+      <polygon points="4,0 8,8 0,8" fill="#f2b81d" />
+      <polygon points="14,0 18,8 10,8" fill="#f2b81d" />
+      <polygon points="24,0 28,8 20,8" fill="#f2b81d" />
+      <polygon points="34,0 38,8 30,8" fill="#f2b81d" />
+      <polygon points="44,0 48,8 40,8" fill="#f2b81d" />
+      <polygon points="54,0 58,8 50,8" fill="#f2b81d" />
+      <polygon points="64,0 68,8 60,8" fill="#f2b81d" />
+    </g>
+    <!-- Brand badge -->
+    <circle cx="50" cy="80" r="22" fill="#f2b81d" stroke="#ffffff" stroke-width="1.5" />
+    <circle cx="50" cy="80" r="18.5" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="2.5 2" />
+    <text x="50" y="77" font-family="'Bricolage Grotesque', sans-serif" font-size="8" font-weight="900" fill="#18241b" text-anchor="middle">CHUTNEY</text>
+    <text x="50" y="87" font-family="'Bricolage Grotesque', sans-serif" font-size="9" font-weight="900" fill="#c8361f" text-anchor="middle">TUBES</text>
+    <!-- Label -->
+    <text x="50" y="125" font-family="'Bricolage Grotesque', sans-serif" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">CHATPATI HARI</text>
+    <text x="50" y="137" font-family="'Hind', sans-serif" font-size="8" font-weight="600" fill="#fef3c7" text-anchor="middle">चटपटी हरी चटनी</text>
+    <line x1="25" y1="142" x2="75" y2="142" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
+    <rect x="20" y="196" width="10" height="10" fill="#ffffff" stroke="#1d6b3a" stroke-width="1" rx="1.5" />
+    <circle cx="25" cy="201" r="3" fill="#1d6b3a" />
+    <text x="78" y="204" font-family="'Hind', sans-serif" font-size="8" font-weight="600" fill="#ffffff">100 g</text>
+    <!-- Flip Cap (Haldi Yellow) -->
+    <path d="M 34 244 Q 50 240 66 244 L 64 266 C 64 270 60 272 50 272 C 40 272 36 270 36 266 Z" fill="#f2b81d" stroke="#ffffff" stroke-width="0.8" />
+  </g>
+
+  <!-- 4. STEEL KATORI BESIDE CENTER TUBE -->
+  <g transform="translate(370, 310)" filter="url(#fannedShadow)">
+    <ellipse cx="0" cy="18" rx="42" ry="16" fill="url(#heroSteel)" stroke="#94a3b8" stroke-width="1" />
+    <path d="M -42 18 C -42 34 42 34 42 18 Z" fill="url(#heroSteel)" stroke="#64748b" stroke-width="1" />
+    <ellipse cx="0" cy="16" rx="36" ry="12" fill="#2f8f46" />
+    <path d="M -16 16 Q 0 8 16 14 Q 8 20 -4 18" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.55" />
+    <circle cx="-6" cy="13" r="1.5" fill="#18241b" opacity="0.6" />
+    <circle cx="8" cy="17" r="1.2" fill="#18241b" opacity="0.6" />
+  </g>
+</svg>
