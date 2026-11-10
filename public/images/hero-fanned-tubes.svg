@@ -1,401 +1,179 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" width="100%" height="100%" fill="none">
-  <defs>
-    <!-- Studio Ambient Lighting & Soft Shadows -->
-    <filter id="studioShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="24" stdDeviation="20" flood-color="#18241b" flood-opacity="0.28" />
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#18241b" flood-opacity="0.18" />
-    </filter>
+
+  <svg viewBox="0 0 540 460" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-2xl" aria-label="Chutney Tubes Trio">
+    <ellipse cx="270" cy="425" rx="230" ry="24" fill="#000000" opacity="0.38" />
     
-    <filter id="crispShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="2" dy="12" stdDeviation="10" flood-color="#18241b" flood-opacity="0.25" />
-    </filter>
+    <!-- Left Tube: Khatti Meethi Imli -->
+    <g transform="translate(130, 205) rotate(-22) scale(0.9)">
+      <rect x="8" y="36" width="92" height="242" rx="16" fill="#7a4a25" />
+      <rect x="6" y="14" width="96" height="24" fill="#3b1d0c" rx="2" />
+      <path d="M 9 14 L 13 38 M 21 14 L 25 38 M 33 14 L 37 38 M 45 14 L 49 38 M 57 14 L 61 38 M 69 14 L 73 38 M 81 14 L 85 38 M 93 14 L 97 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
+      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
 
-    <filter id="glowLight" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
+      <!-- Brand Seal -->
+      <g transform="translate(54, 68)">
+        <rect x="-36" y="-16" width="72" height="32" rx="6" fill="#f2b81d" stroke="#ffffff" stroke-width="1.4" />
+        <text x="0" y="-3" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="900" fill="#18241b" text-anchor="middle">CHUTNEY</text>
+        <text x="0" y="8" font-family="Bricolage Grotesque, sans-serif" font-size="10" font-weight="900" fill="#c8361f" text-anchor="middle">TUBES</text>
+      </g>
 
-    <!-- Photorealistic Cylindrical 3D Shaders for Food Laminate Tubes -->
-    <!-- 1. Hari Chutney (Lush Mint-Coriander Emerald) -->
-    <linearGradient id="hari3D" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0f3d1e" />
-      <stop offset="12%" stop-color="#19542a" />
-      <stop offset="28%" stop-color="#2a8240" />
-      <stop offset="42%" stop-color="#4db365" />
-      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.45" />
-      <stop offset="56%" stop-color="#4db365" />
-      <stop offset="78%" stop-color="#1e6b34" />
-      <stop offset="92%" stop-color="#134a24" />
-      <stop offset="100%" stop-color="#0b2e16" />
-    </linearGradient>
+      <!-- Shield Label Plaque -->
+      <g transform="translate(14, 90)">
+        <rect x="0" y="0" width="80" height="136" rx="10" fill="#fffdfa" stroke="#18241b" stroke-width="1.2" />
+        <rect x="2" y="2" width="76" height="132" rx="8" fill="none" stroke="#f2b81d" stroke-width="0.8" />
+        <rect x="4" y="6" width="72" height="15" rx="3.5" fill="#18241b" />
+        <text x="40" y="17" font-family="Hind, sans-serif" font-size="8.5" font-weight="700" fill="#f2b81d" text-anchor="middle">खट्टी मीठी इमली</text>
+        
+        <text x="40" y="44" font-family="Bricolage Grotesque, sans-serif" font-size="17" font-weight="900" fill="#18241b" text-anchor="middle">IMLI</text>
+        <text x="40" y="55" font-family="Hind, sans-serif" font-size="6.5" font-weight="700" fill="#57534e" text-anchor="middle">TAMARIND &amp; DATES</text>
+        
+        <!-- Tamarind Pod & Dates -->
+        <g transform="translate(32, 70) scale(0.9)">
+          <path d="M 0 4 Q 8 0 16 6 Q 22 14 18 22 Q 12 24 6 18 Q 0 12 0 4 Z" fill="#78350f" stroke="#ffffff" stroke-width="0.8" />
+          <ellipse cx="24" cy="12" rx="6" ry="10" fill="#451a03" stroke="#ffffff" stroke-width="0.8" />
+        </g>
+        
+        <g transform="translate(40, 102)">
+          <rect x="-30" y="-7" width="60" height="14" rx="7" fill="#f4f3ec" />
+          <text x="0" y="2.5" font-family="Hind, sans-serif" font-size="5" font-weight="800" fill="#1d6b3a" text-anchor="middle">SWEET &amp; TANGY</text>
+        </g>
+        <rect x="8" y="116" width="10" height="10" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.2" rx="1.5" />
+        <circle cx="13" cy="121" r="3" fill="#1d6b3a" />
+        <text x="72" y="124" font-family="Hind, sans-serif" font-size="7.5" font-weight="800" fill="#18241b" text-anchor="end">100 g</text>
+      </g>
 
-    <!-- 2. Imli Chutney (Rich Tamarind Mahogany) -->
-    <linearGradient id="imli3D" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2d1203" />
-      <stop offset="14%" stop-color="#4a2007" />
-      <stop offset="30%" stop-color="#6e3511" />
-      <stop offset="44%" stop-color="#944e1e" />
-      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.4" />
-      <stop offset="56%" stop-color="#944e1e" />
-      <stop offset="78%" stop-color="#642f0e" />
-      <stop offset="92%" stop-color="#431c06" />
-      <stop offset="100%" stop-color="#200d02" />
-    </linearGradient>
-
-    <!-- 3. Schezwan / Teekhi Lehsuni (Fiery Mirch Crimson) -->
-    <linearGradient id="mirch3D" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#450808" />
-      <stop offset="14%" stop-color="#6e1313" />
-      <stop offset="30%" stop-color="#a3201a" />
-      <stop offset="44%" stop-color="#d13828" />
-      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.45" />
-      <stop offset="56%" stop-color="#d13828" />
-      <stop offset="78%" stop-color="#961a15" />
-      <stop offset="92%" stop-color="#691110" />
-      <stop offset="100%" stop-color="#380606" />
-    </linearGradient>
-
-    <!-- Brushed Stainless Steel Gradient -->
-    <linearGradient id="brushedSteel" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8fafc" />
-      <stop offset="25%" stop-color="#e2e8f0" />
-      <stop offset="45%" stop-color="#ffffff" />
-      <stop offset="65%" stop-color="#cbd5e1" />
-      <stop offset="85%" stop-color="#94a3b8" />
-      <stop offset="100%" stop-color="#64748b" />
-    </linearGradient>
-
-    <!-- Golden Fried Samosa Pastry Gradients -->
-    <linearGradient id="samosaCrust" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f5d061" />
-      <stop offset="35%" stop-color="#e69f2e" />
-      <stop offset="70%" stop-color="#bd6d15" />
-      <stop offset="100%" stop-color="#7a3e07" />
-    </linearGradient>
-
-    <linearGradient id="samosaHighlight" x1="30%" y1="0%" x2="70%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
-      <stop offset="40%" stop-color="#fde047" stop-opacity="0.2" />
-      <stop offset="100%" stop-color="#b45309" stop-opacity="0.8" />
-    </linearGradient>
-
-    <!-- Haldi Yellow Flip Cap Shader -->
-    <linearGradient id="capHaldi" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#b45309" />
-      <stop offset="20%" stop-color="#d97706" />
-      <stop offset="45%" stop-color="#fde047" />
-      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.6" />
-      <stop offset="65%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#92400e" />
-    </linearGradient>
-
-    <!-- Deep Green Flip Cap Shader -->
-    <linearGradient id="capGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0b2e16" />
-      <stop offset="25%" stop-color="#14532d" />
-      <stop offset="48%" stop-color="#22c55e" />
-      <stop offset="52%" stop-color="#ffffff" stop-opacity="0.6" />
-      <stop offset="75%" stop-color="#15803d" />
-      <stop offset="100%" stop-color="#052e16" />
-    </linearGradient>
-
-    <!-- Deep Red Cap Shader -->
-    <linearGradient id="capRed" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#450a0a" />
-      <stop offset="25%" stop-color="#7f1d1d" />
-      <stop offset="48%" stop-color="#ef4444" />
-      <stop offset="52%" stop-color="#ffffff" stop-opacity="0.6" />
-      <stop offset="75%" stop-color="#b91c1c" />
-      <stop offset="100%" stop-color="#450a0a" />
-    </linearGradient>
-
-    <!-- Glossy Chutney Sauce Reflection -->
-    <linearGradient id="glossSauce" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.9" />
-      <stop offset="40%" stop-color="#15803d" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#052e16" stop-opacity="0.95" />
-    </linearGradient>
-  </defs>
-
-  <!-- Studio Stage Floor Drop Shadow -->
-  <ellipse cx="360" cy="495" rx="300" ry="28" fill="#18241b" opacity="0.22" />
-  <ellipse cx="360" cy="492" rx="240" ry="16" fill="#18241b" opacity="0.18" />
-
-  <!-- ============================================================== -->
-  <!-- 1. LEFT TUBE: Khatti Meethi Imli (Angled Left -16 deg)         -->
-  <!-- ============================================================== -->
-  <g transform="translate(195, 235) rotate(-16) translate(-55, -170)" filter="url(#studioShadow)">
-    <!-- Tube Body with soft taper -->
-    <path d="M 14 42 L 96 42 C 96 175 94 235 88 252 C 84 268 72 276 55 276 C 38 276 26 268 22 252 C 16 235 14 175 14 42 Z" fill="url(#imli3D)" />
-    
-    <!-- Top Crimped Seal with Stamped Batch Number -->
-    <rect x="12" y="18" width="86" height="24" fill="#200d02" rx="3" />
-    <!-- Metallic crimp indent ridges -->
-    <path d="M 15 18 L 19 42 M 25 18 L 29 42 M 35 18 L 39 42 M 45 18 L 49 42 M 55 18 L 59 42 M 65 18 L 69 42 M 75 18 L 79 42 M 85 18 L 89 42 M 93 18 L 95 42" stroke="#ffffff" stroke-width="1.3" opacity="0.38" />
-    <rect x="12" y="16" width="86" height="5" fill="#150801" opacity="0.6" />
-    <!-- Embossed Batch code -->
-    <text x="55" y="32" font-family="'Hind', sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.5" opacity="0.85">B.NO CT-26B • 100g</text>
-
-    <!-- Toran Folk Border -->
-    <g transform="translate(16, 44)">
-      <polygon points="4,0 8,8 0,8" fill="#f2b81d" />
-      <polygon points="14,0 18,8 10,8" fill="#f2b81d" />
-      <polygon points="24,0 28,8 20,8" fill="#f2b81d" />
-      <polygon points="34,0 38,8 30,8" fill="#f2b81d" />
-      <polygon points="44,0 48,8 40,8" fill="#f2b81d" />
-      <polygon points="54,0 58,8 50,8" fill="#f2b81d" />
-      <polygon points="64,0 68,8 60,8" fill="#f2b81d" />
-      <polygon points="74,0 78,8 70,8" fill="#f2b81d" />
+      <!-- Cap -->
+      <path d="M 36 278 L 72 278 L 68 308 C 68 316 40 316 40 308 Z" fill="#b45309" stroke="#ffffff" stroke-width="1" />
     </g>
 
-    <!-- Haldi Brand Seal Sticker -->
-    <g transform="translate(55, 95) rotate(-5)">
-      <circle cx="0" cy="0" r="26" fill="#f2b81d" stroke="#ffffff" stroke-width="1.8" />
-      <circle cx="0" cy="0" r="22" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="3 2" />
-      <text x="0" y="-4" font-family="'Bricolage Grotesque', sans-serif" font-size="8.5" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.5">CHUTNEY</text>
-      <text x="0" y="8" font-family="'Bricolage Grotesque', sans-serif" font-size="9.5" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1">TUBES</text>
+    <!-- Right Tube: Teekhi Imli Saunth -->
+    <g transform="translate(415, 210) rotate(20) scale(0.9)">
+      <rect x="-100" y="36" width="92" height="242" rx="16" fill="#5e3a1e" />
+      <rect x="-102" y="14" width="96" height="24" fill="#2d1303" rx="2" />
+      <path d="M -99 14 L -95 38 M -87 14 L -83 38 M -75 14 L -71 38 M -63 14 L -59 38 M -51 14 L -47 38 M -39 14 L -35 38 M -27 14 L -23 38 M -15 14 L -11 38" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
+      <text x="-54" y="28" font-family="Hind, sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle">B.NO CT-26 • 100g</text>
+
+      <!-- Brand Seal -->
+      <g transform="translate(-54, 68)">
+        <rect x="-36" y="-16" width="72" height="32" rx="6" fill="#f2b81d" stroke="#ffffff" stroke-width="1.4" />
+        <text x="0" y="-3" font-family="Bricolage Grotesque, sans-serif" font-size="9" font-weight="900" fill="#18241b" text-anchor="middle">CHUTNEY</text>
+        <text x="0" y="8" font-family="Bricolage Grotesque, sans-serif" font-size="10" font-weight="900" fill="#c8361f" text-anchor="middle">TUBES</text>
+      </g>
+
+      <!-- Shield Label Plaque -->
+      <g transform="translate(-94, 90)">
+        <rect x="0" y="0" width="80" height="136" rx="10" fill="#fffdfa" stroke="#18241b" stroke-width="1.2" />
+        <rect x="2" y="2" width="76" height="132" rx="8" fill="none" stroke="#f2b81d" stroke-width="0.8" />
+        <rect x="4" y="6" width="72" height="15" rx="3.5" fill="#18241b" />
+        <text x="40" y="17" font-family="Hind, sans-serif" font-size="8.5" font-weight="700" fill="#f2b81d" text-anchor="middle">तीखी इमली सौंठ</text>
+        
+        <text x="40" y="44" font-family="Bricolage Grotesque, sans-serif" font-size="17" font-weight="900" fill="#18241b" text-anchor="middle">SAUNTH</text>
+        <text x="40" y="55" font-family="Hind, sans-serif" font-size="6.5" font-weight="700" fill="#57534e" text-anchor="middle">TAMARIND &amp; GINGER</text>
+
+        <!-- Ginger & Chilli -->
+        <g transform="translate(32, 70) scale(0.9)">
+          <path d="M 0 4 Q 8 0 16 6 Q 22 14 18 22 Q 12 24 6 18 Q 0 12 0 4 Z" fill="#78350f" stroke="#ffffff" stroke-width="0.8" />
+          <circle cx="22" cy="14" r="5" fill="#ca8a04" stroke="#ffffff" stroke-width="0.8" />
+        </g>
+
+        <g transform="translate(40, 102)">
+          <rect x="-30" y="-7" width="60" height="14" rx="7" fill="#f4f3ec" />
+          <text x="0" y="2.5" font-family="Hind, sans-serif" font-size="5" font-weight="800" fill="#c8361f" text-anchor="middle">MEDIUM ZING</text>
+        </g>
+        <rect x="8" y="116" width="10" height="10" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.2" rx="1.5" />
+        <circle cx="13" cy="121" r="3" fill="#1d6b3a" />
+        <text x="72" y="124" font-family="Hind, sans-serif" font-size="7.5" font-weight="800" fill="#18241b" text-anchor="end">100 g</text>
+      </g>
+
+      <!-- Cap -->
+      <path d="M -72 278 L -36 278 L -40 308 C -40 316 -68 316 -68 308 Z" fill="#92400e" stroke="#ffffff" stroke-width="1" />
     </g>
 
-    <!-- Typography -->
-    <g transform="translate(55, 148)">
-      <text x="0" y="0" font-family="'Bricolage Grotesque', sans-serif" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">KHATTI MEETHI</text>
-      <text x="0" y="11" font-family="'Bricolage Grotesque', sans-serif" font-size="10.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.6">IMLI CHUTNEY</text>
-      <text x="0" y="24" font-family="'Hind', sans-serif" font-size="9" font-weight="600" fill="#fef3c7" text-anchor="middle">खट्टी मीठी इमली चटनी</text>
-      <line x1="-30" y1="28" x2="30" y2="28" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
+    <!-- Center Hero Tube: Chatpati Hari (Upfront, 1.08 Scale) -->
+    <g transform="translate(270, 218) scale(1.08)">
+      <rect x="-48" y="16" width="96" height="258" rx="18" fill="#2f8f46" />
+      <rect x="-18" y="16" width="18" height="258" fill="#ffffff" opacity="0.25" />
+      
+      <!-- Crimp -->
+      <rect x="-50" y="-6" width="100" height="24" fill="#0f3a1a" rx="2" />
+      <path d="M -46 -6 L -42 18 M -34 -6 L -30 18 M -22 -6 L -18 18 M -10 -6 L -6 18 M 2 -6 L 6 18 M 14 -6 L 18 18 M 26 -6 L 30 18 M 38 -6 L 42 18" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
+      <text x="0" y="8" font-family="Hind, sans-serif" font-size="5.5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2">B.NO CT-26 • NET WT 100g</text>
+
+      <!-- Toran Band -->
+      <g transform="translate(-45, 20)">
+        <polygon points="4,0 8,8 0,8" fill="#f2b81d" />
+        <polygon points="14,0 18,8 10,8" fill="#f2b81d" />
+        <polygon points="24,0 28,8 20,8" fill="#f2b81d" />
+        <polygon points="34,0 38,8 30,8" fill="#f2b81d" />
+        <polygon points="44,0 48,8 40,8" fill="#f2b81d" />
+        <polygon points="54,0 58,8 50,8" fill="#f2b81d" />
+        <polygon points="64,0 68,8 60,8" fill="#f2b81d" />
+        <polygon points="74,0 78,8 70,8" fill="#f2b81d" />
+        <polygon points="84,0 88,8 80,8" fill="#f2b81d" />
+      </g>
+
+      <!-- Top Brand Seal -->
+      <g transform="translate(0, 52)">
+        <rect x="-38" y="-18" width="76" height="34" rx="6" fill="#f2b81d" stroke="#ffffff" stroke-width="1.6" />
+        <rect x="-36" y="-16" width="72" height="30" rx="4" fill="none" stroke="#18241b" stroke-width="1.2" stroke-dasharray="2 1.5" />
+        <text x="0" y="-4" font-family="Bricolage Grotesque, sans-serif" font-size="10" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.8">CHUTNEY</text>
+        <text x="0" y="8" font-family="Bricolage Grotesque, sans-serif" font-size="11" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1.2">TUBES</text>
+        <text x="0" y="13" font-family="Hind, sans-serif" font-size="4.2" font-weight="800" fill="#18241b" text-anchor="middle" letter-spacing="1.2">ESTD. 2026 • HOMESTYLE</text>
+      </g>
+
+      <!-- Center Food Label Plaque -->
+      <g transform="translate(-42, 74)">
+        <rect x="0" y="0" width="84" height="142" rx="10" fill="#fffdfa" stroke="#18241b" stroke-width="1.3" />
+        <rect x="2" y="2" width="80" height="138" rx="8" fill="none" stroke="#f2b81d" stroke-width="0.9" />
+        
+        <rect x="4" y="6" width="76" height="16" rx="4" fill="#18241b" />
+        <text x="42" y="17.5" font-family="Hind, sans-serif" font-size="9" font-weight="700" fill="#f2b81d" text-anchor="middle" letter-spacing="0.4">चटपटी हरी • चटनी</text>
+        
+        <text x="42" y="47" font-family="Bricolage Grotesque, sans-serif" font-size="18" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.5">HARI</text>
+        <text x="42" y="58" font-family="Hind, sans-serif" font-size="6.5" font-weight="700" fill="#57534e" text-anchor="middle" letter-spacing="0.8">CHATPATI PUDINA</text>
+        <line x1="18" y1="62" x2="66" y2="62" stroke="#d8dcd4" stroke-width="0.8" />
+
+        <!-- Mint Sprig & Chilli -->
+        <g transform="translate(24, 76) scale(0.95)">
+          <path d="M 0 10 C 6 2 14 4 16 12 C 14 18 6 18 0 10 Z" fill="#22c55e" stroke="#ffffff" stroke-width="0.8" />
+          <path d="M 0 10 C -6 2 -14 4 -16 12 C -14 18 -6 18 0 10 Z" fill="#16a34a" stroke="#ffffff" stroke-width="0.8" />
+        </g>
+        <g transform="translate(56, 72) scale(0.9)">
+          <path d="M 0 0 C 6 6 8 16 4 24 C 0 26 -4 20 -4 14 C -4 8 -2 2 0 0 Z" fill="#15803d" stroke="#ffffff" stroke-width="0.8" />
+          <path d="M 0 0 Q 4 -4 8 -2" stroke="#4ade80" stroke-width="1.2" fill="none" stroke-linecap="round" />
+        </g>
+
+        <!-- Spice Rating -->
+        <g transform="translate(42, 108)">
+          <rect x="-32" y="-7.5" width="64" height="15" rx="7.5" fill="#f4f3ec" stroke="#d8dcd4" stroke-width="0.8" />
+          <text x="0" y="2.5" font-family="Hind, sans-serif" font-size="5.2" font-weight="800" fill="#1d6b3a" text-anchor="middle">● ● ○ MEDIUM HEAT</text>
+        </g>
+
+        <!-- Green Veg Mark & Net Weight -->
+        <rect x="8" y="122" width="11" height="11" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.3" rx="1.5" />
+        <circle cx="13.5" cy="127.5" r="3.2" fill="#1d6b3a" />
+        <text x="76" y="130" font-family="Hind, sans-serif" font-size="8" font-weight="800" fill="#18241b" text-anchor="end">100 g</text>
+      </g>
+
+      <!-- 3D Yellow Flip-Cap -->
+      <g transform="translate(-18, 274)">
+        <rect x="4" y="0" width="28" height="7" fill="#000000" opacity="0.32" rx="1.5" />
+        <path d="M 2 5 Q 18 -1 34 5 L 32 26 C 32 31 28 34 18 34 C 8 34 4 31 4 26 Z" fill="#f59e0b" stroke="#ffffff" stroke-width="1" />
+        <path d="M 8 9 Q 18 5 28 9" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.65" />
+        <rect x="13" y="26" width="10" height="4" rx="2" fill="#000000" opacity="0.28" />
+      </g>
     </g>
 
-    <!-- Food Certification & Spec Badges -->
-    <g transform="translate(22, 222)">
-      <!-- Veg Green Mark -->
-      <rect x="0" y="0" width="12" height="12" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.2" rx="2" />
-      <circle cx="6" cy="6" r="3.5" fill="#1d6b3a" />
+    <!-- Foreground Stainless Steel Katori of Fresh Green Chutney -->
+    <g transform="translate(385, 368)">
+      <ellipse cx="0" cy="24" rx="70" ry="18" fill="#000000" opacity="0.32" />
+      <ellipse cx="0" cy="0" rx="65" ry="24" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5" />
+      <path d="M -65 0 C -65 28 65 28 65 0 Z" fill="#94a3b8" stroke="#64748b" stroke-width="1.5" />
+      <ellipse cx="0" cy="0" rx="58" ry="20" fill="#2f8f46" />
+      <!-- Swirl Highlight -->
+      <path d="M -24 0 Q 0 -12 24 -2 Q 12 10 -4 8" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" fill="none" opacity="0.65" />
+      <circle cx="-12" cy="-4" r="2.2" fill="#134a28" />
+      <circle cx="14" cy="2" r="2" fill="#134a28" />
+      <circle cx="20" cy="-6" r="1.8" fill="#f2b81d" />
+      <path d="M 2 -8 Q 8 -14 14 -10 Q 10 -4 2 -8 Z" fill="#4ade80" />
     </g>
-    <g transform="translate(88, 232)">
-      <text x="0" y="0" font-family="'Hind', sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" text-anchor="end">100 g</text>
-    </g>
-
-    <!-- 3D Flip Cap (Haldi Yellow) -->
-    <g transform="translate(37, 275)">
-      <rect x="5" y="0" width="26" height="7" fill="#000000" opacity="0.3" rx="1.5" />
-      <path d="M 2 5 Q 18 -1 34 5 L 32 26 C 32 31 28 34 18 34 C 8 34 4 31 4 26 Z" fill="url(#capHaldi)" stroke="#ffffff" stroke-width="0.8" />
-      <path d="M 8 9 Q 18 5 28 9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6" />
-      <rect x="13" y="26" width="10" height="4" rx="2" fill="#000000" opacity="0.25" />
-    </g>
-  </g>
-
-  <!-- ============================================================== -->
-  <!-- 2. RIGHT TUBE: Teekhi Lehsuni / Schezwan (Angled Right +16 deg) -->
-  <!-- ============================================================== -->
-  <g transform="translate(525, 235) rotate(16) translate(-55, -170)" filter="url(#studioShadow)">
-    <!-- Tube Body -->
-    <path d="M 14 42 L 96 42 C 96 175 94 235 88 252 C 84 268 72 276 55 276 C 38 276 26 268 22 252 C 16 235 14 175 14 42 Z" fill="url(#mirch3D)" />
-    
-    <!-- Top Crimped Seal with Stamped Batch Number -->
-    <rect x="12" y="18" width="86" height="24" fill="#350606" rx="3" />
-    <path d="M 15 18 L 19 42 M 25 18 L 29 42 M 35 18 L 39 42 M 45 18 L 49 42 M 55 18 L 59 42 M 65 18 L 69 42 M 75 18 L 79 42 M 85 18 L 89 42 M 93 18 L 95 42" stroke="#ffffff" stroke-width="1.3" opacity="0.38" />
-    <rect x="12" y="16" width="86" height="5" fill="#200303" opacity="0.6" />
-    <text x="55" y="32" font-family="'Hind', sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.5" opacity="0.85">B.NO CT-26C • 100g</text>
-
-    <!-- Toran Folk Border -->
-    <g transform="translate(16, 44)">
-      <polygon points="4,0 8,8 0,8" fill="#f2b81d" />
-      <polygon points="14,0 18,8 10,8" fill="#f2b81d" />
-      <polygon points="24,0 28,8 20,8" fill="#f2b81d" />
-      <polygon points="34,0 38,8 30,8" fill="#f2b81d" />
-      <polygon points="44,0 48,8 40,8" fill="#f2b81d" />
-      <polygon points="54,0 58,8 50,8" fill="#f2b81d" />
-      <polygon points="64,0 68,8 60,8" fill="#f2b81d" />
-      <polygon points="74,0 78,8 70,8" fill="#f2b81d" />
-    </g>
-
-    <!-- Brand Seal Sticker -->
-    <g transform="translate(55, 95) rotate(5)">
-      <circle cx="0" cy="0" r="26" fill="#f2b81d" stroke="#ffffff" stroke-width="1.8" />
-      <circle cx="0" cy="0" r="22" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="3 2" />
-      <text x="0" y="-4" font-family="'Bricolage Grotesque', sans-serif" font-size="8.5" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.5">CHUTNEY</text>
-      <text x="0" y="8" font-family="'Bricolage Grotesque', sans-serif" font-size="9.5" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1">TUBES</text>
-    </g>
-
-    <!-- Typography -->
-    <g transform="translate(55, 148)">
-      <text x="0" y="0" font-family="'Bricolage Grotesque', sans-serif" font-size="10.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">TEEKHI LEHSUNI</text>
-      <text x="0" y="11" font-family="'Bricolage Grotesque', sans-serif" font-size="10.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.6">CHILLI-GARLIC</text>
-      <text x="0" y="24" font-family="'Hind', sans-serif" font-size="9" font-weight="600" fill="#fef3c7" text-anchor="middle">तीखी लहुसनी चटनी</text>
-      <line x1="-30" y1="28" x2="30" y2="28" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
-    </g>
-
-    <!-- Veg Mark & Net Weight -->
-    <g transform="translate(22, 222)">
-      <rect x="0" y="0" width="12" height="12" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.2" rx="2" />
-      <circle cx="6" cy="6" r="3.5" fill="#1d6b3a" />
-    </g>
-    <g transform="translate(88, 232)">
-      <text x="0" y="0" font-family="'Hind', sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" text-anchor="end">100 g</text>
-    </g>
-
-    <!-- 3D Flip Cap (Fiery Deep Red) -->
-    <g transform="translate(37, 275)">
-      <rect x="5" y="0" width="26" height="7" fill="#000000" opacity="0.3" rx="1.5" />
-      <path d="M 2 5 Q 18 -1 34 5 L 32 26 C 32 31 28 34 18 34 C 8 34 4 31 4 26 Z" fill="url(#capRed)" stroke="#ffffff" stroke-width="0.8" />
-      <path d="M 8 9 Q 18 5 28 9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6" />
-      <rect x="13" y="26" width="10" height="4" rx="2" fill="#000000" opacity="0.25" />
-    </g>
-  </g>
-
-  <!-- ============================================================== -->
-  <!-- 3. CENTER HERO TUBE: Chatpati Hari Chutney (Proudly Upright)   -->
-  <!-- ============================================================== -->
-  <g transform="translate(360, 205) translate(-65, -190)" filter="url(#studioShadow)">
-    <!-- Main Tube Body with realistic 3D cylindrical lighting -->
-    <path d="M 16 48 L 114 48 C 114 200 111 270 105 288 C 100 306 86 316 65 316 C 44 316 30 306 25 288 C 19 270 16 200 16 48 Z" fill="url(#hari3D)" />
-    
-    <!-- Top Crimped Seal -->
-    <rect x="14" y="20" width="102" height="28" fill="#0c3519" rx="3" />
-    <path d="M 18 20 L 23 48 M 30 20 L 35 48 M 42 20 L 47 48 M 54 20 L 59 48 M 66 20 L 71 48 M 78 20 L 83 48 M 90 20 L 95 48 M 102 20 L 107 48 M 111 20 L 113 48" stroke="#ffffff" stroke-width="1.5" opacity="0.45" />
-    <rect x="14" y="18" width="102" height="5" fill="#061e0d" opacity="0.7" />
-    <text x="65" y="37" font-family="'Hind', sans-serif" font-size="6" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.5">B.NO CT-26A • 100g • DESK-SAFE</text>
-
-    <!-- Toran Folk Border -->
-    <g transform="translate(18, 50)">
-      <polygon points="5,0 10,10 0,10" fill="#f2b81d" />
-      <polygon points="17,0 22,10 12,10" fill="#f2b81d" />
-      <polygon points="29,0 34,10 24,10" fill="#f2b81d" />
-      <polygon points="41,0 46,10 36,10" fill="#f2b81d" />
-      <polygon points="53,0 58,10 48,10" fill="#f2b81d" />
-      <polygon points="65,0 70,10 60,10" fill="#f2b81d" />
-      <polygon points="77,0 82,10 72,10" fill="#f2b81d" />
-      <polygon points="89,0 94,10 84,10" fill="#f2b81d" />
-    </g>
-
-    <!-- Haldi Brand Seal Sticker (Crisp, High Contrast) -->
-    <g transform="translate(65, 110) rotate(-4)">
-      <circle cx="0" cy="0" r="32" fill="#f2b81d" stroke="#ffffff" stroke-width="2.2" />
-      <circle cx="0" cy="0" r="27.5" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-dasharray="3.5 2.5" />
-      <text x="0" y="-5" font-family="'Bricolage Grotesque', sans-serif" font-size="11" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.6">CHUTNEY</text>
-      <text x="0" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="12" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1.2">TUBES</text>
-      <path d="M -16 15 Q 0 17 16 15" stroke="#18241b" stroke-width="1" fill="none" />
-    </g>
-
-    <!-- Main Flavour Typography -->
-    <g transform="translate(65, 172)">
-      <text x="0" y="0" font-family="'Bricolage Grotesque', sans-serif" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">CHATPATI HARI</text>
-      <text x="0" y="15" font-family="'Hind', sans-serif" font-size="11.5" font-weight="600" fill="#fef3c7" text-anchor="middle">चटपटी हरी चटनी</text>
-      <line x1="-36" y1="22" x2="36" y2="22" stroke="#ffffff" stroke-width="1" opacity="0.65" />
-      <text x="0" y="32" font-family="'Hind', sans-serif" font-size="8" font-weight="500" fill="#e2e8f0" text-anchor="middle" letter-spacing="0.3">Pudina • Dhaniya • Nimbu</text>
-    </g>
-
-    <!-- Two Ingredient Vector Illustrations on Center Tube -->
-    <g transform="translate(32, 218) scale(0.95)" stroke="#ffffff" stroke-width="0.8">
-      <!-- Mint Sprig -->
-      <path d="M 12 18 Q 8 10 2 8 Q 8 6 12 0 Q 16 6 22 8 Q 16 10 12 18 Z" fill="#ffffff" opacity="0.9" />
-    </g>
-    <g transform="translate(74, 218) scale(0.95)" stroke="#ffffff" stroke-width="0.8">
-      <!-- Green Chilli -->
-      <path d="M 2 2 Q 10 2 16 8 Q 20 14 22 22 Q 18 20 12 14 Q 4 8 2 2 Z" fill="#ffffff" opacity="0.9" />
-    </g>
-
-    <!-- Veg Certification Mark & Net Weight -->
-    <g transform="translate(26, 260)">
-      <rect x="0" y="0" width="14" height="14" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.5" rx="2" />
-      <circle cx="7" cy="7" r="4" fill="#1d6b3a" />
-    </g>
-    <g transform="translate(104, 272)">
-      <text x="0" y="0" font-family="'Hind', sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="end">100 g</text>
-    </g>
-
-    <!-- 3D Precision Flip Cap with Anti-Drip Valve (Haldi Yellow) -->
-    <g transform="translate(44, 315)">
-      <rect x="6" y="0" width="30" height="8" fill="#000000" opacity="0.32" rx="2" />
-      <!-- Domed Flip Cap -->
-      <path d="M 2 6 Q 21 -2 40 6 L 38 31 C 38 37 32 40 21 40 C 10 40 4 37 4 31 Z" fill="url(#capHaldi)" stroke="#ffffff" stroke-width="1" />
-      <!-- Specular Highlight Strip -->
-      <path d="M 10 10 Q 21 6 32 10" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75" />
-      <!-- Ergonomic Thumb Flip Tab -->
-      <rect x="15" y="30" width="12" height="5" rx="2.5" fill="#92400e" opacity="0.4" />
-      <!-- Precision silicone spout slit -->
-      <circle cx="21" cy="20" r="3.5" fill="#78350f" opacity="0.3" />
-      <line x1="19" y1="20" x2="23" y2="20" stroke="#ffffff" stroke-width="0.8" opacity="0.7" />
-    </g>
-  </g>
-
-  <!-- ============================================================== -->
-  <!-- 4. FOREGROUND: CRISPY GOLDEN SAMOSA WITH FRESH CHUTNEY SWIRL   -->
-  <!-- ============================================================== -->
-  <g transform="translate(170, 385)" filter="url(#crispShadow)">
-    <!-- Samosa Cast Shadow -->
-    <ellipse cx="60" cy="85" rx="70" ry="14" fill="#18241b" opacity="0.3" />
-    
-    <!-- Golden Crispy Fried Samosa Pastry (Triangle Dome) -->
-    <path d="M 60 10 C 85 30 115 65 120 78 C 122 84 105 88 60 88 C 15 88 -2 84 0 78 C 5 65 35 30 60 10 Z" fill="url(#samosaCrust)" />
-    <!-- Samosa Highlight Layer & Fried Blisters -->
-    <path d="M 60 10 C 85 30 115 65 120 78 C 122 84 105 88 60 88 C 15 88 -2 84 0 78 C 5 65 35 30 60 10 Z" fill="url(#samosaHighlight)" />
-    <!-- Blistered Golden Crisp Pastry Texture -->
-    <circle cx="45" cy="55" r="4.5" fill="#fde047" opacity="0.45" />
-    <circle cx="75" cy="62" r="3.5" fill="#fde047" opacity="0.45" />
-    <circle cx="55" cy="72" r="5" fill="#fde047" opacity="0.4" />
-    <circle cx="30" cy="65" r="3" fill="#78350f" opacity="0.3" />
-    <circle cx="90" cy="70" r="3" fill="#78350f" opacity="0.3" />
-    <!-- Pastry Fold Ridge -->
-    <path d="M 60 14 Q 58 48 60 86" stroke="#92400e" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.6" />
-
-    <!-- LUSCIOUS GLOSSY CHUTNEY SWIRL SQUEEZED DIRECTLY ON THE SAMOSA -->
-    <path d="M 40 40 Q 60 25 75 42 Q 85 58 60 62 Q 42 66 52 50 Q 58 38 70 48" fill="none" stroke="url(#glossSauce)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
-    <!-- Shiny Specular Glaze on Swirl -->
-    <path d="M 44 38 Q 60 27 72 42 Q 78 54 62 58" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75" />
-    <!-- Fresh Mint Speckles & Crushed Cumin Tadka -->
-    <circle cx="52" cy="48" r="1.5" fill="#14532d" />
-    <circle cx="68" cy="45" r="1.2" fill="#18241b" />
-    <circle cx="62" cy="56" r="1.4" fill="#fef08a" />
-  </g>
-
-  <!-- ============================================================== -->
-  <!-- 5. FOREGROUND RIGHT: BRUSHED STAINLESS STEEL KATORI & TADKA    -->
-  <!-- ============================================================== -->
-  <g transform="translate(520, 395)" filter="url(#crispShadow)">
-    <!-- Bowl Drop Shadow -->
-    <ellipse cx="0" cy="55" rx="75" ry="16" fill="#18241b" opacity="0.32" />
-
-    <!-- Lathed Brushed Stainless Steel Exterior -->
-    <ellipse cx="0" cy="24" rx="68" ry="24" fill="url(#brushedSteel)" stroke="#94a3b8" stroke-width="1.5" />
-    <path d="M -68 24 C -68 56 68 56 68 24 Z" fill="url(#brushedSteel)" stroke="#64748b" stroke-width="1.5" />
-    
-    <!-- Steel Rim Specular Glint -->
-    <ellipse cx="0" cy="24" rx="64" ry="21" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.8" />
-
-    <!-- Luscious Emerald Green Chutney Fill Surface -->
-    <ellipse cx="0" cy="22" rx="58" ry="17" fill="#1d6b3a" />
-    <ellipse cx="0" cy="22" rx="55" ry="15" fill="url(#glossSauce)" />
-
-    <!-- Rich Chutney Swirl & Tadka Seeds -->
-    <path d="M -26 22 Q 0 10 26 19 Q 12 30 -6 26" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.65" />
-    <circle cx="-12" cy="18" r="2.2" fill="#18241b" />
-    <circle cx="12" cy="24" r="1.8" fill="#18241b" />
-    <circle cx="20" cy="16" r="2" fill="#f2b81d" />
-    <circle cx="-4" cy="28" r="1.6" fill="#fef08a" />
-    <!-- Coriander Leaf Garnish Floating in Katori -->
-    <path d="M 2 14 Q 8 8 14 12 Q 10 18 2 14 Z" fill="#4ade80" />
-  </g>
-
-  <!-- ============================================================== -->
-  <!-- 6. WHOLE FRESH SPICES & GARNISH ON THE COUNTERTOP              -->
-  <!-- ============================================================== -->
-  <!-- Fresh Dewy Green Chilli Resting by the Samosa -->
-  <g transform="translate(100, 465) rotate(22)" filter="url(#crispShadow)">
-    <path d="M 0 0 C 18 -4 45 4 60 18 C 45 16 20 8 0 0 Z" fill="#16a34a" />
-    <path d="M 2 1 C 18 -2 40 6 52 16" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6" />
-    <!-- Chilli Stem -->
-    <path d="M 0 0 C -4 -4 -6 -8 -4 -12" stroke="#15803d" stroke-width="2.2" stroke-linecap="round" fill="none" />
-  </g>
-
-  <!-- Fresh Lemon Wedge with Juicy Pulp Segments -->
-  <g transform="translate(425, 455) rotate(-12)" filter="url(#crispShadow)">
-    <!-- Lemon Rind -->
-    <path d="M 0 0 A 30 30 0 0 1 50 15 L 0 0 Z" fill="#fde047" stroke="#eab308" stroke-width="1.5" />
-    <!-- White pith -->
-    <path d="M 3 2 A 26 26 0 0 1 46 14 L 3 2 Z" fill="#fef9c3" />
-    <!-- Translucent juicy pulp segments -->
-    <path d="M 6 4 A 23 23 0 0 1 18 8 L 6 4 Z" fill="#facc15" />
-    <path d="M 20 9 A 23 23 0 0 1 32 13 L 20 9 Z" fill="#facc15" />
-    <path d="M 34 14 A 23 23 0 0 1 43 15 L 34 14 Z" fill="#facc15" />
-  </g>
-</svg>
+  </svg>

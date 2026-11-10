@@ -1,0 +1,199 @@
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" fill="none" aria-label="Peanut Chutney tube render">
+    <defs>
+      <!-- Cylindrical 3D Shading for Tube Body -->
+      <linearGradient id="shd_peanut" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#000000" stop-opacity="0.55" />
+        <stop offset="14%" stop-color="#000000" stop-opacity="0.25" />
+        <stop offset="28%" stop-color="#b98a4a" />
+        <stop offset="42%" stop-color="#ffffff" stop-opacity="0.4" />
+        <stop offset="48%" stop-color="#ffffff" stop-opacity="0.6" />
+        <stop offset="56%" stop-color="#ffffff" stop-opacity="0.25" />
+        <stop offset="78%" stop-color="#b98a4a" />
+        <stop offset="90%" stop-color="#000000" stop-opacity="0.32" />
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.58" />
+      </linearGradient>
+
+      <!-- Label Plaque Surface Shading -->
+      <linearGradient id="lblShd_peanut" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.3" />
+        <stop offset="30%" stop-color="#ffffff" />
+        <stop offset="70%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.4" />
+      </linearGradient>
+
+      <!-- Cap Gradients -->
+      <linearGradient id="capYellow_peanut" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#b45309" />
+        <stop offset="25%" stop-color="#f59e0b" />
+        <stop offset="48%" stop-color="#ffffff" stop-opacity="0.65" />
+        <stop offset="70%" stop-color="#f59e0b" />
+        <stop offset="100%" stop-color="#92400e" />
+      </linearGradient>
+
+      <linearGradient id="capGreen_peanut" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#052e16" />
+        <stop offset="25%" stop-color="#15803d" />
+        <stop offset="48%" stop-color="#ffffff" stop-opacity="0.65" />
+        <stop offset="70%" stop-color="#15803d" />
+        <stop offset="100%" stop-color="#052e16" />
+      </linearGradient>
+
+      <linearGradient id="capRed_peanut" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#450a0a" />
+        <stop offset="25%" stop-color="#b91c1c" />
+        <stop offset="48%" stop-color="#ffffff" stop-opacity="0.65" />
+        <stop offset="70%" stop-color="#b91c1c" />
+        <stop offset="100%" stop-color="#450a0a" />
+      </linearGradient>
+
+      <!-- Lathed Brushed Stainless Steel Katori Shading -->
+      <linearGradient id="stl_peanut" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f8fafc" />
+        <stop offset="25%" stop-color="#e2e8f0" />
+        <stop offset="50%" stop-color="#ffffff" />
+        <stop offset="75%" stop-color="#cbd5e1" />
+        <stop offset="100%" stop-color="#64748b" />
+      </linearGradient>
+
+      <!-- Soft Realistic Floor Occlusion Drop Shadow -->
+      <filter id="flvShd_peanut" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="2" dy="22" stdDeviation="16" flood-color="#18241b" flood-opacity="0.32" />
+        <feDropShadow dx="1" dy="6" stdDeviation="6" flood-color="#18241b" flood-opacity="0.2" />
+      </filter>
+
+      <!-- Label Subtle Lift Shadow -->
+      <filter id="lblLift_peanut" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.22" />
+      </filter>
+    </defs>
+
+    <!-- Floor Occlusion Shadow -->
+    <ellipse cx="200" cy="365" rx="145" ry="18" fill="#18241b" opacity="0.18" />
+    <ellipse cx="190" cy="362" rx="105" ry="12" fill="#18241b" opacity="0.14" />
+
+    <!-- Main Rotated Food Tube Assembly -->
+    <g transform="translate(185, 182) rotate(-10) translate(-54, -165)" filter="url(#flvShd_peanut)">
+      
+      <!-- 1. TUBE BODY: High-barrier matte food laminate -->
+      <path d="M 8 36 L 100 36 C 100 175 98 238 92 254 C 86 270 74 278 54 278 C 34 278 22 270 16 254 C 10 238 8 175 8 36 Z" fill="#b98a4a" />
+      <path d="M 8 36 L 100 36 C 100 175 98 238 92 254 C 86 270 74 278 54 278 C 34 278 22 270 16 254 C 10 238 8 175 8 36 Z" fill="url(#shd_peanut)" />
+
+      <!-- Specular cylindrical softbox highlight -->
+      <path d="M 48 36 L 54 36 C 54 175 53 238 52 268 L 48 268 C 47 238 48 175 48 36 Z" fill="#ffffff" opacity="0.28" />
+
+      <!-- 2. METALLIC ZIGZAG CRIMPED TOP WITH STAMPED BATCH CODE -->
+      <rect x="6" y="14" width="96" height="24" fill="#000000" opacity="0.38" rx="2" />
+      <path d="M 9 14 L 13 38 M 19 14 L 23 38 M 29 14 L 33 38 M 39 14 L 43 38 M 49 14 L 53 38 M 59 14 L 63 38 M 69 14 L 73 38 M 79 14 L 83 38 M 89 14 L 93 38 M 99 14 L 103 38" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
+      <rect x="6" y="12" width="96" height="4" fill="#000000" opacity="0.5" />
+      <text x="54" y="28" font-family="Hind, sans-serif" font-size="5.2" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.4" opacity="0.9">B.NO CT-26 • NET WT 100g</text>
+
+      <!-- TRADITIONAL INDIAN TORAN FOLK MOTIF BAND -->
+      <g transform="translate(10, 40)">
+        <polygon points="4,0 8,7 0,7" fill="#f2b81d" />
+        <polygon points="14,0 18,7 10,7" fill="#f2b81d" />
+        <polygon points="24,0 28,7 20,7" fill="#f2b81d" />
+        <polygon points="34,0 38,7 30,7" fill="#f2b81d" />
+        <polygon points="44,0 48,7 40,7" fill="#f2b81d" />
+        <polygon points="54,0 58,7 50,7" fill="#f2b81d" />
+        <polygon points="64,0 68,7 60,7" fill="#f2b81d" />
+        <polygon points="74,0 78,7 70,7" fill="#f2b81d" />
+        <polygon points="84,0 88,7 80,7" fill="#f2b81d" />
+        <circle cx="4" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="14" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="24" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="34" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="44" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="54" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="64" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="74" cy="10" r="1.1" fill="#ffffff" />
+        <circle cx="84" cy="10" r="1.1" fill="#ffffff" />
+      </g>
+
+      <!-- 3. TOP BRAND SEAL (ARCHITECTURAL HEADER CROWN) -->
+      <g transform="translate(54, 72)" filter="url(#lblLift_peanut)">
+        <rect x="-38" y="-18" width="76" height="34" rx="6" fill="#f2b81d" stroke="#ffffff" stroke-width="1.4" />
+        <rect x="-36" y="-16" width="72" height="30" rx="4.5" fill="none" stroke="#18241b" stroke-width="1.2" stroke-dasharray="2 1.5" />
+        <text x="0" y="-4" font-family="Bricolage Grotesque, sans-serif" font-size="9.5" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.8">CHUTNEY</text>
+        <text x="0" y="8" font-family="Bricolage Grotesque, sans-serif" font-size="10.5" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1.2">TUBES</text>
+        <text x="0" y="13" font-family="Hind, sans-serif" font-size="4" font-weight="800" fill="#18241b" text-anchor="middle" letter-spacing="1.2">ESTD. 2026 • HOMESTYLE</text>
+      </g>
+
+      <!-- 4. FRONT-OF-PACK ARCHITECTURAL LABEL PLAQUE -->
+      <g transform="translate(13, 94)" filter="url(#lblLift_peanut)">
+        <!-- Parchment Shield Background -->
+        <rect x="0" y="0" width="82" height="138" rx="10" fill="#fffdfa" stroke="#18241b" stroke-width="1.3" />
+        <rect x="0" y="0" width="82" height="138" rx="10" fill="url(#lblShd_peanut)" />
+        <rect x="2" y="2" width="78" height="134" rx="8" fill="none" stroke="#f2b81d" stroke-width="0.9" />
+
+        <!-- Devanagari Hindi Ribbon Badge -->
+        <g transform="translate(41, 14)">
+          <rect x="-36" y="-8" width="72" height="16" rx="4" fill="#18241b" />
+          <text x="0" y="3.5" font-family="Hind, sans-serif" font-size="8.5" font-weight="700" fill="#f2b81d" text-anchor="middle" letter-spacing="0.4">मूंगफली चटनी</text>
+        </g>
+
+        <!-- Main Punchy Flavour Name (Editorial Display) -->
+        <g transform="translate(41, 44)">
+          <text x="0" y="0" font-family="Bricolage Grotesque, sans-serif" font-size="17" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.4">PEANUT</text>
+          <text x="0" y="11" font-family="Hind, sans-serif" font-size="6.2" font-weight="700" fill="#57534e" text-anchor="middle" letter-spacing="0.8">SHENGDANA CHILLI</text>
+          <line x1="-24" y1="16" x2="24" y2="16" stroke="#d8dcd4" stroke-width="0.8" />
+        </g>
+
+        <!-- Illustrated Ingredient Pair -->
+        <g transform="translate(0, 0)">
+          
+      <!-- Whole Spices & Herbs -->
+      <g transform="translate(36, 160) scale(0.9)">
+        <circle cx="0" cy="4" r="5" fill="#eab308" stroke="#ffffff" stroke-width="0.8" />
+        <circle cx="6" cy="10" r="4" fill="#ca8a04" stroke="#ffffff" stroke-width="0.8" />
+        <circle cx="-6" cy="9" r="4" fill="#a16207" stroke="#ffffff" stroke-width="0.8" />
+      </g>
+      <!-- Chilli Pepper -->
+      <g transform="translate(68, 156) scale(0.85)">
+        <path d="M 0 0 C 6 6 8 16 4 24 C 0 26 -4 20 -4 14 C -4 8 -2 2 0 0 Z" fill="#dc2626" stroke="#ffffff" stroke-width="0.8" />
+        <path d="M 0 0 Q 4 -4 8 -2" stroke="#16a34a" stroke-width="1.2" fill="none" stroke-linecap="round" />
+      </g>
+    
+        </g>
+
+        <!-- Spice Level Indicator Pill -->
+        <g transform="translate(41, 98)">
+          <rect x="-32" y="-7.5" width="64" height="15" rx="7.5" fill="#f4f3ec" stroke="#d8dcd4" stroke-width="0.8" />
+          <text x="0" y="2.5" font-family="Hind, sans-serif" font-size="5.2" font-weight="800" fill="#1d6b3a" text-anchor="middle" letter-spacing="0.5">● ● ○ NUTTY CRUNCH</text>
+        </g>
+
+        <!-- Green Veg Dot & Net Weight Marks -->
+        <g transform="translate(8, 114)">
+          <rect x="0" y="0" width="11" height="11" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.3" rx="1.5" />
+          <circle cx="5.5" cy="5.5" r="3.2" fill="#1d6b3a" />
+        </g>
+        <g transform="translate(74, 122)">
+          <text x="0" y="0" font-family="Hind, sans-serif" font-size="7.5" font-weight="800" fill="#18241b" text-anchor="end">100 g</text>
+        </g>
+      </g>
+
+      <!-- 5. 3D ROUNDED KETCHUP-STYLE FLIP-CAP -->
+      <g transform="translate(36, 276)">
+        <rect x="4" y="0" width="28" height="7" fill="#000000" opacity="0.32" rx="1.5" />
+        <path d="M 2 5 Q 18 -1 34 5 L 32 26 C 32 31 28 34 18 34 C 8 34 4 31 4 26 Z" fill="url(#capYellow_peanut)" stroke="#ffffff" stroke-width="0.9" />
+        <path d="M 8 9 Q 18 5 28 9" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.65" />
+        <rect x="13" y="26" width="10" height="4" rx="2" fill="#000000" opacity="0.28" />
+      </g>
+    </g>
+
+    <!-- 6. BRUSHED STAINLESS STEEL KATORI BESIDE THE TUBE -->
+    
+    <g transform="translate(285, 305)" filter="url(#flvShd_peanut)">
+      <ellipse cx="0" cy="38" rx="55" ry="14" fill="#18241b" opacity="0.3" />
+      <ellipse cx="0" cy="20" rx="50" ry="18" fill="url(#stl_peanut)" stroke="#94a3b8" stroke-width="1.3" />
+      <path d="M -50 20 C -50 40 50 40 50 20 Z" fill="url(#stl_peanut)" stroke="#64748b" stroke-width="1.3" />
+      <ellipse cx="0" cy="20" rx="47" ry="16" fill="none" stroke="#ffffff" stroke-width="1.3" opacity="0.85" />
+      <ellipse cx="0" cy="18" rx="43" ry="14" fill="#b98a4a" />
+      <path d="M -18 18 Q 0 9 18 16 Q 9 23 -4 21" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" fill="none" opacity="0.65" />
+      <circle cx="-8" cy="14" r="1.6" fill="#18241b" opacity="0.8" />
+      <circle cx="10" cy="19" r="1.4" fill="#18241b" opacity="0.8" />
+      <circle cx="16" cy="13" r="1.4" fill="#f2b81d" opacity="0.9" />
+      <circle cx="-2" cy="22" r="1.2" fill="#fde047" opacity="0.9" />
+      <path d="M 2 12 Q 6 8 10 11 Q 7 15 2 12 Z" fill="#4ade80" />
+    </g>
+  </svg>
