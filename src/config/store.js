@@ -296,9 +296,9 @@ function formatInr(amount) {
   return "₹" + Number(amount).toLocaleString("en-IN");
 }
 
-module.exports = {
-  storeConfig,
-  getPostalZone,
-  isValidPincode,
-  formatInr,
-};
+module.exports = storeConfig;
+module.exports.storeConfig = storeConfig;
+module.exports.default = storeConfig;
+module.exports.getPostalZone = getPostalZone;
+module.exports.isValidPincode = isValidPincode;
+module.exports.formatInr = formatInr;

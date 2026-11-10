@@ -1,20 +1,26 @@
 import React from "react";
 import Link from "next/link";
-import storeConfig from "../../config/store";
+import { storeConfig } from "../../config/store";
 
 export const metadata = {
-  title: `Refunds & Cancellations | ${storeConfig.brand.name}`,
+  title: `Refunds & Cancellations | ${storeConfig?.brand?.name || "Chutney Tubes"}`,
   description: "Clear and honest refund and cancellation policy for Chutney Tubes.",
 };
 
 export default function RefundsPolicyPage() {
+  const brand = storeConfig?.brand || {
+    name: "Chutney Tubes",
+    contactEmail: "hello@chutneytubes.in",
+    copyright: "© 2026 Chutney Tubes",
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f3ec] text-[#18241b] flex flex-col justify-between">
       <header className="bg-[#134a28] text-white py-4 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-heading font-extrabold text-xl text-[#f2b81d]">
-              {storeConfig.brand.name}
+              {brand.name}
             </span>
           </Link>
           <Link href="/" className="text-xs font-bold text-[#f4f3ec] hover:text-[#f2b81d] transition">
@@ -48,8 +54,8 @@ export default function RefundsPolicyPage() {
             <h2 className="text-base font-bold font-heading">2. Damaged, Leaking, or Incorrect Tubes</h2>
             <p>
               In the rare event that your package arrives damaged, leaking, or with the wrong flavours, please report it within <strong>48 hours of delivery</strong> with a photo sent to{" "}
-              <a href={`mailto:${storeConfig.brand.contactEmail}`} className="text-[#1d6b3a] font-bold underline">
-                {storeConfig.brand.contactEmail}
+              <a href={`mailto:${brand.contactEmail}`} className="text-[#1d6b3a] font-bold underline">
+                {brand.contactEmail}
               </a>{" "}
               or via WhatsApp.
             </p>
@@ -75,7 +81,7 @@ export default function RefundsPolicyPage() {
       </main>
 
       <footer className="py-6 text-center text-xs text-[#57534e] border-t border-[#d8dcd4]">
-        <p>{storeConfig.brand.copyright}. All rights reserved.</p>
+        <p>{brand.copyright}. All rights reserved.</p>
       </footer>
     </div>
   );

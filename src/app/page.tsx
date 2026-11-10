@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import storeConfig, {
+import {
+  storeConfig,
   FlavourItem,
   getPostalZone,
   isValidPincode,

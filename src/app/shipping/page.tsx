@@ -1,20 +1,26 @@
 import React from "react";
 import Link from "next/link";
-import storeConfig from "../../config/store";
+import { storeConfig } from "../../config/store";
 
 export const metadata = {
-  title: `Shipping Policy | ${storeConfig.brand.name}`,
+  title: `Shipping Policy | ${storeConfig?.brand?.name || "Chutney Tubes"}`,
   description: "Shipping and delivery policy for Chutney Tubes across India.",
 };
 
 export default function ShippingPolicyPage() {
+  const brand = storeConfig?.brand || {
+    name: "Chutney Tubes",
+    contactEmail: "hello@chutneytubes.in",
+    copyright: "© 2026 Chutney Tubes",
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f3ec] text-[#18241b] flex flex-col justify-between">
       <header className="bg-[#134a28] text-white py-4 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-heading font-extrabold text-xl text-[#f2b81d]">
-              {storeConfig.brand.name}
+              {brand.name}
             </span>
           </Link>
           <Link href="/" className="text-xs font-bold text-[#f4f3ec] hover:text-[#f2b81d] transition">
@@ -65,8 +71,8 @@ export default function ShippingPolicyPage() {
             <h2 className="text-base font-bold font-heading">4. Questions &amp; Support</h2>
             <p>
               If your package is delayed or you have questions about pincode coverage, write to us at{" "}
-              <a href={`mailto:${storeConfig.brand.contactEmail}`} className="text-[#1d6b3a] underline font-bold">
-                {storeConfig.brand.contactEmail}
+              <a href={`mailto:${brand.contactEmail}`} className="text-[#1d6b3a] underline font-bold">
+                {brand.contactEmail}
               </a>{" "}
               or message our WhatsApp care desk.
             </p>
@@ -75,7 +81,7 @@ export default function ShippingPolicyPage() {
       </main>
 
       <footer className="py-6 text-center text-xs text-[#57534e] border-t border-[#d8dcd4]">
-        <p>{storeConfig.brand.copyright}. All rights reserved.</p>
+        <p>{brand.copyright}. All rights reserved.</p>
       </footer>
     </div>
   );

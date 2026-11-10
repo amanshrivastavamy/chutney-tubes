@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import storeConfig from "../../config/store";
+import { storeConfig } from "../../config/store";
 import { trackEvent, resolvePriceVariant, resolveTrafficSource } from "../../lib/tracking";
 
 export default function CheckoutPage() {

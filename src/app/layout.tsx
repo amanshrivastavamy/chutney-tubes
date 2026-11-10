@@ -1,6 +1,6 @@
 import "./globals.css";
 import React from "react";
-import storeConfig from "../config/store";
+import { storeConfig } from "../config/store";
 
 export const metadata = {
   title: "Chutney Tubes: your favourite chutney, now in a tube",

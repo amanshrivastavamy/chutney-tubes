@@ -1,20 +1,26 @@
 import React from "react";
 import Link from "next/link";
-import storeConfig from "../../config/store";
+import { storeConfig } from "../../config/store";
 
 export const metadata = {
-  title: `Terms of Service | ${storeConfig.brand.name}`,
+  title: `Terms of Service | ${storeConfig?.brand?.name || "Chutney Tubes"}`,
   description: "Terms and conditions for Chutney Tubes pre-launch store.",
 };
 
 export default function TermsPolicyPage() {
+  const brand = storeConfig?.brand || {
+    name: "Chutney Tubes",
+    contactEmail: "hello@chutneytubes.in",
+    copyright: "© 2026 Chutney Tubes",
+  };
+
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col justify-between">
       <header className="bg-deepLeaf text-paper py-4 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-heading font-extrabold text-xl text-haldi">
-              {storeConfig.brand.name}
+              {brand.name}
             </span>
           </Link>
           <Link href="/" className="text-xs font-bold text-paper hover:text-haldi transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-haldi active:translate-y-px">
@@ -72,7 +78,7 @@ export default function TermsPolicyPage() {
       </main>
 
       <footer className="py-6 text-center text-xs text-muted border-t border-steel">
-        <p>{storeConfig.brand.copyright} · Pre-launch demand study for Indian tiffin lunches</p>
+        <p>{brand.copyright} · Pre-launch demand study for Indian tiffin lunches</p>
       </footer>
     </div>
   );
