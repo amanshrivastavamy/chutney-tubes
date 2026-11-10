@@ -1505,8 +1505,15 @@ function renderTermsPage() {
 
 // HTTP Server
 const server = http.createServer((req, res) => {
-  const parsed = url.parse(req.url, true);
+  const host = req.headers.host || `localhost:${PORT}`;
+  const parsed = new URL(req.url, `http://${host}`);
   const pathname = parsed.pathname;
+
+  // Favicon
+  if (pathname === "/favicon.ico") {
+    res.writeHead(204);
+    return res.end();
+  }
 
   // Static Assets from public/
   if (pathname.startsWith("/images/")) {
@@ -1515,7 +1522,7 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, { "Content-Type": "image/svg+xml" });
       return fs.createReadStream(filePath).pipe(res);
     }
-    res.writeHead(404);
+    res.writeHead(404, { "Content-Type": "text/plain" });
     return res.end("Not Found");
   }
 
@@ -1564,9 +1571,10 @@ const server = http.createServer((req, res) => {
 
   // API Route: GET /api/admin (Metrics)
   if (pathname === "/api/admin" && req.method === "GET") {
-    const token = parsed.query.token;
+    const token = parsed.searchParams.get("token");
+    const pwd = parsed.searchParams.get("password");
     const correctPassword = process.env.ADMIN_PASSWORD || productConfig.brand.adminPassword || "chutney2026";
-    if (token !== "admin_auth_valid" && parsed.query.password !== correctPassword) {
+    if (token !== "admin_auth_valid" && pwd !== correctPassword) {
       res.writeHead(401, { "Content-Type": "application/json" });
       return res.end(JSON.stringify({ error: "Unauthorized" }));
     }
@@ -1578,8 +1586,10 @@ const server = http.createServer((req, res) => {
 
   // API Route: GET /api/export (CSV)
   if (pathname === "/api/export") {
+    const token = parsed.searchParams.get("token");
+    const pwd = parsed.searchParams.get("password");
     const correctPassword = process.env.ADMIN_PASSWORD || productConfig.brand.adminPassword || "chutney2026";
-    const isAuth = parsed.query.token === "admin_auth_valid" || parsed.query.password === correctPassword;
+    const isAuth = token === "admin_auth_valid" || pwd === correctPassword;
     if (!isAuth) {
       res.writeHead(401, { "Content-Type": "text/plain" });
       return res.end("Unauthorized");
@@ -1594,18 +1604,23 @@ const server = http.createServer((req, res) => {
   }
 
   // Frontend HTML Page Routes
-  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
   if (pathname === "/" || pathname === "/index.html") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderLandingPage());
   } else if (pathname === "/checkout") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderCheckoutPage());
   } else if (pathname === "/reveal") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderRevealPage());
   } else if (pathname === "/admin") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderAdminPage());
   } else if (pathname === "/privacy") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderPrivacyPage());
   } else if (pathname === "/terms") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(renderTermsPage());
   }
 
