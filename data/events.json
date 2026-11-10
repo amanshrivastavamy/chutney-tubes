@@ -283,5 +283,27 @@
     "variant": "C",
     "source": "direct",
     "metadata": {}
+  },
+  {
+    "visitorId": "vis_mwa9pt13_l0fj4m9",
+    "sessionId": "sess_mwagqch5",
+    "variant": "a",
+    "isInternal": false,
+    "utm": {},
+    "timestamp": "2026-11-10T09:03:29.705Z",
+    "event": "page_view",
+    "payload": {
+      "path": "/"
+    }
+  },
+  {
+    "visitorId": "vis_mwa9pt13_l0fj4m9",
+    "sessionId": "sess_mwagr4pe",
+    "variant": "a",
+    "isInternal": false,
+    "utm": {},
+    "timestamp": "2026-11-10T09:04:06.290Z",
+    "event": "scroll_50",
+    "payload": {}
   }
 ]

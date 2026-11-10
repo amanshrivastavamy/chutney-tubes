@@ -90,48 +90,68 @@ function generateSignupsCsv(signups) {
   return [headers.join(","), ...rows].join("\r\n");
 }
 
-// Generate Tube SVG Render for a given flavour
+// Generate Photorealistic Tube SVG Render for a given flavour
 function renderFlavourSvg(f, options = {}) {
   const isLight = f.id === "coconut";
   const textColor = isLight ? "#18241b" : "#ffffff";
   const subTextColor = isLight ? "#451a03" : "#fef3c7";
-  const capColor = isLight ? "#134a28" : f.spice === 3 ? "#7f1d1d" : "#f2b81d";
+  const outlineColor = isLight ? "none" : "#18241b";
+  const capGrad = isLight
+    ? `<stop offset="0%" stop-color="#052e16"/><stop offset="35%" stop-color="#15803d"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0.6"/><stop offset="70%" stop-color="#15803d"/><stop offset="100%" stop-color="#052e16"/>`
+    : f.spice === 3
+    ? `<stop offset="0%" stop-color="#450a0a"/><stop offset="35%" stop-color="#b91c1c"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0.6"/><stop offset="70%" stop-color="#b91c1c"/><stop offset="100%" stop-color="#450a0a"/>`
+    : `<stop offset="0%" stop-color="#b45309"/><stop offset="35%" stop-color="#f59e0b"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0.6"/><stop offset="70%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#92400e"/>`;
 
   return `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="100%" height="100%" fill="none">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" fill="none">
     <defs>
+      <!-- Photorealistic Cylindrical 3D Tube Shading -->
       <linearGradient id="shd_${f.id}" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#000000" stop-opacity="0.32" />
-        <stop offset="18%" stop-color="${f.color}" stop-opacity="1" />
-        <stop offset="45%" stop-color="#ffffff" stop-opacity="0.22" />
-        <stop offset="70%" stop-color="${f.color}" stop-opacity="1" />
-        <stop offset="100%" stop-color="#000000" stop-opacity="0.35" />
+        <stop offset="0%" stop-color="#000000" stop-opacity="0.45" />
+        <stop offset="12%" stop-color="#000000" stop-opacity="0.22" />
+        <stop offset="28%" stop-color="${f.color}" />
+        <stop offset="42%" stop-color="#ffffff" stop-opacity="0.35" />
+        <stop offset="48%" stop-color="#ffffff" stop-opacity="0.55" />
+        <stop offset="55%" stop-color="#ffffff" stop-opacity="0.2" />
+        <stop offset="78%" stop-color="${f.color}" />
+        <stop offset="92%" stop-color="#000000" stop-opacity="0.28" />
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.48" />
+      </linearGradient>
+      <linearGradient id="capG_${f.id}" x1="0%" y1="0%" x2="100%" y2="0%">
+        ${capGrad}
       </linearGradient>
       <linearGradient id="stl_${f.id}" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#f8fafc" />
-        <stop offset="40%" stop-color="#e2e8f0" />
-        <stop offset="80%" stop-color="#cbd5e1" />
-        <stop offset="100%" stop-color="#94a3b8" />
+        <stop offset="25%" stop-color="#e2e8f0" />
+        <stop offset="50%" stop-color="#ffffff" />
+        <stop offset="75%" stop-color="#cbd5e1" />
+        <stop offset="100%" stop-color="#64748b" />
       </linearGradient>
       <filter id="flvShd_${f.id}" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="2" dy="16" stdDeviation="12" flood-color="#18241b" flood-opacity="0.25" />
+        <feDropShadow dx="2" dy="20" stdDeviation="16" flood-color="#18241b" flood-opacity="0.26" />
+        <feDropShadow dx="1" dy="6" stdDeviation="5" flood-color="#18241b" flood-opacity="0.18" />
       </filter>
     </defs>
 
-    <ellipse cx="180" cy="330" rx="110" ry="16" fill="#18241b" opacity="0.14" />
+    <ellipse cx="200" cy="365" rx="140" ry="18" fill="#18241b" opacity="0.16" />
+    <ellipse cx="190" cy="362" rx="100" ry="12" fill="#18241b" opacity="0.12" />
 
-    <!-- Tube rotated ~ -14 deg -->
-    <g transform="translate(180, 165) rotate(-14) translate(-50, -145)" filter="url(#flvShd_${f.id})">
-      <path d="M 12 36 L 88 36 C 88 160 86 210 82 224 C 78 238 68 244 50 244 C 32 244 22 238 18 224 C 14 210 12 160 12 36 Z" fill="${f.color}" />
-      <path d="M 12 36 L 88 36 C 88 160 86 210 82 224 C 78 238 68 244 50 244 C 32 244 22 238 18 224 C 14 210 12 160 12 36 Z" fill="url(#shd_${f.id})" />
+    <!-- Rotated 3D Food Tube Assembly -->
+    <g transform="translate(190, 185) rotate(-12) translate(-55, -165)" filter="url(#flvShd_${f.id})">
+      <path d="M 12 38 L 98 38 C 98 175 96 235 90 252 C 85 268 74 276 55 276 C 36 276 25 268 20 252 C 14 235 12 175 12 38 Z" fill="${f.color}" />
+      <path d="M 12 38 L 98 38 C 98 175 96 235 90 252 C 85 268 74 276 55 276 C 36 276 25 268 20 252 C 14 235 12 175 12 38 Z" fill="url(#shd_${f.id})" />
 
-      <!-- Zigzag Crimped Top -->
-      <rect x="10" y="16" width="80" height="20" fill="#000000" opacity="0.3" rx="2" />
-      <path d="M 12 16 L 16 36 M 22 16 L 26 36 M 32 16 L 36 36 M 42 16 L 46 36 M 52 16 L 56 36 M 62 16 L 66 36 M 72 16 L 76 36 M 82 16 L 86 36" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
-      <rect x="10" y="14" width="80" height="4" fill="#000000" opacity="0.4" />
+      <!-- Specular softbox highlight stripe down the cylinder -->
+      <path d="M 48 38 L 54 38 C 54 175 53 235 52 265 L 48 265 C 47 235 48 175 48 38 Z" fill="#ffffff" opacity="0.25" />
+
+      <!-- Zigzag Crimped Top With Stamped Batch Code -->
+      <rect x="10" y="16" width="90" height="24" fill="#000000" opacity="0.32" rx="2" />
+      <path d="M 13 16 L 17 40 M 23 16 L 27 40 M 33 16 L 37 40 M 43 16 L 47 40 M 53 16 L 57 40 M 63 16 L 67 40 M 73 16 L 77 40 M 83 16 L 87 40 M 93 16 L 97 40" stroke="#ffffff" stroke-width="1.2" opacity="0.4" />
+      <rect x="10" y="14" width="90" height="4" fill="#000000" opacity="0.45" />
+      <text x="55" y="30" font-family="'Hind', sans-serif" font-size="5" font-weight="700" fill="#fde047" text-anchor="middle" letter-spacing="1.2" opacity="0.85">B.NO CT-26 • 100g</text>
 
       <!-- Toran Band -->
-      <g transform="translate(12, 38)">
+      <g transform="translate(14, 42)">
         <polygon points="4,0 8,8 0,8" fill="#f2b81d" />
         <polygon points="14,0 18,8 10,8" fill="#f2b81d" />
         <polygon points="24,0 28,8 20,8" fill="#f2b81d" />
@@ -140,48 +160,62 @@ function renderFlavourSvg(f, options = {}) {
         <polygon points="54,0 58,8 50,8" fill="#f2b81d" />
         <polygon points="64,0 68,8 60,8" fill="#f2b81d" />
         <polygon points="74,0 78,8 70,8" fill="#f2b81d" />
+        <circle cx="4" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="14" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="24" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="34" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="44" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="54" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="64" cy="11" r="1.1" fill="#ffffff" />
+        <circle cx="74" cy="11" r="1.1" fill="#ffffff" />
       </g>
 
       <!-- Haldi-Yellow Brand Sticker -->
-      <g transform="translate(50, 80) rotate(-6)">
-        <circle cx="0" cy="0" r="23" fill="#f2b81d" stroke="#ffffff" stroke-width="1.5" />
-        <circle cx="0" cy="0" r="19.5" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="2.5 2" />
-        <text x="0" y="-3" font-family="'Bricolage Grotesque', sans-serif" font-size="8" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.5">CHUTNEY</text>
-        <text x="0" y="8" font-family="'Bricolage Grotesque', sans-serif" font-size="9" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1">TUBES</text>
+      <g transform="translate(55, 94) rotate(-5)">
+        <circle cx="0" cy="0" r="26" fill="#f2b81d" stroke="#ffffff" stroke-width="1.8" />
+        <circle cx="0" cy="0" r="22" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-dasharray="3 2" />
+        <text x="0" y="-4" font-family="'Bricolage Grotesque', sans-serif" font-size="8.5" font-weight="900" fill="#18241b" text-anchor="middle" letter-spacing="0.5">CHUTNEY</text>
+        <text x="0" y="8" font-family="'Bricolage Grotesque', sans-serif" font-size="9.5" font-weight="900" fill="#c8361f" text-anchor="middle" letter-spacing="1">TUBES</text>
       </g>
 
       <!-- Flavour Title -->
-      <g transform="translate(50, 126)">
-        <text x="0" y="0" font-family="'Bricolage Grotesque', sans-serif" font-size="8.5" font-weight="800" fill="${textColor}" text-anchor="middle">${f.name.toUpperCase()}</text>
-        <text x="0" y="11" font-family="'Hind', sans-serif" font-size="8" font-weight="600" fill="${subTextColor}" text-anchor="middle">${f.hindi} चटनी</text>
-        <line x1="-24" y1="15" x2="24" y2="15" stroke="#ffffff" stroke-width="0.8" opacity="0.6" />
+      <g transform="translate(55, 146)">
+        <text x="0" y="0" font-family="'Bricolage Grotesque', sans-serif" font-size="10" font-weight="900" fill="${textColor}" text-anchor="middle" stroke="${outlineColor}" stroke-width="${isLight ? '0' : '0.6'}" letter-spacing="0.3">${f.name.toUpperCase()}</text>
+        <text x="0" y="13" font-family="'Hind', sans-serif" font-size="9.5" font-weight="600" fill="${subTextColor}" text-anchor="middle">${f.hindi} चटनी</text>
+        <line x1="-28" y1="18" x2="28" y2="18" stroke="#ffffff" stroke-width="0.9" opacity="0.65" />
       </g>
 
       <!-- Veg Mark & 100g -->
-      <g transform="translate(20, 196)">
-        <rect x="0" y="0" width="10" height="10" fill="#ffffff" stroke="#1d6b3a" stroke-width="1" rx="1.5" />
-        <circle cx="5" cy="5" r="3" fill="#1d6b3a" />
+      <g transform="translate(22, 222)">
+        <rect x="0" y="0" width="12" height="12" fill="#ffffff" stroke="#1d6b3a" stroke-width="1.4" rx="2" />
+        <circle cx="6" cy="6" r="3.5" fill="#1d6b3a" />
       </g>
-      <g transform="translate(78, 203)">
-        <text x="0" y="0" font-family="'Hind', sans-serif" font-size="7.5" font-weight="600" fill="${textColor}" text-anchor="end">100 g</text>
+      <g transform="translate(86, 232)">
+        <text x="0" y="0" font-family="'Hind', sans-serif" font-size="8.5" font-weight="700" fill="${textColor}" text-anchor="end">100 g</text>
       </g>
 
-      <!-- Rounded Ketchup-Style Flip Cap -->
-      <g transform="translate(34, 243)">
-        <rect x="4" y="0" width="24" height="6" fill="#000000" opacity="0.25" rx="1" />
-        <path d="M 2 4 Q 16 -1 30 4 L 28 22 C 28 26 24 28 16 28 C 8 28 4 26 4 22 Z" fill="${capColor}" stroke="#ffffff" stroke-width="0.8" />
-        <path d="M 8 7 Q 16 4 24 7" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.45" />
+      <!-- 3D Flip Cap -->
+      <g transform="translate(37, 275)">
+        <rect x="4" y="0" width="28" height="7" fill="#000000" opacity="0.28" rx="1.5" />
+        <path d="M 2 5 Q 18 -1 34 5 L 32 25 C 32 30 28 33 18 33 C 8 33 4 30 4 25 Z" fill="url(#capG_${f.id})" stroke="#ffffff" stroke-width="0.8" />
+        <path d="M 8 9 Q 18 5 28 9" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.6" />
+        <rect x="13" y="25" width="10" height="4" rx="2" fill="#000000" opacity="0.25" />
       </g>
     </g>
 
-    <!-- Steel Katori (Bowl) Beside Tube -->
-    <g transform="translate(255, 275)" filter="url(#flvShd_${f.id})">
-      <ellipse cx="0" cy="18" rx="42" ry="16" fill="url(#stl_${f.id})" stroke="#94a3b8" stroke-width="1" />
-      <path d="M -42 18 C -42 34 42 34 42 18 Z" fill="url(#stl_${f.id})" stroke="#64748b" stroke-width="1" />
-      <ellipse cx="0" cy="16" rx="36" ry="12" fill="${f.color}" />
-      <path d="M -16 16 Q 0 8 16 14 Q 8 20 -4 18" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.5" />
-      <circle cx="-6" cy="13" r="1.5" fill="#18241b" opacity="0.6" />
-      <circle cx="8" cy="17" r="1.2" fill="#18241b" opacity="0.6" />
+    <!-- Brushed Steel Katori Beside Tube -->
+    <g transform="translate(285, 305)" filter="url(#flvShd_${f.id})">
+      <ellipse cx="0" cy="38" rx="55" ry="14" fill="#18241b" opacity="0.28" />
+      <ellipse cx="0" cy="20" rx="50" ry="18" fill="url(#stl_${f.id})" stroke="#94a3b8" stroke-width="1.2" />
+      <path d="M -50 20 C -50 40 50 40 50 20 Z" fill="url(#stl_${f.id})" stroke="#64748b" stroke-width="1.2" />
+      <ellipse cx="0" cy="20" rx="47" ry="16" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.8" />
+      <ellipse cx="0" cy="18" rx="43" ry="14" fill="${f.color}" />
+      <path d="M -18 18 Q 0 9 18 16 Q 9 23 -4 21" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" fill="none" opacity="0.58" />
+      <circle cx="-8" cy="14" r="1.6" fill="#18241b" opacity="0.75" />
+      <circle cx="10" cy="19" r="1.4" fill="#18241b" opacity="0.75" />
+      <circle cx="16" cy="13" r="1.4" fill="#f2b81d" opacity="0.9" />
+      <circle cx="-2" cy="22" r="1.2" fill="#fde047" opacity="0.9" />
+      <path d="M 2 12 Q 6 8 10 11 Q 7 15 2 12 Z" fill="#4ade80" />
     </g>
   </svg>`;
 }
