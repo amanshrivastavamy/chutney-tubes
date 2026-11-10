@@ -1,38 +1,68 @@
+/* Hallmark · shape: Workbench · genre: editorial · theme: brand · redesign: full
+ * paper: #f4f3ec · accent: #1d6b3a · display: Bricolage Grotesque · body: Hind · hero: Stage · nav: edge-aligned · footer: mast · signature: real-food-packaging-svg-tubes
+ * axes: light/grotesk-heavy/chromatic-green · posture: crisp · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: H, ensured mobile hero displays primary cta without scrolling */
+@import "./tokens.css";
+@import "./base.css" layer(base);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --color-ink: #18241b;
-  --color-paper: #f4f3ec;
-  --color-leaf: #1d6b3a;
-  --color-deep-leaf: #134a28;
-  --color-haldi: #f2b81d;
-  --color-mirch: #c8361f;
-  --color-steel: #d8dcd4;
+@layer utilities {
+  .bg-paper { background-color: var(--color-paper); }
+  .bg-paper-2 { background-color: var(--color-paper-2); }
+  .bg-paper-3 { background-color: var(--color-paper-3); }
+  .bg-ink { background-color: var(--color-ink); }
+  .bg-leaf { background-color: var(--color-leaf); }
+  .bg-deepLeaf { background-color: var(--color-deep-leaf); }
+  .bg-haldi { background-color: var(--color-haldi); }
+  .bg-mirch { background-color: var(--color-mirch); }
+  .bg-steel { background-color: var(--color-steel); }
+  .bg-card { background-color: var(--color-card); }
+
+  .text-ink { color: var(--color-ink); }
+  .text-paper { color: var(--color-paper); }
+  .text-leaf { color: var(--color-leaf); }
+  .text-deepLeaf { color: var(--color-deep-leaf); }
+  .text-haldi { color: var(--color-haldi); }
+  .text-mirch { color: var(--color-mirch); }
+  .text-steel { color: var(--color-steel); }
+  .text-muted { color: var(--color-muted); }
+
+  .border-rule { border-color: var(--color-rule); }
+  .border-steel { border-color: var(--color-steel); }
+  .border-leaf { border-color: var(--color-leaf); }
+  .border-deepLeaf { border-color: var(--color-deep-leaf); }
+  .border-haldi { border-color: var(--color-haldi); }
+  .border-mirch { border-color: var(--color-mirch); }
+  .border-ink { border-color: var(--color-ink); }
 }
 
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
-  font-family: 'Hind', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body);
+  overflow-x: clip;
+}
+
+html {
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, .font-heading {
-  font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight, 800);
 }
 
-/* WCAG AA Visible Keyboard Focus */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #18241b;
+/* WCAG AA Visible Keyboard Focus & Active States */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+}
+
+button:active, a:active {
+  transform: translateY(1px);
 }
 
 /* Respect user's prefers-reduced-motion */

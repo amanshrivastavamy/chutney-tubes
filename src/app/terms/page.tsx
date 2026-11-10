@@ -9,34 +9,31 @@ export const metadata = {
 
 export default function TermsPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#f4f3ec] text-[#18241b] flex flex-col justify-between">
-      <header className="bg-[#134a28] text-white py-4 px-4 sm:px-8">
+    <div className="min-h-screen bg-paper text-ink flex flex-col justify-between">
+      <header className="bg-deepLeaf text-paper py-4 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-heading font-extrabold text-xl text-[#f2b81d]">
+            <span className="font-heading font-extrabold text-xl text-haldi">
               {storeConfig.brand.name}
             </span>
           </Link>
-          <Link href="/" className="text-xs font-bold text-[#f4f3ec] hover:text-[#f2b81d] transition">
-            ← Back to Shop
+          <Link href="/" className="text-xs font-bold text-paper hover:text-haldi transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-haldi active:translate-y-px">
+            Back to Shop
           </Link>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto w-full p-6 sm:p-10 my-8 bg-white rounded-3xl border border-[#d8dcd4] shadow-sm space-y-6">
+      <main className="max-w-3xl mx-auto w-full p-6 sm:p-10 my-8 bg-card rounded-3xl border border-steel shadow-sm space-y-6">
         <div>
-          <span className="text-xs font-bold text-[#1d6b3a] uppercase tracking-wider font-heading">
-            Store Terms
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-heading font-black text-[#18241b] mt-1">
+          <h1 className="text-2xl sm:text-3xl font-heading font-black text-ink mt-1">
             Terms of Service
           </h1>
-          <p className="text-xs text-[#57534e] mt-1">
+          <p className="text-xs text-muted mt-1">
             Last updated: November 2026
           </p>
         </div>
 
-        <div className="space-y-4 text-sm text-[#18241b] leading-relaxed">
+        <div className="space-y-4 text-sm text-ink leading-relaxed">
           <section className="space-y-2">
             <h2 className="text-base font-bold font-heading">1. Pricing &amp; Currency</h2>
             <p>
@@ -74,8 +71,8 @@ export default function TermsPolicyPage() {
         </div>
       </main>
 
-      <footer className="py-6 text-center text-xs text-[#57534e] border-t border-[#d8dcd4]">
-        <p>{storeConfig.brand.copyright}. All rights reserved.</p>
+      <footer className="py-6 text-center text-xs text-muted border-t border-steel">
+        <p>{storeConfig.brand.copyright} · Pre-launch demand study for Indian tiffin lunches</p>
       </footer>
     </div>
   );

@@ -4,7 +4,7 @@ import storeConfig from "../config/store";
 
 export const metadata = {
   title: "Chutney Tubes: your favourite chutney, now in a tube",
-  description: "Hari, imli, schezwan, momo and more, in a squeezable tube. No spoon, no sticky jar, no spill. 12 everyday favourites delivered across India.",
+  description: "Hari, imli, schezwan, momo and more, in a squeezable tube. No spoon, no sticky jar, no spill. Everyday favourites delivered across India.",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   icons: {
     icon: "/favicon.svg",
@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth overflow-x-clip">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -48,7 +48,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#f4f3ec] text-[#18241b] antialiased selection:bg-[#f2b81d] selection:text-[#18241b]">
+      <body className="min-h-screen bg-paper text-ink antialiased selection:bg-haldi selection:text-ink overflow-x-clip">
         {children}
       </body>
     </html>

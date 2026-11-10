@@ -1,0 +1,32 @@
+[
+  {
+    "mode": "redesign",
+    "depth": "full",
+    "shape": "Workbench",
+    "theme": "brand",
+    "axes": "light/grotesk-heavy/chromatic-green",
+    "hero": "Stage",
+    "nav": "edge-aligned",
+    "footer": "mast",
+    "imagery": "product-renders",
+    "photos": [],
+    "entry": "src/app/page.tsx",
+    "fingerprint": "chutney-tubes-hallmark-v2",
+    "sections": [
+      "Hero",
+      "Trust Strip",
+      "Squeeze Simulator",
+      "Catalogue",
+      "Packaging Anatomy",
+      "Why a Tube",
+      "Where People Use It",
+      "Packs",
+      "FAQ",
+      "Footer"
+    ],
+    "signature": "real-food-packaging-svg-tubes",
+    "waived": [],
+    "prompt": "Indian D2C food brand selling everyday chutneys in squeezable toothpaste tubes",
+    "timestamp": "2026-11-10T10:35:40.650Z"
+  }
+]

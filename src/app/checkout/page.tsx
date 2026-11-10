@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import productConfig from "../../config/product.config";
+import storeConfig from "../../config/store";
 import { trackEvent, resolvePriceVariant, resolveTrafficSource } from "../../lib/tracking";
 
 export default function CheckoutPage() {
@@ -19,7 +19,7 @@ export default function CheckoutPage() {
     totalPrice: number;
   }>({
     pack: "single",
-    flavour: "mint-coriander",
+    flavour: "green",
     quantity: 1,
     unitPrice: 99,
     totalPrice: 99,
@@ -47,14 +47,16 @@ export default function CheckoutPage() {
     const v = resolvePriceVariant();
     setVariantId(v);
 
-    const pricing = productConfig.pricing.variants[v] || productConfig.pricing.variants.A;
+    const pricing = storeConfig.prices[v] || storeConfig.prices.A;
 
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("ct_cart");
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          const uPrice = parsed.pack === "three_pack" ? pricing.threePackPrice : pricing.singlePrice;
+          const uPrice = parsed.pack === "three_pack" || parsed.pack === "combo" || parsed.pack === "pick3"
+            ? pricing.trio
+            : pricing.single;
           setCart({
             ...parsed,
             unitPrice: uPrice,
@@ -66,10 +68,10 @@ export default function CheckoutPage() {
       } else {
         setCart({
           pack: "single",
-          flavour: "mint-coriander",
+          flavour: "green",
           quantity: 1,
-          unitPrice: pricing.singlePrice,
-          totalPrice: pricing.singlePrice,
+          unitPrice: pricing.single,
+          totalPrice: pricing.single,
         });
       }
     }
@@ -86,7 +88,7 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, pincode: pin }));
 
     if (pin.length === 6) {
-      const isDeliverable = productConfig.launchPincodes.includes(pin);
+      const isDeliverable = storeConfig.launchPincodes.includes(pin);
       if (isDeliverable) {
         setPincodeStatus("deliverable");
         trackEvent("pincode_checked", { pincode: pin, isDeliverable: true });
@@ -133,7 +135,6 @@ export default function CheckoutPage() {
       customerPhone: formData.phone,
     });
 
-    // Save submission context to sessionStorage for the reveal page
     if (typeof window !== "undefined") {
       sessionStorage.setItem(
         "ct_order_summary",
@@ -155,23 +156,27 @@ export default function CheckoutPage() {
   };
 
   const selectedFlavourName =
-    productConfig.flavours.find((f) => f.id === cart.flavour)?.name || "Mint-Coriander";
+    storeConfig.flavours.find((f) => f.id === cart.flavour)?.name || "Chatpati Hari Chutney";
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] flex flex-col">
+    <div className="min-h-screen bg-paper flex flex-col text-ink">
       {/* Top Header */}
-      <header className="bg-white border-b border-[#E7E5E4] py-3.5 px-4 sm:px-8">
+      <header className="bg-card border-b border-steel py-3.5 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-[#C2410C] flex items-center justify-center text-white font-black text-sm">
+          <Link href="/" className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px">
+            <div className="w-8 h-8 rounded-lg bg-leaf flex items-center justify-center text-paper font-black text-sm">
               C
             </div>
-            <span className="font-extrabold text-lg text-[#1C1917]">
-              {productConfig.brand.name}
+            <span className="font-extrabold text-lg text-ink font-heading">
+              {storeConfig.brand.name}
             </span>
           </Link>
-          <div className="text-xs text-[#57534E] font-medium flex items-center space-x-1">
-            <span>🔒 Secure Pre-Launch Reservation</span>
+          <div className="text-xs text-muted font-medium flex items-center space-x-1.5">
+            <svg aria-hidden="true" className="w-4 h-4 text-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <span>Pre-Launch Reservation</span>
           </div>
         </div>
       </header>
@@ -179,13 +184,13 @@ export default function CheckoutPage() {
       {/* Main Checkout Container */}
       <main className="flex-1 max-w-4xl mx-auto w-full p-4 sm:p-6 lg:p-8">
         <div className="mb-6">
-          <Link href="/" className="text-xs font-bold text-[#C2410C] hover:underline flex items-center space-x-1">
-            <span>← Back to product details</span>
+          <Link href="/" className="text-xs font-bold text-leaf hover:underline flex items-center space-x-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px">
+            <span>Back to product details</span>
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#1C1917] mt-2">
-            Confirm Your Delivery Details
+          <h1 className="text-2xl sm:text-3xl font-black text-ink mt-2 font-heading">
+            Confirm Delivery Details
           </h1>
-          <p className="text-xs sm:text-sm text-[#57534E]">
+          <p className="text-xs sm:text-sm text-muted">
             Reserve your batch from our upcoming pilot production.
           </p>
         </div>
@@ -194,9 +199,9 @@ export default function CheckoutPage() {
           {/* Left Column: Delivery & Payment Details */}
           <div className="lg:col-span-7 space-y-6">
             {/* Step 1: Contact & Address */}
-            <div className="bg-white rounded-3xl p-6 border border-[#E7E5E4] shadow-sm space-y-4">
-              <h2 className="text-base font-extrabold text-[#1C1917] flex items-center space-x-2 border-b border-[#E7E5E4] pb-3">
-                <span className="w-6 h-6 rounded-full bg-[#FEF3C7] text-[#78350F] flex items-center justify-center text-xs font-black">
+            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+              <h2 className="text-base font-extrabold text-ink flex items-center space-x-2 border-b border-steel pb-3 font-heading">
+                <span className="w-6 h-6 rounded-full bg-paper-2 text-ink flex items-center justify-center text-xs font-black">
                   1
                 </span>
                 <span>Delivery Address</span>
@@ -204,7 +209,7 @@ export default function CheckoutPage() {
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                  <label className="block text-xs font-bold text-ink mb-1">
                     Full Name *
                   </label>
                   <input
@@ -213,13 +218,13 @@ export default function CheckoutPage() {
                     placeholder="e.g. Priya Sharma"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-[#D6D3D1] bg-[#FAF7F2] focus:bg-white focus:border-[#C2410C] transition"
+                    className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label className="block text-xs font-bold text-ink mb-1">
                       Phone (for WhatsApp/delivery alerts) *
                     </label>
                     <input
@@ -229,12 +234,12 @@ export default function CheckoutPage() {
                       pattern="[0-9]{10}"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
-                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-[#D6D3D1] bg-[#FAF7F2] focus:bg-white focus:border-[#C2410C] transition"
+                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label className="block text-xs font-bold text-ink mb-1">
                       Email Address *
                     </label>
                     <input
@@ -243,14 +248,14 @@ export default function CheckoutPage() {
                       placeholder="priya@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-[#D6D3D1] bg-[#FAF7F2] focus:bg-white focus:border-[#C2410C] transition"
+                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Pincode with live check */}
                 <div>
-                  <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                  <label className="block text-xs font-bold text-ink mb-1">
                     6-digit Delivery Pincode *
                   </label>
                   <div className="relative">
@@ -261,36 +266,39 @@ export default function CheckoutPage() {
                       placeholder="e.g. 560001 (Bengaluru), 400001 (Mumbai)..."
                       value={formData.pincode}
                       onChange={handlePincodeChange}
-                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-[#D6D3D1] bg-[#FAF7F2] focus:bg-white focus:border-[#C2410C] transition font-mono"
+                      className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
                     />
                   </div>
 
                   {/* Live Pincode Feedback */}
                   {pincodeStatus === "deliverable" && (
-                    <div className="mt-2 p-2.5 bg-[#DCFCE7] border border-[#86EFAC] rounded-xl text-xs font-bold text-[#15803D] flex items-center space-x-1.5 animate-fadeIn">
+                    <div className="mt-2 p-2.5 bg-paper-2 border border-leaf rounded-xl text-xs font-bold text-leaf flex items-center space-x-1.5">
                       <span>✓</span>
                       <span>We deliver here in our Phase 1 metro launch batch!</span>
                     </div>
                   )}
 
                   {pincodeStatus === "out_of_area" && (
-                    <div className="mt-2 p-3 bg-[#FEF3C7] border border-[#FDE68A] rounded-xl text-xs text-[#78350F] space-y-2 animate-fadeIn">
+                    <div className="mt-2 p-3 bg-paper-2 border border-haldi rounded-xl text-xs text-ink space-y-2">
                       <div className="font-bold flex items-center space-x-1.5">
-                        <span>📍</span>
+                        <svg aria-hidden="true" className="w-4 h-4 text-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
                         <span>Not in our Phase 1 coverage area yet.</span>
                       </div>
-                      <p className="text-[11px] text-[#57534E]">
+                      <p className="text-[11px] text-muted">
                         We are opening cities based on local demand. Click below to register this pincode on our launch priority list.
                       </p>
                       {waitlistJoined ? (
-                        <div className="text-[#15803D] font-bold text-xs">
+                        <div className="text-leaf font-bold text-xs">
                           ✓ Pincode {formData.pincode} added to launch priority list!
                         </div>
                       ) : (
                         <button
                           type="button"
                           onClick={handleJoinWaitlist}
-                          className="bg-[#78350F] hover:bg-[#451A03] text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm transition"
+                          className="bg-leaf hover:bg-deepLeaf text-paper text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px"
                         >
                           Join Waitlist for {formData.pincode}
                         </button>
@@ -300,7 +308,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                  <label className="block text-xs font-bold text-ink mb-1">
                     Complete Address (Flat, Office desk, Street) *
                   </label>
                   <textarea
@@ -309,116 +317,138 @@ export default function CheckoutPage() {
                     placeholder="Floor 4, Desk 42, WeWork Salarpuria, Koramangala..."
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-[#D6D3D1] bg-[#FAF7F2] focus:bg-white focus:border-[#C2410C] transition"
+                    className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink transition-colors"
                   />
                 </div>
               </div>
             </div>
 
             {/* Step 2: Payment Step (STRICTLY MOCK ONLY - Plain buttons, no gateway, no card inputs) */}
-            <div className="bg-white rounded-3xl p-6 border border-[#E7E5E4] shadow-sm space-y-4">
-              <h2 className="text-base font-extrabold text-[#1C1917] flex items-center space-x-2 border-b border-[#E7E5E4] pb-3">
-                <span className="w-6 h-6 rounded-full bg-[#FEF3C7] text-[#78350F] flex items-center justify-center text-xs font-black">
+            <div className="bg-card rounded-3xl p-6 border border-steel shadow-sm space-y-4">
+              <h2 className="text-base font-extrabold text-ink flex items-center space-x-2 border-b border-steel pb-3 font-heading">
+                <span className="w-6 h-6 rounded-full bg-paper-2 text-ink flex items-center justify-center text-xs font-black">
                   2
                 </span>
                 <span>Select Payment Preference (Mock Step)</span>
               </h2>
 
               {/* Informative Mock Banner */}
-              <div className="p-3 bg-[#FAF7F2] border border-[#E7E5E4] rounded-xl text-xs text-[#57534E] flex items-start space-x-2">
-                <span className="text-base leading-none">ℹ️</span>
+              <div className="p-3 bg-paper border border-steel rounded-xl text-xs text-muted flex items-start space-x-2">
+                <svg aria-hidden="true" className="w-4 h-4 text-leaf mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
                 <div>
-                  <strong className="text-[#1C1917]">No payment is collected.</strong> This confirms which payment method you prefer when the product launches. No card details or UPI IDs will be asked.
+                  <strong className="text-ink">No payment is collected.</strong> This confirms which payment method you prefer when the product launches. No card details or UPI IDs will be asked.
                 </div>
               </div>
 
               {/* Plain Payment Buttons - Generic only, NO logos */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <button
-                  type="button"
-                  onClick={() => handleSelectPaymentMethod("upi")}
-                  className={`py-3.5 px-4 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center space-y-1 ${
-                    selectedPaymentMethod === "upi"
-                      ? "border-[#C2410C] bg-[#FFF7ED] text-[#C2410C] font-black"
-                      : "border-[#E7E5E4] bg-[#FAF7F2] text-[#57534E] hover:border-[#D6D3D1]"
-                  }`}
-                >
-                  <span className="text-base">📱</span>
-                  <span className="text-xs font-bold">UPI</span>
-                  <span className="text-[10px] text-[#78716C]">Instant &amp; Easy</span>
-                </button>
+                {(() => {
+                  const isUpi = selectedPaymentMethod === "upi";
+                  const isCard = selectedPaymentMethod === "card";
+                  const isCod = selectedPaymentMethod === "cod";
+                  return (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => handleSelectPaymentMethod("upi")}
+                        className={`py-3 px-3 rounded-xl border text-center transition-colors flex flex-col items-center justify-center space-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px ${
+                          isUpi
+                            ? "border-leaf bg-paper-2 text-leaf font-bold"
+                            : "border-steel bg-paper text-muted hover:border-steel"
+                        }`}
+                      >
+                        <svg aria-hidden="true" className="w-5 h-5 text-current mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                          <line x1="12" y1="18" x2="12.01" y2="18" />
+                        </svg>
+                        <span className="text-xs font-bold whitespace-nowrap">UPI</span>
+                        <span className="text-[10px] text-muted whitespace-nowrap">Instant and easy</span>
+                      </button>
 
-                <button
-                  type="button"
-                  onClick={() => handleSelectPaymentMethod("card")}
-                  className={`py-3.5 px-4 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center space-y-1 ${
-                    selectedPaymentMethod === "card"
-                      ? "border-[#C2410C] bg-[#FFF7ED] text-[#C2410C] font-black"
-                      : "border-[#E7E5E4] bg-[#FAF7F2] text-[#57534E] hover:border-[#D6D3D1]"
-                  }`}
-                >
-                  <span className="text-base">💳</span>
-                  <span className="text-xs font-bold">Credit / Debit Card</span>
-                  <span className="text-[10px] text-[#78716C]">All Banks</span>
-                </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSelectPaymentMethod("card")}
+                        className={`py-3 px-3 rounded-xl border text-center transition-colors flex flex-col items-center justify-center space-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px ${
+                          isCard
+                            ? "border-leaf bg-paper-2 text-leaf font-bold"
+                            : "border-steel bg-paper text-muted hover:border-steel"
+                        }`}
+                      >
+                        <svg aria-hidden="true" className="w-5 h-5 text-current mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                          <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                        <span className="text-xs font-bold whitespace-nowrap">Credit / Debit</span>
+                        <span className="text-[10px] text-muted whitespace-nowrap">Banks</span>
+                      </button>
 
-                <button
-                  type="button"
-                  onClick={() => handleSelectPaymentMethod("cod")}
-                  className={`py-3.5 px-4 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center space-y-1 ${
-                    selectedPaymentMethod === "cod"
-                      ? "border-[#C2410C] bg-[#FFF7ED] text-[#C2410C] font-black"
-                      : "border-[#E7E5E4] bg-[#FAF7F2] text-[#57534E] hover:border-[#D6D3D1]"
-                  }`}
-                >
-                  <span className="text-base">💵</span>
-                  <span className="text-xs font-bold">Cash on Delivery</span>
-                  <span className="text-[10px] text-[#78716C]">Pay on arrival</span>
-                </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSelectPaymentMethod("cod")}
+                        className={`py-3 px-3 rounded-xl border text-center transition-colors flex flex-col items-center justify-center space-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px ${
+                          isCod
+                            ? "border-leaf bg-paper-2 text-leaf font-bold"
+                            : "border-steel bg-paper text-muted hover:border-steel"
+                        }`}
+                      >
+                        <svg aria-hidden="true" className="w-5 h-5 text-current mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="2" y="6" width="20" height="12" rx="2" />
+                          <circle cx="12" cy="12" r="2" />
+                        </svg>
+                        <span className="text-xs font-bold whitespace-nowrap">Cash on Delivery</span>
+                        <span className="text-[10px] text-muted whitespace-nowrap">Doorstep</span>
+                      </button>
+                    </>
+                  );
+                })()}
               </div>
 
               {/* Privacy Consent Line (Under Form - DPDP Act compliant) */}
-              <div className="pt-2 text-[11px] text-[#78716C] leading-snug">
-                🛡️ <strong>Privacy Notice:</strong> By placing your reservation, you consent to our collecting your contact details strictly to communicate production milestones, launch availability, and dispatch updates under the Digital Personal Data Protection (DPDP) Act. We never sell or share your data.
+              <div className="pt-2 text-[11px] text-muted leading-snug">
+                <strong>Privacy Notice:</strong> By placing your reservation, you consent to our collecting your contact details strictly to communicate production milestones, launch availability, and dispatch updates under the Digital Personal Data Protection (DPDP) Act. We never sell or share your data.
               </div>
             </div>
           </div>
 
           {/* Right Column: Order Summary & Pay CTA */}
           <div className="lg:col-span-5">
-            <div className="sticky top-20 bg-white rounded-3xl p-6 border border-[#E7E5E4] shadow-md space-y-4">
-              <h3 className="font-extrabold text-base text-[#1C1917] border-b border-[#E7E5E4] pb-3">
+            <div className="sticky top-20 bg-card rounded-3xl p-6 border border-steel shadow-md space-y-4">
+              <h3 className="font-extrabold text-base text-ink border-b border-steel pb-3 font-heading">
                 Order Summary
               </h3>
 
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between items-start">
                   <div>
-                    <strong className="text-[#1C1917] block text-sm">
-                      {cart.pack === "three_pack"
-                        ? "3-Flavour Variety Pack (3 x 150g)"
-                        : `Single Tube (150g) • ${selectedFlavourName}`}
+                    <strong className="text-ink block text-sm">
+                      {cart.pack === "three_pack" || cart.pack === "combo" || cart.pack === "pick3"
+                        ? "3-Flavour Variety Pack (3 x 100g)"
+                        : `Single Tube (100g) · ${selectedFlavourName}`}
                     </strong>
-                    <span className="text-[#57534E]">Quantity: {cart.quantity}</span>
+                    <span className="text-muted">Quantity: {cart.quantity}</span>
                   </div>
-                  <span className="font-black text-sm text-[#1C1917]">
+                  <span className="font-black text-sm text-ink font-heading">
                     ₹{cart.totalPrice}
                   </span>
                 </div>
 
-                <div className="flex justify-between text-[#57534E] pt-2 border-t border-[#F5F5F4]">
+                <div className="flex justify-between text-muted pt-2 border-t border-steel">
                   <span>Delivery Fee</span>
-                  <span className="text-[#15803D] font-bold">FREE (Early Bird)</span>
+                  <span className="text-leaf font-bold">FREE (Early Bird)</span>
                 </div>
 
-                <div className="flex justify-between text-[#57534E]">
+                <div className="flex justify-between text-muted">
                   <span>Packaging &amp; Insulation</span>
-                  <span className="text-[#15803D] font-bold">FREE</span>
+                  <span className="text-leaf font-bold">FREE</span>
                 </div>
 
-                <div className="flex justify-between items-center pt-3 border-t-2 border-[#1C1917] text-base font-black text-[#1C1917]">
+                <div className="flex justify-between items-center pt-3 border-t-2 border-ink text-base font-black text-ink">
                   <span>Total Payable:</span>
-                  <span className="text-xl font-black text-[#C2410C]">
+                  <span className="text-xl font-black text-leaf font-heading">
                     ₹{cart.totalPrice}
                   </span>
                 </div>
@@ -427,15 +457,14 @@ export default function CheckoutPage() {
               {/* Action Button: Pay ₹X */}
               <button
                 type="submit"
-                className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-black text-base py-4 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center space-x-2"
+                className="w-full bg-leaf hover:bg-deepLeaf text-paper font-black text-base py-4 rounded-2xl shadow-lg transition-colors flex items-center justify-center font-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink active:translate-y-px disabled:opacity-50"
               >
                 <span>Pay ₹{cart.totalPrice}</span>
-                <span>→</span>
               </button>
 
               <div className="text-center">
-                <span className="text-[11px] text-[#78716C] block">
-                  Zero risk demand validation • No charge is applied
+                <span className="text-[11px] text-muted block">
+                  Zero risk demand validation · No charge is applied
                 </span>
               </div>
             </div>
