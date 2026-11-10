@@ -2,10 +2,15 @@ import "./globals.css";
 import React from "react";
 import { storeConfig } from "../config/store";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata = {
   title: "Chutney Tubes: your favourite chutney, now in a tube",
   description: "Hari, imli, schezwan, momo and more, in a squeezable tube. No spoon, no sticky jar, no spill. Everyday favourites delivered across India.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   icons: {
     icon: "/favicon.svg",
   },
