@@ -255,11 +255,11 @@ export default function StoreHomePage() {
     unitPrice: number
   ) => {
     const existingIndex = cart.findIndex(
-      (item) => item.kind === kind && item.flavours.sort().join(",") === […flavours].sort().join(",")
+      (item) => item.kind === kind && item.flavours.sort().join(",") === [...flavours].sort().join(",")
     );
 
     if (existingIndex > -1) {
-      const updated = […cart];
+      const updated = [...cart];
       updated[existingIndex].quantity += 1;
       setCart(updated);
     } else {
@@ -271,7 +271,7 @@ export default function StoreHomePage() {
         quantity: 1,
         unitPrice,
       };
-      setCart([…cart, newItem]);
+      setCart([...cart, newItem]);
     }
 
     track("add_to_cart", { kind, flavours, qty: 1, unitPrice, variant });
@@ -284,7 +284,7 @@ export default function StoreHomePage() {
         .map((item) => {
           if (item.id === id) {
             const newQty = item.quantity + delta;
-            return newQty > 0 ? { …item, quantity: newQty } : null;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
           }
           return item;
         })
@@ -313,7 +313,7 @@ export default function StoreHomePage() {
       setPick3Selected(pick3Selected.filter((f) => f !== id));
     } else {
       if (pick3Selected.length < 3) {
-        setPick3Selected([…pick3Selected, id]);
+        setPick3Selected([...pick3Selected, id]);
       }
     }
   };
@@ -336,7 +336,7 @@ export default function StoreHomePage() {
   // Handle Pincode Change
   const handlePincodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, "").slice(0, 6);
-    setDeliveryDetails((prev) => ({ …prev, pincode: val }));
+    setDeliveryDetails((prev) => ({ ...prev, pincode: val }));
 
     if (val.length === 6) {
       const valid = isValidPincode(val);
@@ -804,7 +804,7 @@ export default function StoreHomePage() {
             <input
               type="text"
               required
-              placeholder="e.g. Gongura, Raw Papaya, Dry Garlic…"
+              placeholder="e.g. Gongura, Raw Papaya, Dry Garlic..."
               value={requestName}
               onChange={(e) => setRequestName(e.target.value)}
               className="text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition flex-1"
@@ -1558,7 +1558,7 @@ export default function StoreHomePage() {
                       required
                       placeholder="e.g. Rahul Sharma"
                       value={deliveryDetails.name}
-                      onChange={(e) => setDeliveryDetails({ …deliveryDetails, name: e.target.value })}
+                      onChange={(e) => setDeliveryDetails({ ...deliveryDetails, name: e.target.value })}
                       className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition"
                     />
                   </div>
@@ -1574,7 +1574,7 @@ export default function StoreHomePage() {
                         value={deliveryDetails.phone}
                         onChange={(e) =>
                           setDeliveryDetails({
-                            …deliveryDetails,
+                            ...deliveryDetails,
                             phone: e.target.value.replace(/\D/g, "").slice(0, 10),
                           })
                         }
@@ -1589,7 +1589,7 @@ export default function StoreHomePage() {
                         required
                         placeholder="rahul@example.com"
                         value={deliveryDetails.email}
-                        onChange={(e) => setDeliveryDetails({ …deliveryDetails, email: e.target.value })}
+                        onChange={(e) => setDeliveryDetails({ ...deliveryDetails, email: e.target.value })}
                         className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition"
                       />
                     </div>
@@ -1630,7 +1630,7 @@ export default function StoreHomePage() {
                       rows={2}
                       placeholder="Floor, Office building or Apartment number, Street name"
                       value={deliveryDetails.address}
-                      onChange={(e) => setDeliveryDetails({ …deliveryDetails, address: e.target.value })}
+                      onChange={(e) => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })}
                       className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-steel bg-paper focus:bg-card focus:border-leaf transition"
                     />
                   </div>
@@ -1775,7 +1775,7 @@ export default function StoreHomePage() {
                         onChange={(e) => setTubeFeeling(e.target.value)}
                         className="w-full text-xs px-3 py-2.5 rounded-xl border border-steel bg-paper"
                       >
-                        <option value="">Select an option…</option>
+                        <option value="">Select an option...</option>
                         <option value="Love it, easier than a jar">Love it, much easier than a jar</option>
                         <option value="Fine with it">Fine with it</option>
                         <option value="Not sure yet">Not sure yet</option>
@@ -1789,7 +1789,7 @@ export default function StoreHomePage() {
                       </label>
                       <textarea
                         rows={2}
-                        placeholder="Price, doubts about taste, shelf life, or size…"
+                        placeholder="Price, doubts about taste, shelf life, or size..."
                         value={stoppedText}
                         onChange={(e) => setStoppedText(e.target.value)}
                         className="w-full text-xs px-3 py-2 rounded-xl border border-steel bg-paper"
