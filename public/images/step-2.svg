@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" fill="none">
+  <circle cx="100" cy="100" r="90" fill="#DCFCE7" fill-opacity="0.6"/>
+  <!-- Tube Squeezing directly -->
+  <g transform="translate(60, 30)">
+    <!-- Tube angled -->
+    <g transform="rotate(35 40 70)">
+      <rect x="25" y="10" width="30" height="8" rx="2" fill="#15803D"/>
+      <path d="M28 18 L28 75 C28 82 35 85 40 85 C45 85 52 82 52 75 L52 18 Z" fill="#22C55E"/>
+      <!-- Squeeze nozzle -->
+      <path d="M36 85 L38 96 L42 96 L44 85 Z" fill="#FFFFFF"/>
+    </g>
+    <!-- Chutney drop & ribbon -->
+    <path d="M72 105 Q78 120 85 125" stroke="#15803D" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="88" cy="128" rx="16" ry="6" fill="#15803D"/>
+    <!-- Food surface -->
+    <ellipse cx="85" cy="132" rx="35" ry="10" fill="#FDE047" stroke="#CA8A04" stroke-width="1.5"/>
+  </g>
+  <circle cx="155" cy="45" r="20" fill="#15803D"/>
+  <text x="155" y="52" font-family="sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">2</text>
+</svg>
