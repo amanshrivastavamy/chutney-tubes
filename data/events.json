@@ -305,5 +305,17 @@
     "timestamp": "2026-11-10T09:04:06.290Z",
     "event": "scroll_50",
     "payload": {}
+  },
+  {
+    "visitorId": "vis_mwa9pt13_l0fj4m9",
+    "sessionId": "sess_mwahgnf8",
+    "variant": "a",
+    "isInternal": false,
+    "utm": {},
+    "timestamp": "2026-11-10T09:23:56.948Z",
+    "event": "page_view",
+    "payload": {
+      "path": "/"
+    }
   }
 ]
