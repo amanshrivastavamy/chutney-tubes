@@ -1,0 +1,13 @@
+{
+  "id": "P054",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "My neighborhood mithai shop gives free sweet and green chutney with samosas, so spending ₹99 on 100g of packaged sauce that might squirt out water is a waste.",
+  "objection": "Does watery liquid squirt out first before the thick chutney comes out, and is ₹99 justified for 100g?",
+  "would_change_my_mind": "A value pack under ₹60 and an anti-separation formulation that never leaks water.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 70,
+  "price_too_expensive": 95
+}

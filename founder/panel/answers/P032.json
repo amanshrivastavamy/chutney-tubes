@@ -1,0 +1,13 @@
+{
+  "id": "P032",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "I worry watery liquid will separate and squirt out first, soaking my morning paratha and making a mess in my bag.",
+  "objection": "Does watery liquid squirt out first before the thick chutney comes out?",
+  "would_change_my_mind": "Proof of a thick, non-separating emulsion and a better cost-per-gram bundle.",
+  "price_too_cheap": 35,
+  "price_cheap": 55,
+  "price_expensive": 85,
+  "price_too_expensive": 110
+}

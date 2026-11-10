@@ -1,0 +1,13 @@
+{
+  "id": "P022",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Charging ₹99 for a tiny 100g tube amounts to nearly ₹1,000 per kilo for basic chutney. When fresh coriander costs ₹10 at the mandi and standard brands sell 100g for ₹20-35, this pricing is completely unjustified.",
+  "objection": "The price per gram is absurdly inflated for an everyday Indian condiment that my family consumes in bulk.",
+  "would_change_my_mind": "A family pack of 300g or 400g priced under ₹120 to bring the cost per gram down to reasonable levels.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 100
+}

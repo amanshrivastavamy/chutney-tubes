@@ -1,0 +1,13 @@
+{
+  "id": "P010",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "Our cook makes fresh coriander-mint chutney every other day in a dabba for free, so buying 100g packaged chutney is an unnecessary expense.",
+  "objection": "My mother or cook already makes fresh green chutney in a dabba for free",
+  "would_change_my_mind": "Only if I'm travelling alone or staying somewhere without home-cooked food.",
+  "price_too_cheap": 35,
+  "price_cheap": 60,
+  "price_expensive": 100,
+  "price_too_expensive": 130
+}

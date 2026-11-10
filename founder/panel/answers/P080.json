@@ -1,0 +1,13 @@
+{
+  "id": "P080",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "Commercial green chutneys inevitably separate into runny vinegar water and thick sludge, ruining the paratha before you get proper chutney.",
+  "objection": "Does watery liquid squirt out first before the thick chutney comes out?",
+  "would_change_my_mind": "If verified reviews confirm the emulsion stays stable without liquid separation and has no pungent vinegar tang.",
+  "price_too_cheap": 40,
+  "price_cheap": 65,
+  "price_expensive": 110,
+  "price_too_expensive": 140
+}

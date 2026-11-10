@@ -259,6 +259,16 @@ export default function CheckoutPage() {
                 <span className="font-heading font-black">{formatInr(cart.totalPrice)}</span>
               </div>
             </div>
+
+            <div className="p-3.5 bg-leaf/10 border border-leaf/30 rounded-2xl text-xs space-y-1">
+              <span className="font-heading font-extrabold text-leaf flex items-center space-x-1">
+                <span>✓</span>
+                <span>Empty-Tube Taste Guarantee</span>
+              </span>
+              <p className="text-[11px] text-muted leading-relaxed">
+                If you don&apos;t love the fresh authentic taste and clean squeeze, message us on WhatsApp for a full 100% refund. Keep the tubes.
+              </p>
+            </div>
             <p className="text-[11px] text-muted text-center">
               100 g squeeze tube with flip-top cap · Free delivery across India
             </p>

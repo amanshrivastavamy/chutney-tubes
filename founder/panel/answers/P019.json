@@ -1,0 +1,13 @@
+{
+  "id": "P019",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "Every ambient packaged green chutney in India uses heavy doses of vinegar and citric acid to prevent spoilage, leaving a sour chemical taste that ruins parathas. Unless it tastes exactly like freshly crushed mint and coriander without preservatives, I'd rather deal with dabba leaks than eat sour synthetic paste.",
+  "objection": "Artificial chemical preservatives and overpowering vinegar acidity that destroy authentic fresh chutney taste.",
+  "would_change_my_mind": "A cold-chain, preservative-free version with verified fresh taste that doesn't rely on vinegar for shelf life.",
+  "price_too_cheap": 50,
+  "price_cheap": 85,
+  "price_expensive": 140,
+  "price_too_expensive": 180
+}

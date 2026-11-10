@@ -1,0 +1,13 @@
+{
+  "id": "P017",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "Morning tiffin prep requires whatever is readily stocked in my fridge or delivered in 10 minutes from Zepto. I am not going to order chutney from a website and wait two or three days for a courier delivery when I can just grab a bottle from the kirana or whip up something in five minutes.",
+  "objection": "D2C online courier delivery creates unacceptable friction and delay for an everyday pantry staple.",
+  "would_change_my_mind": "Instant availability on Blinkit or Zepto so I can toss it into my regular weekly basket.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 100
+}

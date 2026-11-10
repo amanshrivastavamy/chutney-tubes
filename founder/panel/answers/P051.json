@@ -1,0 +1,13 @@
+{
+  "id": "P051",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "When I'm having hot samosas with 4 PM chai, I need chutney on the spot from the mithai shop or Blinkit, not via courier after 3 days.",
+  "objection": "Why order online and wait 2 to 3 days when I can grab sauce from the local kirana or make it at home?",
+  "would_change_my_mind": "Stock it on Blinkit or Zepto so I can get it in 10 minutes when chai arrives.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 100,
+  "price_too_expensive": 140
+}

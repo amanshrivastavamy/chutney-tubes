@@ -1,0 +1,13 @@
+{
+  "id": "P060",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "Our cook makes fresh, delicious green chutney every week for free, so paying ₹99 for 100g of commercial sauce makes no financial or practical sense.",
+  "objection": "My mother or cook already makes fresh green chutney in a dabba for free, and ₹99 for 100g is excessively expensive.",
+  "would_change_my_mind": "Unless it's a unique flavour our cook can't make—like authentic Schezwan or Chilli Garlic—at under ₹60.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 100
+}

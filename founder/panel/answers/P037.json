@@ -1,0 +1,13 @@
+{
+  "id": "P037",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "The squeeze format looks fun on social media, but at home my mother always keeps fresh green chutney ready for free.",
+  "objection": "My mother or cook already makes fresh green chutney in a dabba for free",
+  "would_change_my_mind": "Specialty street-food sauces like momo dip or garlic mayo that aren't made at home.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 110
+}

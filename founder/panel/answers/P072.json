@@ -1,0 +1,13 @@
+{
+  "id": "P072",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "At nearly ₹100 for barely 100 grams, the unit economics are terrible compared to standard brands, and the nozzle will probably cake up and get messy anyway.",
+  "objection": "Will the flip-top nozzle get crusty and clogged after 3 days in the fridge?",
+  "would_change_my_mind": "Drop the price to ₹50 or offer a buy-one-get-one trial pack.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 95
+}

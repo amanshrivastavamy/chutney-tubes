@@ -1,0 +1,13 @@
+{
+  "id": "P047",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "When I make late-night momos or rolls, I need sauce right then from my local kirana or Zepto, not 3 days later from an online D2C parcel.",
+  "objection": "Ordering basic condiments online and waiting days for shipping is high friction compared to quick commerce.",
+  "would_change_my_mind": "Instant 10-minute delivery on Blinkit or Zepto so I can add it to spontaneous snack orders.",
+  "price_too_cheap": 40,
+  "price_cheap": 70,
+  "price_expensive": 120,
+  "price_too_expensive": 150
+}

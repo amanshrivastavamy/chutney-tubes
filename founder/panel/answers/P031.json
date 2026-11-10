@@ -1,0 +1,13 @@
+{
+  "id": "P031",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "On my entry-level salary, paying ₹99 for a tiny 100g tube makes no sense when Mother's Recipe gives double the quantity for less.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72",
+  "would_change_my_mind": "A starter student discount bringing it under ₹50 per tube.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 95
+}

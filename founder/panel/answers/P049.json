@@ -1,0 +1,13 @@
+{
+  "id": "P049",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "While a no-spill tube would be great for my morning paratha tiffin, every packaged green chutney I've ever bought tasted horribly sour and synthetic.",
+  "objection": "Packaged green chutney always tastes like chemicals and vinegar, never like fresh homemade dhaniya-pudina.",
+  "would_change_my_mind": "A small trial pouch or sachet to taste verify that it lacks the artificial vinegar tang before committing ₹99.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 99
+}

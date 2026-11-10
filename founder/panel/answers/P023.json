@@ -1,0 +1,13 @@
+{
+  "id": "P023",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "Chutney is an impulsive daily grocery requirement, not something I want to order on a website and wait 3 days for courier delivery. If I need dip for parathas, I just grab a bottle from the kirana downstairs or order on Zepto in 10 minutes.",
+  "objection": "Waiting multiple days for courier delivery makes zero sense for everyday table condiments.",
+  "would_change_my_mind": "Immediate 10-minute delivery on Blinkit or Zepto, or stock in local retail grocery stores.",
+  "price_too_cheap": 35,
+  "price_cheap": 55,
+  "price_expensive": 85,
+  "price_too_expensive": 115
+}

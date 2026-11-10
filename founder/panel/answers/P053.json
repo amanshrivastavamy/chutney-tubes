@@ -1,0 +1,13 @@
+{
+  "id": "P053",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "The unit economics are completely off—charging ₹99 for 100g when I can get a half-kilo bottle of Maggi for ₹72 makes it feel like an overpriced gimmick.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72.",
+  "would_change_my_mind": "Pricing it closer to ₹50 for 100g or selling a 300g family pack for ₹140.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 99
+}

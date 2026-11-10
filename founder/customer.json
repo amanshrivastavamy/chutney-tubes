@@ -1,0 +1,70 @@
+{
+  "business": "Chutney Tubes (Indian chutneys and sauces in 100g squeeze tubes)",
+  "target": "Urban Indian consumers (22 to 45) who eat parathas, samosas, momos, rolls, and tiffins 4+ times a week",
+  "age": [22, 45],
+  "segments": [
+    {
+      "name": "Student & Young Commuter",
+      "share": 0.35,
+      "income": [300000, 700000]
+    },
+    {
+      "name": "Corporate Professional & Working Couple",
+      "share": 0.45,
+      "income": [700000, 1800000]
+    },
+    {
+      "name": "Affluent Metro Family",
+      "share": 0.20,
+      "income": [1800000, 3500000]
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Daily Tiffin Packer",
+      "share": 0.25,
+      "how": "Packs parathas, theplas, or rolls for office or college every morning and struggles with messy leaks or dry food."
+    },
+    {
+      "name": "Quick-Commerce Spontaneous Snacker",
+      "share": 0.20,
+      "how": "Orders samosas, momos, or rolls on Swiggy or Zomato and hates the watery, unhygienic polythene chutney pouch."
+    },
+    {
+      "name": "Price & Value Sensitive",
+      "share": 0.20,
+      "how": "Calculates cost per gram vs Maggi (₹14/100g) and Mother's Recipe (₹35/100g) and is skeptical of ₹99 for 100g."
+    },
+    {
+      "name": "Label & Preservative Checker",
+      "share": 0.15,
+      "how": "Reads ingredients lists, avoids artificial food coloring, and fears packaged green chutney tastes like vinegar."
+    },
+    {
+      "name": "Brand Loyal & Homemade Defender",
+      "share": 0.10,
+      "how": "Accustomed to home mixer-ground coriander chutney or standard Ching's/Veeba; skeptical of a new tube format."
+    },
+    {
+      "name": "Foodie & Early Adopter",
+      "share": 0.10,
+      "how": "Loves trying novel food hacks seen on Instagram Reels or Blinkit new arrivals and appreciates clever packaging."
+    }
+  ],
+  "objections": [
+    "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72",
+    "Packaged green chutney always tastes like chemicals and vinegar, never like fresh homemade dhaniya-pudina",
+    "Will the flip-top nozzle get crusty and clogged after 3 days in the fridge?",
+    "Why order online and wait 2 to 3 days when I can grab sauce from the local kirana or make it at home?",
+    "Does watery liquid squirt out first before the thick chutney comes out?",
+    "My mother or cook already makes fresh green chutney in a dabba for free",
+    "100g is too small, that will finish in 4 or 5 parathas"
+  ],
+  "habits": [
+    "you pack a lunchbox with breakfast parathas before leaving for the metro at 8:30 AM",
+    "you order hot samosas from the neighbourhood mithai shop with 4 PM chai",
+    "you make quick late-night instant noodles, frozen momos, or frankies after work",
+    "you take road trips or train journeys on weekends and carry dry snacks",
+    "you order groceries 2-3 times a week on Blinkit or Zepto"
+  ]
+}

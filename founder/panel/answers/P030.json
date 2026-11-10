@@ -1,0 +1,13 @@
+{
+  "id": "P030",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "I eat frozen momos and frankies late at night and despise the greasy, torn polythene chutney pouches sent with deliveries. Spending ₹179 to have neat squeeze tubes of hari and imli chutney ready in the fridge door is an easy impulse buy.",
+  "objection": "The flip-top cap might build up crusted dried sauce around the orifice after a few days in the fridge.",
+  "would_change_my_mind": "If the nozzle crusts over and clogs up, or if the taste feels overly sour and chemical-like, I won't reorder.",
+  "price_too_cheap": 35,
+  "price_cheap": 60,
+  "price_expensive": 100,
+  "price_too_expensive": 140
+}

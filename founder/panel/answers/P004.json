@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹99 for a tiny 100g tube works out to nearly ₹1000 a kilo for chutney, which makes no sense when Mother's Recipe is ₹35 per 100g, especially if watery separation squirts out first.",
+  "objection": "Does watery liquid squirt out first before the thick chutney comes out?",
+  "would_change_my_mind": "A price point around ₹50 to ₹60 and proof of thick consistency without watery separation.",
+  "price_too_cheap": 30,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 99
+}

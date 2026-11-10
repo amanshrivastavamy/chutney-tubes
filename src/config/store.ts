@@ -262,12 +262,18 @@ export const storeConfig = {
 
   // Copy Strings
   copy: {
-    announcement: "Delivery across India · Free delivery on all orders · 100% vegetarian & eggless",
+    announcement: "Batch 001 Founder Tasting Drop · Empty-Tube Taste Guarantee · Free delivery across India · 100% vegetarian & eggless",
+    quickCommerceNotice: "Coming soon to Blinkit, Zepto & Instamart · Order starter bundles online with free delivery across India",
+    tasteGuarantee: {
+      badge: "100% Risk-Free Guarantee",
+      headline: "The Empty-Tube Taste & Spill Guarantee",
+      sub: "If Chutney Tubes does not taste fresher, more authentic, and keep your meals cleaner than your bottled sauce, message us on WhatsApp within 14 days and we will refund 100% of your money. Keep the tubes. No returns, no questions asked.",
+    },
     trustStrip: [
+      { title: "Empty-Tube Guarantee", desc: "Love the taste or 100% refund, keep the tubes" },
       { title: "Delivery across India", desc: "Free delivery to all serviceable pin codes" },
-      { title: "Cash on delivery", desc: "Pay when your package arrives" },
-      { title: "100% vegetarian & eggless", desc: "Green veg mark on every tube" },
-      { title: "Squeeze tube, no spill", desc: "100 g squeeze tube with flip-top cap" },
+      { title: "12-14 servings a tube", desc: "Costs just ₹5 to ₹6 per meal with zero waste" },
+      { title: "Squeeze tube, no spill", desc: "100 g collapsible tube with flip-top cap" },
     ],
     hero: {
       headlinePart1: "Your favourite chutneys, ",
@@ -277,11 +283,12 @@ export const storeConfig = {
         "Paratha at breakfast · Samosa with chai · Noodles and momos at night · Rolls on the go · Tiffin at school or work · Sandwiches on a trip",
       exploreCta: "Shop the tubes",
       packsCta: "View value packs",
-      smallCaps: "Eight everyday favourites · Free delivery across India",
+      smallCaps: "Batch 001: 1,000 Tasting Boxes · Free delivery across India",
     },
     catalogue: {
       h2: "Everyday flavours in a no-spill squeeze tube",
       lede: "From samosas and parathas to noodles and momos. Same taste you love, now in a clean 100 g squeeze tube with flip-top cap.",
+      servingNote: "Each 100 g tube yields 12 to 14 clean servings—just ₹5 to ₹6 per meal.",
       comingSoonHeading: "Coming soon to the line-up",
       comingSoonLede: "Click Notify Me to vote for the next flavour we produce.",
     },
@@ -310,10 +317,11 @@ export const storeConfig = {
       heading: "Why a squeeze tube?",
       sub: "Compare a clean squeeze tube with clumsy glass jars and leaky packets.",
       rows: [
-        { factor: "No spoon needed", tube: "Yes", jar: "No", sachet: "Yes" },
-        { factor: "Recloses after use", tube: "Yes", jar: "Yes", sachet: "No" },
-        { factor: "Safe to carry in a bag", tube: "Yes", jar: "Risky", sachet: "Bursts easily" },
-        { factor: "Take as little as you like", tube: "Yes", jar: "Hard without a spoon", sachet: "All or nothing" },
+        { factor: "No spoon needed", tube: "Yes (Single-hand flip-top)", jar: "No (Needs clean spoon)", sachet: "Yes" },
+        { factor: "100% tube yield (no waste)", tube: "Yes (Rolls to last drop)", jar: "No (Stuck in corners)", sachet: "Messy residue" },
+        { factor: "Zero-crust clean valve", tube: "Yes (Clean cut-off)", jar: "No (Sticky dried rim)", sachet: "No (Open tear)" },
+        { factor: "Safe in tiffin & travel bags", tube: "Yes (Drop-proof seal)", jar: "Risky (Broken glass)", sachet: "Bursts easily" },
+        { factor: "Fresh taste vs chemicals", tube: "Fresh mint, tamarind & spices", jar: "Heavy vinegar & preservatives", sachet: "Watery paste" },
       ],
     },
     wherePeopleUseIt: [
@@ -332,8 +340,24 @@ export const storeConfig = {
         a: "Yes. All our chutneys, sauces, and mayos are 100% vegetarian and 100% eggless, carrying the green veg mark.",
       },
       {
-        q: "What is the packaging format?",
-        a: "Each product comes in a 100 g squeeze tube with flip-top cap. It is no spoon, no spill, and easy to carry anywhere.",
+        q: "How many meals does a 100 g tube last?",
+        a: "Each 100 g tube delivers 12 to 14 clean servings. That works out to roughly ₹5 to ₹6 per meal—less than the cost of a cup of chai.",
+      },
+      {
+        q: "Does watery liquid separate and squirt out first?",
+        a: "No. Our recipe is crafted for emulsion stability so you get smooth, rich chutney from the first squeeze to the very last.",
+      },
+      {
+        q: "Does green chutney have a chemical or vinegar aftertaste?",
+        a: "Never. We use fresh coriander, mint, green chillies, and real lemon juice—not artificial vinegar or artificial green food coloring.",
+      },
+      {
+        q: "What is your Empty-Tube Taste Guarantee?",
+        a: "If Chutney Tubes does not taste fresher, more authentic, and keep your meals cleaner than your bottled sauce, message us on WhatsApp within 14 days and we will refund 100% of your money. Keep the tubes.",
+      },
+      {
+        q: "Will Chutney Tubes be available on Blinkit or Zepto?",
+        a: "Yes! We are currently piloting quick-commerce availability in select metro dark stores. In the meantime, you can order starter packs directly here with free delivery across India.",
       },
       {
         q: "How much does delivery cost?",

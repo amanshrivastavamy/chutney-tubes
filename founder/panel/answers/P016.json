@@ -1,0 +1,13 @@
+{
+  "id": "P016",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "At ₹99 for 100 grams, this is priced at an outrageous premium compared to mainstream sauces that cost one-third as much. I also don't trust squeeze tubes in the fridge because they inevitably separate and squirt out runny water onto your food.",
+  "objection": "Unjustified premium price per gram and the persistent issue of watery liquid separating at the nozzle.",
+  "would_change_my_mind": "Proof of emulsion stability and a bundle price bringing the cost down below ₹65 per 100g on Zepto.",
+  "price_too_cheap": 35,
+  "price_cheap": 55,
+  "price_expensive": 85,
+  "price_too_expensive": 105
+}

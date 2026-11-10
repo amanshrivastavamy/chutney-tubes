@@ -1,0 +1,13 @@
+{
+  "id": "P040",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "A 100g tube would only last 4 or 5 breakfasts, making it far too expensive to keep ordering for my daily office tiffins.",
+  "objection": "100g is too small, that will finish in 4 or 5 parathas",
+  "would_change_my_mind": "A 250g-300g value pack under ₹120 that lasts a couple of weeks.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 85,
+  "price_too_expensive": 115
+}

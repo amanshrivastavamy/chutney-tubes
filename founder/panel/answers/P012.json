@@ -1,0 +1,13 @@
+{
+  "id": "P012",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "A squeeze tube would prevent messy dabba leaks in my metro backpack, but ₹99 for just 100g is far too costly for daily parathas. A 200g Mother's Recipe pouch costs ₹70 and a 500g bottle of Maggi is ₹72, so this pricing makes regular use impossible.",
+  "objection": "The ₹99 price point for only 100g makes it far too expensive per gram for daily office tiffins.",
+  "would_change_my_mind": "A 250g value pack priced under ₹110, or bringing the 100g tube down to ₹49.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 99
+}

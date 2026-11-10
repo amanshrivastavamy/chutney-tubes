@@ -1,0 +1,13 @@
+{
+  "id": "P100",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "My cook already makes fresh green chutney in a dabba for free, so paying ₹99 on my salary for a packaged tube makes zero financial sense.",
+  "objection": "There is no need to buy packaged green chutney when fresh homemade chutney is always sitting in my fridge.",
+  "would_change_my_mind": "Unique fusion flavors that my cook cannot make, sold in small ₹30 trial pouches on Blinkit.",
+  "price_too_cheap": 25,
+  "price_cheap": 40,
+  "price_expensive": 70,
+  "price_too_expensive": 95
+}

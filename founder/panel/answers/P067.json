@@ -1,0 +1,13 @@
+{
+  "id": "P067",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Paying ₹99 for just 100 grams is three times the cost of regular sauce pouches, which is too much to spend on a daily lunchbox staple.",
+  "objection": "The cost per gram is far too high compared to standard pouches like Mother's Recipe or Maggi.",
+  "would_change_my_mind": "A combo offer pricing tubes at ₹60 or providing a larger 200g tiffin size.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 85,
+  "price_too_expensive": 110
+}

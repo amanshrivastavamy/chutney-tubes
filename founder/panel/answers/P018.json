@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Spending ₹99 on 100 grams of commercial chutney is a complete waste of money when fresh, delicious green chutney is made at home for free. On top of that, comparing the price per gram to standard brands makes it look massively overpriced.",
+  "objection": "The ₹99 price tag is exorbitant when homemade chutney has zero marginal cost and store sauces are far cheaper per 100g.",
+  "would_change_my_mind": "If it were priced competitively under ₹40 or in a large budget family pack.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 95
+}

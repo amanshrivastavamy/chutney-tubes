@@ -1,0 +1,13 @@
+{
+  "id": "P071",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Paying ₹99 for just 100 grams to pack everyday office parathas is way too steep when a standard sauce bottle costs less, and ordering online is too much friction.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72",
+  "would_change_my_mind": "If it is stocked on Blinkit for under ₹60 or launched in a larger 300g value pack.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 100
+}

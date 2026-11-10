@@ -1,0 +1,13 @@
+{
+  "id": "P042",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "I love clever food packaging hacks and hate dealing with spoons and sticky jars, so I'm willing to buy the starter pair to test how well the flip-top works in real daily use.",
+  "objection": "The flip-top nozzle might get crusty and clogged with dried chutney after three days in the fridge.",
+  "would_change_my_mind": "",
+  "price_too_cheap": 40,
+  "price_cheap": 75,
+  "price_expensive": 120,
+  "price_too_expensive": 150
+}

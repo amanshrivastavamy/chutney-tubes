@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "100g is far too small for daily paratha eaters; a single tube will be empty in four mornings, costing me ₹25 of chutney every single breakfast.",
+  "objection": "100g is too small, that will finish in 4 or 5 parathas",
+  "would_change_my_mind": "A 250g or 300g family squeeze pack priced under ₹120.",
+  "price_too_cheap": 25,
+  "price_cheap": 40,
+  "price_expensive": 65,
+  "price_too_expensive": 85
+}

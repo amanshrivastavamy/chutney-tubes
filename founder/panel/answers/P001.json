@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "The squeeze tube packaging looks really neat, but I am not going to place a separate order on a website and wait three days for chutney when I get all my groceries in ten minutes on Blinkit.",
+  "objection": "Why order online and wait 2 to 3 days when I can grab sauce from the local kirana or make it at home?",
+  "would_change_my_mind": "List it on Blinkit or Zepto so I can add a tube directly to my quick-commerce cart.",
+  "price_too_cheap": 35,
+  "price_cheap": 50,
+  "price_expensive": 85,
+  "price_too_expensive": 110
+}

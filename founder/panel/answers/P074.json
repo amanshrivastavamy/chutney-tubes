@@ -1,0 +1,13 @@
+{
+  "id": "P074",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "Packaged green chutneys are almost always sour with vinegar and loaded with artificial color, and I'm not waiting days for an online delivery of sauce.",
+  "objection": "Why order online and wait 2 to 3 days when I can grab sauce from the local kirana or make it at home?",
+  "would_change_my_mind": "A certified clean label with no preservatives or artificial colors, available instantly at local stores.",
+  "price_too_cheap": 40,
+  "price_cheap": 65,
+  "price_expensive": 110,
+  "price_too_expensive": 140
+}

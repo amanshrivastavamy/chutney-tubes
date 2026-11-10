@@ -1,0 +1,13 @@
+{
+  "id": "P055",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "I won't pay premium prices for green chutney that likely relies on heavy vinegar and artificial greens to survive room-temperature courier transit.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72, plus I suspect heavy preservatives.",
+  "would_change_my_mind": "A clean-label guarantee showing real lime juice, no synthetic acetic acid (INS 260), and no artificial green coloring.",
+  "price_too_cheap": 40,
+  "price_cheap": 60,
+  "price_expensive": 100,
+  "price_too_expensive": 130
+}

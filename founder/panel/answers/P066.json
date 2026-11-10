@@ -1,0 +1,13 @@
+{
+  "id": "P066",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I don't trust packaged green chutney to stay fresh without sour vinegar and artificial stabilizers, and watery separation would ruin my rolls and momos.",
+  "objection": "Green chutney in a tube will either be pumped with vinegar preservatives or separate into watery sludge when squeezed.",
+  "would_change_my_mind": "A clean-label guarantee with zero vinegar or artificial preservatives, plus a non-drip emulsion nozzle.",
+  "price_too_cheap": 25,
+  "price_cheap": 45,
+  "price_expensive": 70,
+  "price_too_expensive": 85
+}

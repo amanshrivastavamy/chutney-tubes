@@ -1,0 +1,13 @@
+{
+  "id": "P045",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹99 for only 100g is far too expensive when I can buy a 200g chutney pouch for ₹70 or a 500g bottle of Maggi ketchup for ₹72.",
+  "objection": "The price per gram is more than double established brands like Mother's Recipe and Ching's.",
+  "would_change_my_mind": "A price drop to ₹49 per 100g or a buy-1-get-1 launch discount.",
+  "price_too_cheap": 20,
+  "price_cheap": 35,
+  "price_expensive": 65,
+  "price_too_expensive": 85
+}

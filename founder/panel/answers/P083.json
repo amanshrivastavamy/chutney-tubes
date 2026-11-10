@@ -1,0 +1,13 @@
+{
+  "id": "P083",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹99 for barely 100g is way out of my budget when Mother's Recipe gives double the chutney for ₹70.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72.",
+  "would_change_my_mind": "A 200g value pouch priced under ₹60.",
+  "price_too_cheap": 20,
+  "price_cheap": 40,
+  "price_expensive": 70,
+  "price_too_expensive": 90
+}

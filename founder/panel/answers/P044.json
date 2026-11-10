@@ -1,0 +1,13 @@
+{
+  "id": "P044",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "Fresh green chutney is already made fresh at home in our dabba for practically free, so paying ₹99 for a packaged tube feels completely unnecessary.",
+  "objection": "My mother or cook already makes fresh green chutney in a dabba for free, and it tastes better.",
+  "would_change_my_mind": "Unique fusion flavors that cannot be easily made at home, like Schezwan or Tandoori, at a student-friendly price.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 100
+}

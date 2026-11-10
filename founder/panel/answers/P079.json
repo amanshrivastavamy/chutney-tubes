@@ -1,0 +1,13 @@
+{
+  "id": "P079",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "At 100 grams this tube will finish in just four or five servings, making it nearly ₹20 per meal just for sauce, which is terrible value.",
+  "objection": "100g is too small, that will finish in 4 or 5 parathas",
+  "would_change_my_mind": "A larger 250g or 300g bottle priced reasonably under ₹120.",
+  "price_too_cheap": 35,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 99
+}

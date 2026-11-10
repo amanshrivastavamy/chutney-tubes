@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "I worry watery liquid will separate and squirt out first, turning my dry travel snacks and office parathas into a soggy mess.",
+  "objection": "Does watery liquid squirt out first before the thick chutney comes out?",
+  "would_change_my_mind": "Proof or video reviews demonstrating that the emulsion never separates or squirts watery liquid even after weeks in the fridge.",
+  "price_too_cheap": 30,
+  "price_cheap": 45,
+  "price_expensive": 75,
+  "price_too_expensive": 100
+}

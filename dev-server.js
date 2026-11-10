@@ -2410,7 +2410,11 @@ const server = http.createServer((req, res) => {
   if ((pathname === "/api/admin" || pathname === "/api/admin/metrics") && req.method === "GET") {
     const token = parsed.searchParams.get("token");
     const pwd = parsed.searchParams.get("password");
-    const correctPassword = process.env.ADMIN_PASSWORD || "adminpassword";
+    const correctPassword = process.env.ADMIN_PASSWORD;
+    if (!correctPassword) {
+      res.writeHead(503, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify({ error: "Admin not configured" }));
+    }
     if (token !== "admin_auth_valid" && pwd !== correctPassword) {
       res.writeHead(401, { "Content-Type": "application/json" });
       return res.end(JSON.stringify({ error: "Unauthorized" }));
@@ -2429,7 +2433,11 @@ const server = http.createServer((req, res) => {
   if (pathname === "/api/export") {
     const token = parsed.searchParams.get("token");
     const pwd = parsed.searchParams.get("password");
-    const correctPassword = process.env.ADMIN_PASSWORD || "adminpassword";
+    const correctPassword = process.env.ADMIN_PASSWORD;
+    if (!correctPassword) {
+      res.writeHead(503, { "Content-Type": "text/plain" });
+      return res.end("Admin not configured");
+    }
     const isAuth = token === "admin_auth_valid" || pwd === correctPassword;
     if (!isAuth) {
       res.writeHead(401, { "Content-Type": "text/plain" });

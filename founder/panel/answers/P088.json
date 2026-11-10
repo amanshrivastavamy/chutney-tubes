@@ -1,0 +1,13 @@
+{
+  "id": "P088",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "When you pack lunchboxes every day, a tiny 100g tube gets exhausted in three days, making ₹99 way too expensive for daily household use.",
+  "objection": "₹99 for 100g feels steep when a 200g pouch of Mother's Recipe is ₹70 and 500g Maggi is ₹72.",
+  "would_change_my_mind": "A larger 300g family squeeze bottle priced competitively around ₹120-140.",
+  "price_too_cheap": 35,
+  "price_cheap": 55,
+  "price_expensive": 89,
+  "price_too_expensive": 109
+}

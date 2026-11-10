@@ -1,0 +1,13 @@
+{
+  "id": "P046",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "Our cook grinds fresh chutney without preservatives, and any commercial green chutney with shelf life will be loaded with vinegar, artificial acid, and stabilizers.",
+  "objection": "Commercial green chutney is invariably sour and full of preservatives and acidity regulators.",
+  "would_change_my_mind": "A certified cold-chain, preservative-free recipe with clean kitchen ingredients and real lemon juice.",
+  "price_too_cheap": 50,
+  "price_cheap": 80,
+  "price_expensive": 130,
+  "price_too_expensive": 160
+}

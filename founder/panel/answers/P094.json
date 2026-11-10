@@ -1,0 +1,13 @@
+{
+  "id": "P094",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "Chutney is an everyday staple, so waiting 2 to 3 days for an online delivery doesn't fit my morning routine when my local kirana has sauces instantly.",
+  "objection": "Why order online and wait days for a 100g tube when I can pick up condiments right downstairs or carry homemade chutney?",
+  "would_change_my_mind": "Immediate availability on Blinkit or Zepto within 10 minutes.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 85,
+  "price_too_expensive": 110
+}

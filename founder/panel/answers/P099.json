@@ -1,0 +1,13 @@
+{
+  "id": "P099",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "Even though I can afford it, charging ₹99 for 100g without clear proof that it is preservative-free and natural feels like charging premium prices for standard commercial sauce.",
+  "objection": "High price per gram without any transparency on preservatives or artificial food coloring.",
+  "would_change_my_mind": "Clear certified clean-label ingredients with zero artificial preservatives and cold-chain freshness.",
+  "price_too_cheap": 40,
+  "price_cheap": 65,
+  "price_expensive": 110,
+  "price_too_expensive": 150
+}

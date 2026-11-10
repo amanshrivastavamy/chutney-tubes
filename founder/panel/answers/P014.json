@@ -1,0 +1,13 @@
+{
+  "id": "P014",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I closely compare cost per gram on all grocery items, and paying ₹99 for 100g is completely disproportionate when trusted shelf sauces cost ₹14 to ₹35 per 100g. Plus, having to place a separate online order and wait days for a tube that might just squirt separated water isn't worth it.",
+  "objection": "Extremely steep unit cost of nearly ₹1 per gram combined with the risk of messy watery emulsion separation.",
+  "would_change_my_mind": "Selling a family size on quick commerce apps at a unit rate comparable to standard sauces, under ₹60 for 100g.",
+  "price_too_cheap": 35,
+  "price_cheap": 60,
+  "price_expensive": 90,
+  "price_too_expensive": 110
+}

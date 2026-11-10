@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "Nothing replaces fresh chutney made in our home mixer with real mint and green chillies; packaged green sauces always reek of artificial vinegar.",
+  "objection": "Packaged green chutney always tastes like chemicals and vinegar, never like fresh homemade dhaniya-pudina",
+  "would_change_my_mind": "Nothing really, unless someone blind-tastes me on it and it genuinely tastes like freshly ground mint without vinegar.",
+  "price_too_cheap": 35,
+  "price_cheap": 60,
+  "price_expensive": 90,
+  "price_too_expensive": 120
+}

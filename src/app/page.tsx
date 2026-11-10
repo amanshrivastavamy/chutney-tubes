@@ -343,6 +343,11 @@ export default function StoreHomePage() {
         <span>{storeConfig.copy.announcement}</span>
       </div>
 
+      {/* Quick Commerce Notice Banner */}
+      <div className="bg-haldi text-ink text-[11px] sm:text-xs font-heading font-extrabold py-1 px-4 text-center border-b border-ink/10 flex items-center justify-center space-x-2">
+        <span>⚡ {storeConfig.copy.quickCommerceNotice}</span>
+      </div>
+
       {/* 2. Sticky Header */}
       <header className="sticky top-0 z-40 bg-deepLeaf text-paper px-4 sm:px-8 py-3.5 border-b border-ink shadow-md flex items-center justify-between">
         <div className="flex items-center space-x-3">
@@ -532,6 +537,11 @@ export default function StoreHomePage() {
           <p className="text-sm sm:text-base text-muted">
             {storeConfig.copy.catalogue.lede}
           </p>
+          <div className="pt-1">
+            <span className="inline-block bg-paper border border-steel px-3 py-1 rounded-full text-xs font-semibold text-leaf shadow-2xs">
+              ✨ {storeConfig.copy.catalogue.servingNote}
+            </span>
+          </div>
 
           {/* Spice Filter Chips */}
           <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
@@ -888,7 +898,27 @@ export default function StoreHomePage() {
         </div>
       </section>
 
-      {/* 9. FAQ ACCORDION */}
+      {/* 9. TASTE & SPILL GUARANTEE CARD */}
+      <section className="py-10 px-4 sm:px-8 max-w-4xl mx-auto w-full">
+        <div className="bg-card rounded-3xl p-6 sm:p-8 border-2 border-leaf/30 shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+          <div className="w-14 h-14 rounded-2xl bg-leaf text-paper flex items-center justify-center text-2xl font-black shrink-0 shadow-sm">
+            ✓
+          </div>
+          <div className="space-y-2">
+            <div className="inline-flex items-center space-x-1.5 bg-leaf/10 text-leaf text-[11px] font-heading font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              <span>{storeConfig.copy.tasteGuarantee.badge}</span>
+            </div>
+            <h3 className="font-heading font-black text-xl sm:text-2xl text-ink">
+              {storeConfig.copy.tasteGuarantee.headline}
+            </h3>
+            <p className="text-xs sm:text-sm text-muted leading-relaxed">
+              {storeConfig.copy.tasteGuarantee.sub}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. FAQ ACCORDION */}
       <section id="faq" className="py-14 px-4 sm:px-8 max-w-3xl mx-auto w-full">
         <div className="text-center mb-8">
           <h2 className="font-heading font-black text-2xl sm:text-3xl text-ink">

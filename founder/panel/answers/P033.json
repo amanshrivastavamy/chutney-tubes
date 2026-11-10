@@ -1,0 +1,13 @@
+{
+  "id": "P033",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "We already have fresh homemade mint chutney in the fridge made by our cook, so ordering packaged green chutney online is redundant.",
+  "objection": "My mother or cook already makes fresh green chutney in a dabba for free",
+  "would_change_my_mind": "Unique party dips or Schezwan flavours available on Blinkit in 10 minutes that my cook doesn't make.",
+  "price_too_cheap": 30,
+  "price_cheap": 50,
+  "price_expensive": 80,
+  "price_too_expensive": 110
+}

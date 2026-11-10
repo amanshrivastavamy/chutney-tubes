@@ -1,0 +1,13 @@
+{
+  "id": "P063",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "Nothing beats freshly ground mixer chutney made at home, and paying ₹99 for a 100g tube from an unknown brand makes zero financial sense.",
+  "objection": "Packaged chutney cannot match fresh homemade taste, and at ₹99 for just 100g it is way too costly.",
+  "would_change_my_mind": "If it tastes exactly like home-ground chutney and costs under ₹40 per tube.",
+  "price_too_cheap": 20,
+  "price_cheap": 35,
+  "price_expensive": 60,
+  "price_too_expensive": 80
+}
